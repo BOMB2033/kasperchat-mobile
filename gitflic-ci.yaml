@@ -1,0 +1,73 @@
+# Данный файл - шаблонная конфигурация CI/CD конвейера. Он может быть изменен по Вашему усмотрению. 
+# Некоторые шаблоны требуют предварительной настройки перед запуском.
+#
+# Подробнее о синтаксисе можно узнать в документации:
+# https://docs.gitflic.space/cicd/gitflic-ci-yaml
+
+image: eclipse-temurin:17-jdk-jammy
+
+variables:
+
+  # Версия компилятора Android
+  # Должна совпадать с compileSdkVersion.
+  ANDROID_COMPILE_SDK: "33"
+
+  # ANDROID_BUILD_TOOLS версия Android для инструментов сборки
+  # Должна совпадать с buildToolsVersion.
+  ANDROID_BUILD_TOOLS: "33.0.2"
+
+  # https://developer.android.com/studio/index.html
+  # SDK tools указаны в формате:
+  #        commandlinetools-os_type-ANDROID_SDK_TOOLS_latest.zip
+  ANDROID_SDK_TOOLS: "9477386"
+
+  ANDROID_HOME: "${PWD}/android-sdk-root"
+
+# Установка пакетов перед выполнением
+before_script:
+  - apt-get --quiet update --yes
+  - apt-get --quiet install --yes wget unzip
+  - apt-get --quiet install --yes sdkmanager
+
+  - install -d $ANDROID_HOME
+  #
+  - wget --no-verbose --output-document=$ANDROID_HOME/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
+  - unzip -q -d "$ANDROID_HOME/cmdline-tools" "$ANDROID_HOME/cmdline-tools.zip"
+  - mv -T "$ANDROID_HOME/cmdline-tools/cmdline-tools" "$ANDROID_HOME/cmdline-tools/tools"
+  - export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/cmdline-tools/tools/bin
+
+  - sdkmanager --version
+
+  - yes | sdkmanager --licenses > /dev/null || true
+  - sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
+  - sdkmanager "platform-tools"
+  - sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
+
+  - chmod +x ./gradlew
+
+lintDebug:
+  stage: build
+  script:
+    - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+  artifacts:
+    paths:
+      - app/lint/reports/lint-results-debug.html
+    expose_as: "lint-report"
+    when: always
+
+
+assembleDebug:
+  stage: build
+  script:
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+      - app/build/outputs/
+
+debugTests:
+  need: 
+    - lintDebug
+    - assembleDebug
+  stage: test
+  script:
+    - ./gradlew -Pci --console=plain :app:testDebug
