@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">KasperChat-Test</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Write_nickname_and_join_in_public_chat">Введите никнейм и вступите в общий чат!</string>
+    <string name="Write_nickname">Введите никнейм</string>
+    <string name="Join">Войти</string>
+    <string name="anonym">anonym</string>
+    <string name="send">Отправить</string>
+    <string name="write_message">Введите сообщение</string>
+    <string name="joining_by_server">Подключение к серверу…</string>
+    <string name="Write_email">Введите Email</string>
+    <string name="Write_password">Введите пароль</string>
+    <string name="Registration">Зарегистрироваться</string>
+    <string name="Logon">Войти</string>
+    <string name="Write_ip_address">Введите IP адрес</string>
 </resources>
