@@ -84,15 +84,20 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
     <CheckBox
-        android:layout_width="531dp"
-        android:layout_height="50dp"
+        android:id="@+id/myCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="2dp"
         android:button="@drawable/checkbox_selector"
+        android:checked="false"
         android:clickable="false"
         android:fontFamily="@font/didacthgothic"
         android:text="Запомнить меня?"
         android:textColor="#4C798B"
-        tools:layout_editor_absoluteX="99dp"
-        tools:layout_editor_absoluteY="673dp" />
+        android:tint="#76ADC3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
