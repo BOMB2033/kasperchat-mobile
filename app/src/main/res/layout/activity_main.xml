@@ -5,15 +5,94 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_darck"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_marginTop="13dp"
+        android:fontFamily="@font/didacthgothic"
+        android:text="Kasper Chat"
+        android:textColor="@color/white_logo_text"
+        android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/is_logo_chat" />
+
+    <EditText
+        android:id="@+id/editTextTextPassword"
+        android:layout_width="241dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/tenb"
+        android:ems="10"
+        android:fontFamily="@font/signikanegative_sc_regular"
+        android:inputType="textPassword"
+        android:paddingLeft="16dp"
+        android:paddingBottom="3dp"
+        android:hint="Пароль"
+        android:textColorHint="#76ADC3"
+        android:textColor="#76ADC3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="241dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/tenb"
+        android:ems="10"
+        android:fontFamily="@font/signikanegative_sc_regular"
+        android:inputType="text"
+        android:paddingLeft="16dp"
+        android:paddingBottom="3dp"
+        android:hint="Логин"
+        android:textColorHint="#76ADC3"
+        android:textColor="#76ADC3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/didacthgothic"
+        android:text="Забыли пароль?"
+        android:textColor="#4C798B"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+
+    <CheckBox
+        android:layout_width="531dp"
+        android:layout_height="50dp"
+        android:button="@drawable/checkbox_selector"
+        android:clickable="false"
+        android:fontFamily="@font/didacthgothic"
+        android:text="Запомнить меня?"
+        android:textColor="#4C798B"
+        tools:layout_editor_absoluteX="99dp"
+        tools:layout_editor_absoluteY="673dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
