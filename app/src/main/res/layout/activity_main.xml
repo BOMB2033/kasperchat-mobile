@@ -20,7 +20,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -37,7 +38,7 @@
         android:layout_width="293dp"
         android:layout_height="43dp"
         android:layout_marginTop="18dp"
-        android:background="@drawable/tenb"
+        android:background="@drawable/Is_edit"
         android:ems="10"
         android:fontFamily="@font/signikanegative_sc_regular"
         android:hint="Пароль"
@@ -55,7 +56,7 @@
         android:layout_width="293dp"
         android:layout_height="43dp"
         android:layout_marginTop="70dp"
-        android:background="@drawable/tenb"
+        android:background="@drawable/Is_edit"
         android:ems="10"
         android:fontFamily="@font/signikanegative_sc_regular"
         android:hint="Логин"
@@ -105,5 +106,12 @@
         app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCheckBox" />
 </androidx.constraintlayout.widget.ConstraintLayout>
