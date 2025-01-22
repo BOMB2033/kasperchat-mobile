@@ -41,6 +41,7 @@
         android:background="@drawable/is_edit"
         android:ems="10"
         android:fontFamily="@font/signikanegative_sc_regular"
+        android:textCursorDrawable="@drawable/custom_cursor"
         android:hint="Пароль"
         android:inputType="textPassword"
         android:paddingLeft="16dp"
@@ -52,6 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextText" />
 
     <EditText
+
         android:id="@+id/editTextText"
         android:layout_width="293dp"
         android:layout_height="43dp"
@@ -61,6 +63,7 @@
         android:fontFamily="@font/signikanegative_sc_regular"
         android:hint="Логин"
         android:inputType="text"
+        android:textCursorDrawable="@drawable/custom_cursor"
         android:paddingLeft="16dp"
         android:paddingBottom="3dp"
         android:textColor="#76ADC3"
@@ -77,8 +80,9 @@
         android:layout_marginTop="7dp"
         android:fontFamily="@font/didacthgothic"
         android:text="Забыли пароль?"
-        android:textColor="#4C798B"
+        android:textColor="@drawable/my_text_view_selector"
         android:textSize="14dp"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
@@ -99,7 +103,7 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:text="Запомнить меня?"
-        android:textColor="#4C798B"
+        android:textColor="@drawable/my_text_view_selector"
         app:buttonIconTint="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword"
         app:layout_constraintHorizontal_bias="0.03"
@@ -107,6 +111,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
+        android:id="@+id/button"
         android:layout_width="293dp"
         android:layout_height="50dp"
         android:layout_marginTop="18dp"
@@ -121,6 +126,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myCheckBox"
-
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:layout_width="239dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="9dp"
+        android:clickable="true"
+        android:fontFamily="@font/didacthgothic"
+        android:text="У вас нет аккаунта?\nЗ ͟а͟ ͟р͟ ͟е͟ ͟г͟ ͟и͟ ͟с͟ ͟т͟ ͟р͟ ͟и͟ ͟р͟ ͟у͟ ͟й͟ ͟т͟ ͟е͟ ͟с͟ ͟ь͟͟͟͟"
+        android:textAlignment="center"
+        android:textColor="@drawable/my_text_view_selector"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/button"
+        app:layout_constraintStart_toStartOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
