@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.kasperchat_test.fragment.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_chatsListFragment"
+            app:destination="@id/chatsListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.kasperchat_test.fragment.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/preferensFragment"
+        android:name="com.example.kasperchat_test.fragment.PreferenceFragment"
+        android:label="fragment_preferens"
+        tools:layout="@layout/fragment_preference" />
+    <fragment
+        android:id="@+id/chatsListFragment"
+        android:name="com.example.kasperchat_test.fragment.ChatsListFragment"
+        android:label="fragment_chats_list"
+        tools:layout="@layout/fragment_chats_list" >
+        <action
+            android:id="@+id/action_chatsListFragment_to_preferensFragment"
+            app:destination="@id/preferensFragment" />
+        <action
+            android:id="@+id/action_chatsListFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.kasperchat_test.fragment.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" >
+        <action
+            android:id="@+id/action_registrationFragment_to_chatsListFragment"
+            app:destination="@id/chatsListFragment" />
+    </fragment>
+</navigation>
