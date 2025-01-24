@@ -5,14 +5,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activites.MainActivity">
-
+    android:background="@color/background_darck"
+    tools:context=".activity.MainActivity">
     <fragment
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        app:navGraph="@navigation/main_nav_graph"
-        app:defaultNavHost="true"
-        />
+        app:navGraph="@navigation/nav_graph"
+        app:defaultNavHost="true"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
