@@ -1,11 +1,7 @@
 package com.example.kasperchat_test.activity
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
