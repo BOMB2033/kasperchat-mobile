@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- хз чё за цвета, херня какая то -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#627A48</color>
@@ -8,4 +9,22 @@
     <color name="text_edit">#76ADC3</color>
     <color name="unpressed_textview_color">#4C798B</color>
     <color name="pressed_textview_color">#82B4C8</color>
+
+    <!-- Светлая тема -->
+    <color name="background_color_login_screen_light">#e5eff1</color>
+    <color name="text_color_login_edit_text_light">#000000</color>
+    <color name="text_color_login_hint_edit_text_light">#33667B</color>
+    <color name="login_button_background_light">#76ADC3</color>
+    <color name="text_color_login_button_light">#FFFFFF</color>
+    <color name="unpressed_registration_text_view_light">#4C798B</color>
+    <color name="pressed_registration_text_view_light">#82B4C8</color>
+
+    <!-- Темная тема -->
+    <color name="background_color_login_screen_dark">#101925</color>
+    <color name="text_color_login_edit_text_dark">#76ADC3</color>
+    <color name="text_color_login_hint_edit_text_dark">#76ADC3</color>
+    <color name="login_button_background_dark">#4C798B</color>
+    <color name="text_color_login_button_dark">#FFFFFF</color>
+    <color name="unpressed_registration_text_view_dark">#FFFFFF</color>
+    <color name="pressed_registration_text_view_dark">#E0E0E0</color>
 </resources>
