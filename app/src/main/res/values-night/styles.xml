@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <resources>
+    <style name="EditStyleColor" parent="Theme.KasperChatTest">
+        <item name="android:background">@drawable/is_edit_darck</item>
+        <item name="android:textColor">@color/text_color_login_edit_text_dark</item>
+        <item name="android:textColorHint">@color/text_color_login_hint_edit_text_dark</item>
+    </style>
+
+    <style name="window_login" parent="Theme.KasperChatTest">
+        <item name="android:background">@color/background_color_login_screen_dark</item>
+    </style>
+
+    <style name="logo_login" parent="Theme.KasperChatTest">
+        <item name="android:tint">#FFFF2F</item>
+    </style>
+
+</resources>

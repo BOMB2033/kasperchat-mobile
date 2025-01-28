@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
     <resources>
+    <style name="EditStyleColor" parent="Theme.KasperChatTest">
+        <item name="android:textColor">@color/text_color_login_edit_text_light</item>
+        <item name="android:textColorHint">@color/text_color_login_hint_edit_text_light</item>
+        <item name="android:background">@drawable/is_edit_light</item>
+    </style>
 
-    </resources>
+    <style name="EditStyle" parent="EditStyleColor">
+        <item name="android:textCursorDrawable">@drawable/custom_cursor</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:fontFamily">@font/signikanegative_sc_regular</item>
+    </style>
+
+    <style name="window_login" parent="Theme.KasperChatTest">
+        <item name="android:background">@color/background_color_login_screen_light</item>
+
+
+    </style>
+    <style name="logo_login" parent="Theme.KasperChatTest">
+
+        <item name="android:tint">#FFFF2F</item>
+
+
+    </style>
+
+
+</resources>
