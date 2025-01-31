@@ -20,11 +20,11 @@
 
     </style>
     <style name="logo_login" parent="Theme.KasperChatTest">
-
         <item name="android:tint">#FFFF2F</item>
-
-
     </style>
 
+    <style name="TextLogoStyleColor" parent="Theme.KasperChatTest">
+        <item name="android:textColor">@color/black</item>
+    </style>
 
 </resources>

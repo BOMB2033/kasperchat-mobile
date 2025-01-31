@@ -40,9 +40,9 @@ class LoginFragment : Fragment() {
             buttonLogin.setOnClickListener {
                 it.findNavController().navigate(R.id.action_loginFragment_to_chatsListFragment)
             }
-            textViewRegistration.setOnClickListener {
-                it.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
-            }
+            //textViewRegistration.setOnClickListener {
+              //  it.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+           // }
         }
     }
 
