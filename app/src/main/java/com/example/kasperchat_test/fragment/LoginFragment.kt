@@ -44,7 +44,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         socketManager = (requireActivity() as SocketManagerInterface).socketManager
         runBlocking {
-            socketManager.connect()
+       //     socketManager.connect()
         }
         with(binding){
             buttonLogin.setOnClickListener {
