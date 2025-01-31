@@ -2,3 +2,10 @@
 /shelf/
 /workspace.xml
 /.idea/
+/.idea/compiler.xml
+/.idea/gradle.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/misc.xml
+/gradle/
+/gradle/libs.versions.toml
+/gradle/wrapper/gradle-wrapper.properties

@@ -17,3 +17,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+/.idea/compiler.xml
+/.idea/deploymentTargetSelector.xml
+/gradle/
+/gradle/libs.versions.toml
+/gradle/wrapper/gradle-wrapper.properties
