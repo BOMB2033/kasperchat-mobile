@@ -1,21 +1,16 @@
 package com.example.kasperchat_test.fragment
 
-import android.content.Context
-import android.net.wifi.WifiManager
 import android.os.Bundle
-import android.os.Debug
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.FragmentLoginBinding
-import java.net.InetAddress
-import java.net.InetSocketAddress
-import java.net.Socket
-import java.net.SocketAddress
+import com.example.kasperchat_test.network.SocketManager
+import com.example.kasperchat_test.network.SocketManagerInterface
+import kotlinx.coroutines.runBlocking
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,6 +24,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
+    private lateinit var socketManager: SocketManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,22 +38,20 @@ class LoginFragment : Fragment() {
         binding = FragmentLoginBinding.inflate(inflater,container,false)
         return binding.root
     }
-    fun getMac(context: Context): String {
-        val manager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val info = manager.connectionInfo
-        return info.macAddress.toUpperCase()
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        socketManager = (requireActivity() as SocketManagerInterface).socketManager
+        runBlocking {
+            socketManager.connect()
+        }
         with(binding){
             buttonLogin.setOnClickListener {
-                Thread{
-                    val socket = Socket()
-                    val endPoint:SocketAddress = InetSocketAddress(InetAddress.getByName("185.130.224.155"),8888)
-                    socket.connect(endPoint)
-                    val outputStream = socket.getOutputStream()
-                    outputStream.write(getMac(this.root.context).toByteArray())
+                runBlocking {
+
+                }
+               /* Thread{
                     val inputStream = socket.getInputStream()
                     var id = 0
                     id = inputStream.read()
@@ -69,7 +63,7 @@ class LoginFragment : Fragment() {
                     Log.i("Input stream", tempString)
 
 
-                }.start()
+                }.start()*/
                 it.findNavController().navigate(R.id.action_loginFragment_to_chatsListFragment)
             }
             /*textViewRegistration.setOnClickListener {
