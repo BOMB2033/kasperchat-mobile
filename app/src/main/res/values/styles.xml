@@ -27,4 +27,10 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="item_chat_list" parent="Theme.KasperChatTest">
+        <item name="android:background">@color/light_item_chat_list</item>
+        <item name="android:selectableItemBackground">@color/light_select_item_chat_list</item>
+    </style>
+
+
 </resources>
