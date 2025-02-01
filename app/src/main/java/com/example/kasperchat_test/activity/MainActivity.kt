@@ -1,19 +1,17 @@
 package com.example.kasperchat_test.activity
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.ActivityMainBinding
+import com.example.kasperchat_test.network.SocketManager
+import com.example.kasperchat_test.network.SocketManagerInterface
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),SocketManagerInterface {
     private lateinit var binding: ActivityMainBinding
+    override val socketManager:SocketManager = SocketManager(applicationContext)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
     }
 }

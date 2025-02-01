@@ -1,5 +1,10 @@
 <resources>
-    <string name="app_name">KasperChat-Test</string>
+    <string name="app_name">KasperChat</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="kasper_chat">Kasper Chat</string>
+    <string name="login">Логин</string>
+    <string name="Password">Пароль</string>
+    <string name="Do_you_forgot_password">Забыли пароль?</string>
+    <string name="Logout">Войти</string>
 </resources>

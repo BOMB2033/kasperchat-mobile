@@ -1,12 +1,10 @@
 package com.example.kasperchat_test.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.kasperchat_test.R
-import com.example.kasperchat_test.databinding.FragmentChatBinding
+import androidx.fragment.app.Fragment
 import com.example.kasperchat_test.databinding.FragmentChatsListBinding
 
 // TODO: Rename parameter arguments, choose names that match
