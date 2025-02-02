@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -37,7 +38,29 @@ android {
         jvmTarget = "1.8"
     }
 }
+dependencies {
+    // Room
+    implementation("androidx.room:room-runtime:2.5.2")
+    annotationProcessor("androidx.room:room-compiler:2.5.2")
 
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:2.5.2")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:2.5.2")
+
+    // optional - RxJava2 support forRoom
+    implementation("androidx.room:room-rxjava2:2.5.2")
+
+    // optional - RxJava3 support for Room
+    implementation("androidx.room:room-rxjava3:2.5.2")
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation("androidx.room:room-guava:2.5.2")
+
+    // optional - Test helpers
+    testImplementation("androidx.room:room-testing:2.5.2")
+}
 dependencies {
 
     implementation(libs.androidx.core.ktx)
