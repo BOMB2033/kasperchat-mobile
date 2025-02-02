@@ -14,4 +14,15 @@
         <item name="android:tint">#FFFF2F</item>
     </style>
 
+    <style name="TextLogoStyleColor" parent="Theme.KasperChatTest">
+        <item name="android:tint">#234511</item>
+        <item name="android:color">#234511</item>
+         <item name="android:textColor">#213133</item>
+    </style>
+
+    <style name="item_chat_list" parent="Theme.KasperChatTest">
+        <item name="android:background">@color/night_item_chat_list</item>
+        <item name="android:selectableItemBackground">@color/night_select_item_chat_list</item>
+
+    </style>
 </resources>
