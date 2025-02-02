@@ -8,9 +8,10 @@ import com.example.kasperchat_test.network.SocketManagerInterface
 
 class MainActivity : AppCompatActivity(),SocketManagerInterface {
     private lateinit var binding: ActivityMainBinding
-    override val socketManager:SocketManager = SocketManager(applicationContext)
+    override lateinit var socketManager:SocketManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        socketManager = SocketManager(applicationContext)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }

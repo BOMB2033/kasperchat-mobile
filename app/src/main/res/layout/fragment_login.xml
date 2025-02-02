@@ -9,16 +9,14 @@
     tools:context=".fragment.LoginFragment">
 
     <TextView
-        android:id="@+id/textViewlogo"
-        style="TextLogoStyleColor"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="13dp"
         android:fontFamily="@font/didacthgothic"
-        android:text="Kasper Chat"
-
-        android:textSize="24dp"
+        android:text="@string/kasper_chat"
+        android:textColor="@color/white_logo_text"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,6 +29,7 @@
         android:layout_height="wrap_content"
         style="logo_login"
         android:layout_marginTop="68dp"
+        android:contentDescription="@string/app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -43,13 +42,13 @@
         android:layout_marginTop="70dp"
         android:id="@+id/editTextText"
         style="@style/EditStyle"
-
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Логин"
+        android:hint="@string/login"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewlogo" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:layout_width="293dp"
@@ -57,9 +56,9 @@
         android:layout_marginTop="18dp"
         android:id="@+id/editTextTextPassword"
         style="@style/EditStyle"
-
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Пароль"
+        android:hint="@string/Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,9 +73,9 @@
         android:layout_marginTop="7dp"
         android:visibility="gone"
         android:fontFamily="@font/didacthgothic"
-        android:text="Забыли пароль?"
+        android:text="@string/Do_you_forgot_password"
         android:textColor="@drawable/my_text_view_selector"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword"
         app:layout_constraintHorizontal_bias="0.498"
@@ -92,14 +91,15 @@
         android:fontFamily="@font/signikanegative_sc_regular"
         android:inputType="text"
         android:paddingBottom="4dp"
-        android:text="Войти"
+        android:text="@string/Logout"
         android:textColor="#CFD9EBFF"
-        android:textSize="19dp"
+        android:textSize="19sp"
         android:tint="#1222AD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="TextViewEdits" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
