@@ -36,5 +36,23 @@
         <item name="android:background">@color/chat_list_background_light</item>
     </style>
 
+    <style name="chat_name_text_item" parent="Theme.KasperChatTest">
+        <item name="android:textColor">@color/name_item_chat_light</item>
+    </style>
+
+    <style name="chat_text_item" parent="Theme.KasperChatTest">
+        <item name="android:textColor">@color/text_item_chat_light</item>
+    </style>
+
+    <style name="time_chat_list" parent="Theme.KasperChatTest">
+        <item name="android:textColor">@color/time_chat_list_light</item>
+    </style>
+
+
+
+
+
+
+
 
 </resources>
