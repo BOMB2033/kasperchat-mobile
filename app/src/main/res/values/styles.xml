@@ -16,20 +16,24 @@
 
     <style name="window_login" parent="Theme.KasperChatTest">
         <item name="android:background">@color/background_color_login_screen_light</item>
-
-
     </style>
+
     <style name="logo_login" parent="Theme.KasperChatTest">
-
-        <item name="android:tint">#FFFF2F</item>
-
-
+        <item name="android:tint">@color/logo_text_light</item>
     </style>
-
 
     <style name="item_chat_list" parent="Theme.KasperChatTest">
-        <item name="android:background">@color/light_item_chat_list</item>
+        <item name="android:background">@drawable/item_chat_list_shape</item>
+        <item name="android:backgroundTint">@color/light_item_chat_list</item>
         <item name="android:selectableItemBackground">@color/light_select_item_chat_list</item>
+    </style>
+
+    <style name="text_logo" parent="Theme.KasperChatTest">
+     <item name="android:textColor">@color/logo_text_light</item>
+    </style>
+
+    <style name="chat_list_background" parent="Theme.KasperChatTest">
+        <item name="android:background">@color/chat_list_background_light</item>
     </style>
 
 

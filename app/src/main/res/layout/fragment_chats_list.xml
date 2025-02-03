@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/chat_list_background"
     tools:context=".fragment.ChatsListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
