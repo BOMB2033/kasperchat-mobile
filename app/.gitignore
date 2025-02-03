@@ -1,8 +1,238 @@
-/build
-/.idea/compiler.xml
-/.idea/gradle.xml
-/.idea/deploymentTargetSelector.xml
-/.idea/misc.xml
-/gradle/
-/gradle/libs.versions.toml
-/gradle/wrapper/gradle-wrapper.properties
+# Файлы Android Studio
+.gradle/
+.idea/
+*.iml
+local.properties
+build/
+captures/
+
+# Файлы сборки
+/build/
+/out/
+
+# Файлы APK
+*.apk
+*.ap_
+
+# Файлы отчетов
+/reports/
+
+# Файлы отладки
+/debug/
+
+# Файлы ProGuard
+/proguard/
+
+# Файлы кэша
+.DS_Store
+*.log
+*.hprof
+
+# Файлы, созданные IDE
+.DS_Store
+*.swp
+*.swo
+*.lock
+
+# Файлы, созданные операционной системой
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Файлы, созданные пользователем
+*.keystore
+
+# Папки node_modules
+node_modules/
+
+# Папки .dart_tool
+.dart_tool/
+
+# Папки .flutter-plugins
+.flutter-plugins
+
+# Папки .flutter-plugins-dependencies
+.flutter-plugins-dependencies
+
+# Папки .packages
+.packages
+
+# Папки .pub-cache
+.pub-cache/
+
+# Папки .symlinks
+.symlinks/
+
+# Папки .vscode
+.vscode/
+
+# Папки .env
+.env
+
+# Папки .venv
+.venv/
+
+# Папки venv
+venv/
+
+# Папки target
+target/
+
+# Папки bin
+bin/
+
+# Папки obj
+obj/
+
+# Папки libs
+libs/
+
+# Папки assets
+assets/
+
+# Папки generated
+generated/
+
+# Папки docs
+docs/
+
+# Папки temp
+temp/
+
+# Папки tmp
+tmp/
+
+# Папки vendor
+vendor/
+
+# Папки dist
+dist/
+
+# Папки coverage
+coverage/
+
+# Папки .nyc_output
+.nyc_output/
+
+# Папки .cache
+.cache/
+
+# Папки .yarn
+.yarn/
+
+# Папки .pnpm-store
+.pnpm-store/
+
+# Папки .npm
+.npm/
+
+# Папки .bower_components
+bower_components/
+
+# Папки .bundle
+.bundle/
+
+# Папки .sass-cache
+.sass-cache/
+
+# Папки .jekyll-cache
+.jekyll-cache/
+
+# Папки .pytest_cache
+.pytest_cache/
+
+# Папки .tox
+.tox/
+
+# Папки .mypy_cache
+.mypy_cache/
+
+# Папки .pytest_cache
+.pytest_cache/
+
+# Папки .coverage
+.coverage/
+
+# Папки .venv
+.venv/
+
+# Папки venv
+venv/
+
+# Папки target
+target/
+
+# Папки bin
+bin/
+
+# Папки obj
+obj/
+
+# Папки libs
+libs/
+
+# Папки assets
+assets/
+
+# Папки generated
+generated/
+
+# Папки docs
+docs/
+
+# Папки temp
+temp/
+
+# Папки tmp
+tmp/
+
+# Папки vendor
+vendor/
+
+# Папки dist
+dist/
+
+# Папки coverage
+coverage/
+
+# Папки .nyc_output
+.nyc_output/
+
+# Папки .cache
+.cache/
+
+# Папки .yarn
+.yarn/
+
+# Папки .pnpm-store
+.pnpm-store/
+
+# Папки .npm
+.npm/
+
+# Папки .bower_components
+bower_components/
+
+# Папки .bundle
+.bundle/
+
+# Папки .sass-cache
+.sass-cache/
+
+# Папки .jekyll-cache
+.jekyll-cache/
+
+# Папки .pytest_cache
+.pytest_cache/
+
+# Папки .tox
+.tox/
+
+# Папки .mypy_cache
+.mypy_cache/
+
+# Папки .pytest_cache
+.pytest_cache/
+
+# Папки .coverage
+.coverage/
