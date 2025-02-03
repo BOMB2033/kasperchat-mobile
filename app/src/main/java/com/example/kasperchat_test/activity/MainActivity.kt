@@ -2,14 +2,20 @@ package com.example.kasperchat_test.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
+import com.example.kasperchat_test.database.AppDatabase
 import com.example.kasperchat_test.database.MyApplication
 import com.example.kasperchat_test.database.User
 import com.example.kasperchat_test.databinding.ActivityMainBinding
 import com.example.kasperchat_test.network.SocketManager
 import com.example.kasperchat_test.network.SocketManagerInterface
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(),SocketManagerInterface {
     private lateinit var binding: ActivityMainBinding
+
     override lateinit var socketManager:SocketManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +24,8 @@ class MainActivity : AppCompatActivity(),SocketManagerInterface {
         setContentView(binding.root)
         socketManager  = SocketManager(applicationContext)
 
+
+        lifecycleScope.launch(Dispatchers.IO) {
         // Получение экземпляра DAO
         val userDao = (application as MyApplication).database.userDao()
 
@@ -37,6 +45,6 @@ class MainActivity : AppCompatActivity(),SocketManagerInterface {
 
 // Удаление пользователя
         userDao.delete(updatedUser)
-
+        }
     }
 }
