@@ -1,6 +1,7 @@
 package com.example.kasperchat_test.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,11 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         socketManager = (requireActivity() as SocketManagerInterface).socketManager
         runBlocking {
+            if(socketManager.connect()){
+                Log.i("Socket","Successful connection")
+            }else{
+                Log.i("Socket","Failed connection")
+            }
        //     socketManager.connect()
         }
         with(binding){
