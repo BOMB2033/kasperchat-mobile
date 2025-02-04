@@ -23,19 +23,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/logo_login"
-        android:layout_marginTop="68dp"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/is_logo_chat"
-        />
-
     <EditText
         android:layout_width="293dp"
         android:layout_height="43dp"
@@ -47,6 +34,7 @@
         android:hint="@string/login"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
+        android:focusableInTouchMode="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -54,6 +42,8 @@
         android:layout_width="293dp"
         android:layout_height="43dp"
         android:layout_marginTop="18dp"
+        android:selectAllOnFocus="true"
+        android:focusableInTouchMode="true"
         android:id="@+id/editTextTextPassword"
         style="@style/EditStyle"
         android:autofillHints=""
@@ -82,6 +72,35 @@
         app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
+
+    <TextView
+        android:id="@+id/linkRegister"
+        style="@style/link_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:fontFamily="@font/didacthgothic"
+        android:text="Зарегестрироваться"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        style="@style/logo_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/is_logo_chat" />
+
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="293dp"
@@ -101,5 +120,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="TextViewEdits" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

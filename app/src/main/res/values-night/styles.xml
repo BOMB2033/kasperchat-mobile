@@ -3,7 +3,7 @@
     <style name="EditStyleColor" parent="Theme.KasperChatTest">
         <item name="android:background">@drawable/is_edit_darck</item>
         <item name="android:textColor">@color/text_color_login_edit_text_dark</item>
-        <item name="android:textColorHint">@color/text_color_login_hint_edit_text_dark</item>
+        <item name="android:textColorHint">@drawable/selector_hint_edit_text_dark</item>
     </style>
 
     <style name="window_login" parent="Theme.KasperChatTest">
@@ -42,8 +42,13 @@
     <style name="chat_text_item" parent="Theme.KasperChatTest">
         <item name="android:textColor">@color/text_item_chat_dark</item>
     </style>
+
     <style name="time_chat_list" parent="Theme.KasperChatTest">
         <item name="android:textColor">@color/time_chat_list_dark</item>
+    </style>
+
+    <style name="link_register" parent="Theme.KasperChatTest">
+        <item name="android:textColor">@drawable/my_text_link_register_selector_dark</item>
     </style>
 
 

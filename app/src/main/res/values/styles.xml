@@ -2,7 +2,7 @@
     <resources>
     <style name="EditStyleColor" parent="Theme.KasperChatTest">
         <item name="android:textColor">@color/text_color_login_edit_text_light</item>
-        <item name="android:textColorHint">@color/text_color_login_hint_edit_text_light</item>
+        <item name="android:textColorHint">@drawable/selector_hint_edit_text_light</item>
         <item name="android:background">@drawable/is_edit_light</item>
     </style>
 
@@ -48,11 +48,9 @@
         <item name="android:textColor">@color/time_chat_list_light</item>
     </style>
 
-
-
-
-
-
+    <style name="link_register" parent="Theme.KasperChatTest">
+        <item name="android:textColor">@drawable/my_text_link_register_selector_light</item>
+    </style>
 
 
 </resources>

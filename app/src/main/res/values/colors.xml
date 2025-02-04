@@ -9,7 +9,6 @@
     <color name="text_edit">#76ADC3</color>
     <color name="unpressed_textview_color">#4C798B</color>
     <color name="pressed_textview_color">#82B4C8</color>
-
     <color name="transparent">#00000000</color>
 
     <!-- Светлая тема -->
@@ -21,17 +20,16 @@
     <color name="light_item_chat_list">#F5F5F5</color>
     <color name="light_select_item_chat_list">#E0E0E0</color>
     <color name="background_color_login_screen_light">#e5eff1</color>
-    <color name="text_color_login_edit_text_light">#000000</color>
+    <color name="text_color_login_edit_text_light">#33667B</color>
     <color name="text_color_login_hint_edit_text_light">#33667B</color>
     <color name="login_button_background_light">#76ADC3</color>
     <color name="text_color_login_button_light">#FFFFFF</color>
     <color name="unpressed_registration_text_view_light">#4C798B</color>
     <color name="pressed_registration_text_view_light">#82B4C8</color>
     <color name="time_chat_list_light">#1A1A1A</color>
+    <color name="link_register_light">#7B97AF</color>
+
     <!-- Темная тема -->
-
-
-
     <color name="name_item_chat_dark">#C3DDEC</color>
     <color name="chat_list_background_dark">#0d0d0e</color>
     <color name="logo_color_dark">#C3DDEC</color>
@@ -47,5 +45,6 @@
     <color name="unpressed_registration_text_view_dark">#FFFFFF</color>
     <color name="pressed_registration_text_view_dark">#E0E0E0</color>
     <color name="time_chat_list_dark">#C3DDEC</color>
+    <color name="link_register_dark">#2b4b60</color>
 
 </resources>
