@@ -7,4 +7,8 @@
     <string name="Password">Пароль</string>
     <string name="Do_you_forgot_password">Забыли пароль?</string>
     <string name="Logout">Войти</string>
+    <string name="Register">Регистрация</string>
+
+
+
 </resources>

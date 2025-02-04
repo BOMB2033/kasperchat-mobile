@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:state_activated="true"  android:state_focused="true" android:state_checkable="true" android:state_checked="true" >
+        <shape
+            android:shape="rectangle">
+            <corners android:radius="16dp" /> <!-- Радиус закругления углов -->
+            <solid android:color="@color/background_color_login_screen_light"/>
+        </shape>
+    </item>
+    <!-- Нажатое состояние -->
+
+
+
+    <item  >
+        <shape
+
+            android:shape="rectangle">
+            <corners android:radius="16dp" />
+            <solid android:color="@color/night_item_chat_list"/> <!-- Радиус закругления углов -->
+        </shape>
+    </item>
+    <!-- Не нажатое состояние -->
+
+</selector>

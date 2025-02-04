@@ -21,9 +21,9 @@
     </style>
 
     <style name="item_chat_list" parent="Theme.KasperChatTest">
-        <item name="android:background">@drawable/item_chat_list_shape</item>
-        <item name="android:backgroundTint">@color/night_item_chat_list</item>
-        <item name="android:selectableItemBackground">@color/night_select_item_chat_list</item>
+<!--        <item name="android:background">@drawable/item_chat_list_shape</item>-->
+
+<!--        <item name="android:selectableItemBackground">@color/unpressed_registration_text_view_light</item>-->
 
     </style>
 
