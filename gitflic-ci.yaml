@@ -21,7 +21,6 @@ variables:
   #        commandlinetools-os_type-ANDROID_SDK_TOOLS_latest.zip
   ANDROID_SDK_TOOLS: "11076708"
 
-  ANDROID_HOME: "/root/android_sdkt"
 
 # Установка пакетов перед выполнением
 before_script:
@@ -29,6 +28,7 @@ before_script:
   - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
   - wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
   - unzip -d android-sdk-linux android-sdk.zip
+  - mv -T "android-sdk-linux/cmdline-tools/*" "android-sdk-linux/tools/"
   - echo y | android-sdk-linux/tools/bin/sdkmanager "platform-tools" "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
   #- echo y | android-sdk-linux/tools/bin/sdkmanager "platform-tools" >/dev/null
   - echo y | android-sdk-linux/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null
