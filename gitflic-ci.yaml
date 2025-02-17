@@ -41,12 +41,12 @@ before_script:
   - mv -T "$ANDROID_HOME/cmdline-tools/cmdline-tools" "$ANDROID_HOME/cmdline-tools/tools"
   - export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/cmdline-tools/tools/bin
 
-  - sdkmanager --version
+  - /root/android_sdk/cmdline-tools/bin/sdkmanager --version
 
-  - yes | sdkmanager --licenses  || true
-  - sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
-  - sdkmanager "platform-tools"
-  - sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
+  - yes | /root/android_sdk/cmdline-tools/bin/sdkmanager --licenses  || true
+  - /root/android_sdk/cmdline-tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
+  - /root/android_sdk/cmdline-tools/bin/sdkmanager "platform-tools"
+  - /root/android_sdk/cmdline-tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
 
   - chmod +x ./gradlew
 
