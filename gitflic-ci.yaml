@@ -33,7 +33,7 @@ before_script:
   - mkdir -p ~/android_sdk/cmdline-tools/latest
   - export PATH="$PATH:$HOME/android_sdk/cmdline-tools/latest/bin"
   - echo ' \#!/bin/bash
-    while read -r line; do
+    while [read -r line]; do
       if [[ "$line" == *"Accept"* ]]; then
         echo y
       fi
