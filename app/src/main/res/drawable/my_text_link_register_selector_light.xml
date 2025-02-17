@@ -11,6 +11,6 @@
     <item android:state_checked="true" android:color="@color/white"/>
 
     <!-- default -->
-    <item android:color="@color/link_register_light"/>
+    <item android:color="@color/link_register"/>
 
 </selector>

@@ -1,9 +1,11 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.KasperChatTest" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="color_item_message_send">@color/color_item_message_send</item>
         <!-- Customize your dark theme here. -->
         <!-- Основные цвета -->
-
            </style>
+
+
 
 </resources>

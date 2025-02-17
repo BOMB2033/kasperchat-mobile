@@ -8,7 +8,9 @@
     <string name="Do_you_forgot_password">Забыли пароль?</string>
     <string name="Logout">Войти</string>
     <string name="Register">Регистрация</string>
-
+    <string name="add_channel_description">Добавить канал, контакт</string>
+    <string name="add_search_button_description">Поиск по чатам</string>
+    <string name="add_options_button_description">Кнопка опции</string>
 
 
 </resources>

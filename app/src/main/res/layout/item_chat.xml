@@ -1,67 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/item_chat_list"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
- android:background="@drawable/is_item_chat_light_selector"
-    android:layout_marginStart="5dp"
-    android:layout_marginEnd="5dp"
-    android:layout_marginBottom="7dp"
-    android:clickable="true"
-    android:orientation="horizontal"
-    android:padding="10dp">
-
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:cardBackgroundColor="@color/transparent"
-        app:cardCornerRadius="50dp">
-
-        <ImageView
-            android:id="@+id/ivAvatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="0dp"
-            android:src="@drawable/ic_avatar" />
-
-    </androidx.cardview.widget.CardView>
-
+    android:background="@color/transparent"
+    android:paddingBottom="0dp"
+    android:paddingStart="0dp"
+    android:paddingEnd="0dp"
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="0dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/is_item_chat_light_selector"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:baselineAligned="true"
+    >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp">
+
+            <com.appbroker.roundedimageview.RoundedImageView
+                android:id="@+id/avatarImageView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:radius="50dp" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/statusImageView"
+                android:background="@drawable/online_indicator"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginLeft="37dp"
+                android:layout_marginTop="40dp"
+                app:layout_constraintStart_toStartOf="@+id/avatarImageView"
+                app:layout_constraintTop_toTopOf="@+id/avatarImageView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_weight="99999999999"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="0dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="0dp">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:textColor="@color/name_item_chat"
+                android:fontFamily="@font/source_code_pro_regular"
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:text="Имя собеседника"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:fontFamily="@font/source_code_pro_regular"
+                android:id="@+id/tvLastMessage"
+                android:textColor="@color/text_item_chat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingTop="0dp"
+                android:text="Последнее сообщение  " />
+        </LinearLayout>
+
+        <LinearLayout
+        android:minWidth="39dp"
+        android:layout_width="wrap_content"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_weight="1"
+        android:gravity="end"
+        android:layout_marginRight="20dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvName"
-            style="@style/chat_name_text_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Имя собеседника"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvLastMessage"
-            style="@style/chat_text_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="Последнее сообщение" />
-
+            <TextView
+                android:id="@+id/tvTime"
+                android:textColor="@color/time_chat_list"
+                android:fontFamily="@font/inter_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:paddingStart="0dp"
+                android:paddingTop="19dp"
+                android:paddingEnd="0dp"
+                android:paddingBottom="6dp"
+                android:text="09:00"
+                android:textSize="12dp" />
+            <TextView
+                android:textColor="@color/color_chat_list_messageCount"
+                android:id="@+id/messageCount"
+                android:background="@drawable/messege_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:text="2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="10dp" />
+    </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvTime"
-        style="@style/time_chat_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:text="12:34" />
-
-</LinearLayout>
+</RelativeLayout>

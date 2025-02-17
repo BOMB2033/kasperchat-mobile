@@ -4,6 +4,8 @@ plugins {
     id("kotlin-kapt")
 }
 
+
+
 android {
     namespace = "com.example.kasperchat_test"
     compileSdk = 34
@@ -38,8 +40,13 @@ android {
         jvmTarget = "17"
     }
 }
+
+
 dependencies {
     // Room
+
+
+    implementation ("com.github.mmmelik:RoundedImageView:v1.0.1")
     implementation("androidx.room:room-runtime:2.5.2")
     annotationProcessor("androidx.room:room-compiler:2.5.2")
 
