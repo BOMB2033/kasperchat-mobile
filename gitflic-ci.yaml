@@ -27,8 +27,14 @@ variables:
 before_script:
   - apt-get --quiet update --yes
   - apt-get --quiet install --yes wget unzip
-  - apt-get install --yes google-android-cmdline-tools-*
-  - apt-get install --yes sdkmanager
+  - wget --yes https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip ~/Downloads 
+  - mkdir ~/android_sdk
+  - unzip ~/Downloads/commandlinetools-linux-11076708_latest.zip -d ~/android_sdk
+  - mkdir ~/android_sdk/cmdline-tools/latest
+  - mv ~/android_sdk/cmdline-tools/* ~/android_sdk/cmdline-tools/latest
+  - export PATH="$PATH:$HOME/android_sdk/cmdline-tools/latest/bin"
+  - sdkmanager --licenses
+ # - apt-get install --yes sdkmanager
 
   - install -d $ANDROID_HOME
   #
