@@ -29,7 +29,7 @@ before_script:
   - apt-get --quiet install --yes wget unzip
   - wget --quiet -c https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
   - mkdir -p $ANDROID_HOME
-  - unzip -o -q commandlinetools-linux-11076708_latest.zip -d $ANDROID_HOME
+  - unzip -o -q commandlinetools-linux-11076708_latest.zip -d "$ANDROID_HOME"
   - mkdir -p $ANDROID_HOME/cmdline-tools/latest
   - find $ANDROID_HOME/cmdline-tools/ -mindepth 1 -maxdepth 1 -type f \( -path "./latest" -prune \) -o -exec mv {} $ANDROID_HOME/cmdline-tools/latest \;
   - export PATH="$ANDROID_HOME/cmdline-tools/latest/bin"
