@@ -31,7 +31,6 @@ before_script:
   - mkdir -p ~/android_sdk
   - unzip commandlinetools-linux-11076708_latest.zip -d ~/android_sdk
   - mkdir -p ~/android_sdk/cmdline-tools/latest
-  - mv ~/android_sdk/cmdline-tools/* ~/android_sdk/cmdline-tools/latest
   - export PATH="$PATH:$HOME/android_sdk/cmdline-tools/latest/bin"
   - sdkmanager --licenses
  # - apt-get install --yes sdkmanager
