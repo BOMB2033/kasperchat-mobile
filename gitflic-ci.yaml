@@ -27,8 +27,8 @@ variables:
 before_script:
   - apt-get --quiet update --yes
   - apt-get --quiet install --yes wget unzip
-  - apt-get --quiet install --yes google-android-cmdline-tools-*
-  - apt-get --quiet install --yes sdkmanager
+  - apt-get install --yes google-android-cmdline-tools-*
+  - apt-get install --yes sdkmanager
 
   - install -d $ANDROID_HOME
   #
