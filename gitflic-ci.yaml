@@ -45,10 +45,10 @@ before_script:
   - sdkmanager --version
 
   - yes | sdkmanager --licenses  || true
+  - yes | sdkmanager --licenses 
   - sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
   - sdkmanager "platform-tools"
   - sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
-
   - chmod +x ./gradlew
 
 lintDebug:
