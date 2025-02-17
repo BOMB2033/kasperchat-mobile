@@ -33,15 +33,15 @@ before_script:
   - mkdir -p ~/android_sdk/cmdline-tools/latest
   - export PATH="$PATH:$HOME/android_sdk/cmdline-tools/latest/bin"
   - echo '#!/bin/bash
-while true; do
-  sdkmanager --licenses
-  if [[ $? -eq 0 ]]; then
-    break
-  fi
-  read -r -s -n1 -p "Press any key to continue (accepting licenses)... " key
-  echo ""
-done
-echo "Licenses accepted (hopefully)."' > accept_licenses.sh
+    while true; do
+    sdkmanager --licenses
+    if [[ $? -eq 0 ]]; then
+      break
+    fi
+    read -r -s -n1 -p "Press any key to continue (accepting licenses)... " key
+    echo ""
+    done
+    echo "Licenses accepted (hopefully)."'> accept_licenses.sh 
 
   - chmod +x accept_licenses.sh
   - ./accept_licenses.sh
