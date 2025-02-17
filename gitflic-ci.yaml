@@ -10,16 +10,16 @@ variables:
 
   # Версия компилятора Android
   # Должна совпадать с compileSdkVersion.
-  ANDROID_COMPILE_SDK: "33"
+  ANDROID_COMPILE_SDK: "34"
 
   # ANDROID_BUILD_TOOLS версия Android для инструментов сборки
   # Должна совпадать с buildToolsVersion.
-  ANDROID_BUILD_TOOLS: "33.0.2"
+  ANDROID_BUILD_TOOLS: "34"
 
   # https://developer.android.com/studio/index.html
   # SDK tools указаны в формате:
   #        commandlinetools-os_type-ANDROID_SDK_TOOLS_latest.zip
-  ANDROID_SDK_TOOLS: "9477386"
+  ANDROID_SDK_TOOLS: "11076708"
 
   ANDROID_HOME: "${PWD}/android-sdk-root"
 
