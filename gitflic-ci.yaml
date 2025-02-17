@@ -26,7 +26,8 @@ variables:
 # Установка пакетов перед выполнением
 before_script:
   - apt-get --quiet update --yes
-  - apt-get --quiet install --yes dialog
+  - apt-get --quiet autoremove
+  - apt-get --quiet remove --yes --purge google-android-cmdline-tools-12.0-installer
   - apt-get --quiet install --yes wget unzip
   - apt-get --quiet install --yes sdkmanager
 
