@@ -29,7 +29,7 @@ before_script:
   - apt-get --quiet install --yes wget unzip
   - wget --quiet -c https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
   - mkdir -p ~/android_sdk
-  - unzip commandlinetools-linux-11076708_latest.zip -d ~/android_sdk
+  - unzip -o commandlinetools-linux-11076708_latest.zip -d ~/android_sdk
   - mkdir -p ~/android_sdk/cmdline-tools/latest
   - export PATH="$PATH:$HOME/android_sdk/cmdline-tools/latest/bin"
   - sdkmanager --licenses
