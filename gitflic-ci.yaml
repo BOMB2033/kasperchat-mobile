@@ -21,7 +21,7 @@ variables:
   #        commandlinetools-os_type-ANDROID_SDK_TOOLS_latest.zip
   ANDROID_SDK_TOOLS: "11076708"
 
-  ANDROID_HOME: "${PWD}/android-sdk-root"
+  ANDROID_HOME: "/root/android_sdk"
 
 # Установка пакетов перед выполнением
 before_script:
