@@ -28,23 +28,24 @@ before_script:
   - apt-get --quiet update --yes
   - apt-get --quiet install --yes wget unzip
   - wget --quiet -c https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
-  - mkdir -p $ANDROID_HOME
-  - unzip -o -q commandlinetools-linux-11076708_latest.zip -d $ANDROID_HOME
-  - mkdir -p $ANDROID_HOME/cmdline-tools/latest
-  - find $ANDROID_HOME/cmdline-tools/ -mindepth 1 -maxdepth 1 -type f \( -path "./latest" -prune \) -o -exec mv {} $ANDROID_HOME/cmdline-tools/latest \;
-  - export PATH="$ANDROID_HOME/cmdline-tools/latest/bin"
+  - mkdir -p ~/android_sdk
+  - unzip -o -q commandlinetools-linux-11076708_latest.zip -d ~/android_sdk
+  - mkdir -p ~/android_sdk/cmdline-tools/latest
+  - find ~/android_sdk/cmdline-tools/ -mindepth 1 -maxdepth 1 -type f \( -path "./latest" -prune \) -o -exec mv {} ~/android_sdk/cmdline-tools/latest \;
+  - export PATH="$PATH:$HOME/android_sdk/cmdline-tools/latest/bin"
  # - apt-get install --yes sdkmanager
 
   - install -d $ANDROID_HOME
   #
   - wget --no-verbose --output-document=$ANDROID_HOME/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
-  - unzip -q -d "ANDROID_HOME/cmdline-tools" "$ANDROID_HOME/cmdline-tools.zip"
+  - unzip -q -d "$ANDROID_HOME/cmdline-tools" "$ANDROID_HOME/cmdline-tools.zip"
   - mv -T "$ANDROID_HOME/cmdline-tools/cmdline-tools" "$ANDROID_HOME/cmdline-tools/tools"
   - export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/cmdline-tools/tools/bin
 
   - sdkmanager --version
 
   - yes | sdkmanager --licenses  || true
+  - yes | sdkmanager --licenses 
   - sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
   - sdkmanager "platform-tools"
   - sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
