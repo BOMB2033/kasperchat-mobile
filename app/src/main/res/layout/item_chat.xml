@@ -20,26 +20,28 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:paddingStart="15dp"
-            android:paddingEnd="0dp">
+            android:layout_marginStart="0dp"
+            >
 
             <com.appbroker.roundedimageview.RoundedImageView
                 android:id="@+id/avatarImageView"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="9dp"
                 android:src="@drawable/ic_avatar"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:radius="50dp" />
+                app:radius="16dp" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/statusImageView"
                 android:background="@drawable/online_indicator"
                 android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_marginLeft="37dp"
-                android:layout_marginTop="40dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="37dp"
+                android:layout_marginTop="39dp"
                 app:layout_constraintStart_toStartOf="@+id/avatarImageView"
                 app:layout_constraintTop_toTopOf="@+id/avatarImageView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -59,24 +61,28 @@
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
-                android:textColor="@color/name_item_chat"
-                android:fontFamily="@font/source_code_pro_regular"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/roboto"
                 android:maxLines="1"
                 android:text="Имя собеседника"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@color/name_item_chat"
+                android:textSize="16sp"
+                android:layout_marginBottom="3dp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
             <TextView
-                android:fontFamily="@font/source_code_pro_regular"
                 android:id="@+id/tvLastMessage"
-                android:textColor="@color/text_item_chat"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ellipsize="end"
+                android:fontFamily="@font/roboto"
                 android:maxLines="1"
+                android:textSize="15sp"
                 android:paddingTop="0dp"
-                android:text="Последнее сообщение  " />
+                android:text="Последнее сообщение"
+                android:textColor="@color/text_item_chat"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
@@ -89,34 +95,36 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="end"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="10dp"
         android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvTime"
-                android:textColor="@color/time_chat_list"
-                android:fontFamily="@font/inter_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
                 android:gravity="end"
                 android:paddingStart="0dp"
-                android:paddingTop="19dp"
+                android:paddingTop="14dp"
                 android:paddingEnd="0dp"
-                android:paddingBottom="6dp"
+                android:paddingBottom="4dp"
+                android:layout_marginBottom="1dp"
                 android:text="09:00"
-                android:textSize="12dp" />
+                android:textColor="@color/time_chat_list"
+                android:textSize="14sp" />
+
             <TextView
-                android:textColor="@color/color_chat_list_messageCount"
                 android:id="@+id/messageCount"
-                android:background="@drawable/messege_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
+                android:background="@drawable/messege_count"
+                android:fontFamily="@font/roboto"
                 android:paddingStart="7dp"
                 android:paddingEnd="7dp"
                 android:text="2"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textSize="10dp" />
+                android:textColor="@color/color_chat_list_messageCount"
+                android:textSize="15sp" />
     </LinearLayout>
 
     </LinearLayout>

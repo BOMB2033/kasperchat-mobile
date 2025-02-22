@@ -29,6 +29,7 @@ class ChatsListFragment : Fragment(),ChatAdapter.OnItemClickListener {
 
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

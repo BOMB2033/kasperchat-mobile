@@ -27,9 +27,12 @@
     <color name="pressed_registration_text_view">#82B4C8</color>
     <color name="time_chat_list">#1A1A1A</color>
     <color name="link_register">#7B97AF</color>
-    <color name="color_chat_list_messageCount">#BBBEC3</color>
+    <color name="color_chat_list_messageCount">#FFFFFF</color>
     <color name="color_message_count">#ff8b00</color>
-    <color name="color_item_message_send">#66BCFF</color>
-    <color name="color_time_message">#F0FCFF</color>
-    <color name="color_message_text">#000000</color>
+    <color name="color_item_message_send">#202D3E</color>
+    <color name="color_item_message_shadow_send">#181616</color>
+    <color name="color_time_message">#FFFFFF</color>
+    <color name="color_message_text">#FFFFFF</color>
+    <color name="background_chat">#FAFAFAFA</color>
+    <color name="color_message_indicator">#446B9E</color>
 </resources>
