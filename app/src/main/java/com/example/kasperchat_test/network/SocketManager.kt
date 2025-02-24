@@ -7,14 +7,11 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
-import java.io.InputStream
 import java.io.PrintWriter
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.SocketAddress
-import java.net.SocketException
-import java.net.SocketTimeoutException
 import java.util.Locale
 
 interface SocketManagerInterface {
@@ -36,6 +33,7 @@ class SocketManager(
 
     private var socket: Socket? = null
 
+    public var myUserId: String = "null"
     suspend fun connect(endPoint: SocketAddress = _endPoint): Boolean {
         return withContext(Dispatchers.IO) {
             try {
