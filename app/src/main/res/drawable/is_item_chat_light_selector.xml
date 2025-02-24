@@ -3,21 +3,25 @@
     <item android:state_selected="true" android:state_activated="true"  android:state_focused="true" android:state_checkable="true" android:state_checked="true" >
         <shape
             android:shape="rectangle">
-            <corners android:radius="16dp" /> <!-- Радиус закругления углов -->
-            <solid android:color="@color/background_color_login_screen_light"/>
+            <corners android:radius="0dp" /> <!-- Радиус закругления углов -->
+            <solid android:color="@color/select_item_chat_list"/>
         </shape>
     </item>
     <!-- Нажатое состояние -->
 
 
+    <item android:state_selected="false" android:state_activated="false"  android:state_focused="false" android:state_checkable="false" android:state_checked="false">
 
-    <item  >
-        <shape
+        <layer-list>
 
-            android:shape="rectangle">
-            <corners android:radius="16dp" />
-            <solid android:color="@color/night_item_chat_list"/> <!-- Радиус закругления углов -->
-        </shape>
+            <item android:bottom="0dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/item_chat_list" />
+                    <corners android:radius="0dp" />
+                </shape>
+            </item>
+        </layer-list>
+
     </item>
     <!-- Не нажатое состояние -->
 

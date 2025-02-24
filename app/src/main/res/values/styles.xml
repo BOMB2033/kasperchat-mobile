@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
     <resources>
     <style name="EditStyleColor" parent="Theme.KasperChatTest">
-        <item name="android:textColor">@color/text_color_login_edit_text_light</item>
+        <item name="android:textColor">@color/text_color_login_edit_text</item>
         <item name="android:textColorHint">@drawable/selector_hint_edit_text_light</item>
         <item name="android:background">@drawable/is_edit_light</item>
     </style>
@@ -14,43 +14,18 @@
         <item name="android:fontFamily">@font/signikanegative_sc_regular</item>
     </style>
 
-    <style name="window_login" parent="Theme.KasperChatTest">
-        <item name="android:background">@color/background_color_login_screen_light</item>
+    <style name="options_button" parent="Theme.KasperChatTest">
+        <item name="android:src">@drawable/options_light</item>
     </style>
 
-    <style name="logo_login" parent="Theme.KasperChatTest">
-        <item name="android:tint">@color/logo_text_light</item>
+    <style name="search_button" parent="Theme.KasperChatTest">
+        <item name="android:src">@drawable/search_light</item>
     </style>
 
-    <style name="item_chat_list" parent="Theme.KasperChatTest">
-<!--        <item name="android:background">@drawable/is_item_chat_light_selector</item>-->
-
-<!--        <item name="android:selectableItemBackground">@color/light_select_item_chat_list</item>-->
+    <style name="add_channel_button" parent="Theme.KasperChatTest">
+        <item name="android:src">@drawable/add_channel_light</item>
     </style>
 
-    <style name="text_logo" parent="Theme.KasperChatTest">
-     <item name="android:textColor">@color/logo_text_light</item>
-    </style>
-
-    <style name="chat_list_background" parent="Theme.KasperChatTest">
-        <item name="android:background">@color/chat_list_background_light</item>
-    </style>
-
-    <style name="chat_name_text_item" parent="Theme.KasperChatTest">
-        <item name="android:textColor">@color/name_item_chat_light</item>
-    </style>
-
-    <style name="chat_text_item" parent="Theme.KasperChatTest">
-        <item name="android:textColor">@color/text_item_chat_light</item>
-    </style>
-
-    <style name="time_chat_list" parent="Theme.KasperChatTest">
-        <item name="android:textColor">@color/time_chat_list_light</item>
-    </style>
-
-    <style name="link_register" parent="Theme.KasperChatTest">
-        <item name="android:textColor">@drawable/my_text_link_register_selector_light</item>
-    </style>
 
 
 </resources>
