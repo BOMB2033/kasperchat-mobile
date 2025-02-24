@@ -1,5 +1,8 @@
 package com.example.kasperchat_test.fragment
 
+import com.example.kasperchat_test.network.SocketManager
+import com.example.kasperchat_test.network.SocketManagerInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,9 +11,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.kasperchat_test.R
+import com.example.kasperchat_test.background_services.NotificationCheckService
 import com.example.kasperchat_test.databinding.FragmentLoginBinding
-import com.example.kasperchat_test.network.SocketManager
-import com.example.kasperchat_test.network.SocketManagerInterface
 import kotlinx.coroutines.runBlocking
 
 // TODO: Rename parameter arguments, choose names that match
@@ -26,10 +28,11 @@ private const val ARG_PARAM2 = "param2"
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var socketManager: SocketManager
+    private lateinit var serviceIntent:Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        socketManager = (requireActivity().application as SocketManagerInterface).socketManager
     }
 
     override fun onCreateView(
@@ -43,19 +46,17 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        socketManager = (requireActivity() as SocketManagerInterface).socketManager
-        runBlocking {
-            if(socketManager.connect()){
-                Log.i("Socket","Successful connection")
-            }else{
-                Log.i("Socket","Failed connection")
-            }
-       //     socketManager.connect()
-        }
+
         with(binding){
             buttonLogin.setOnClickListener {
+                serviceIntent = Intent(context, NotificationCheckService::class.java)
+                requireContext().startService(serviceIntent)
                 runBlocking {
-
+                    if(socketManager.connect()){
+                        Log.i("Socket","Successful connection")
+                    }else{
+                        Log.i("Socket","Failed connection")
+                    }
                 }
                /* Thread{
                     val inputStream = socket.getInputStream()
