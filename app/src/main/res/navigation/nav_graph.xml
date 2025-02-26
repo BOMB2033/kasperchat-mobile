@@ -21,7 +21,11 @@
         android:id="@+id/chatFragment"
         android:name="com.example.kasperchat_test.fragment.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <argument
+            android:name="chatId"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/preferensFragment"
         android:name="com.example.kasperchat_test.fragment.PreferenceFragment"

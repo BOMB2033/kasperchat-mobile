@@ -5,29 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.FragmentChatsListBinding
-import com.example.kasperchat_test.ui.adapter.ChatAdapter
-import com.example.kasperchat_test.ui.adapter.ChatItem
+import com.example.kasperchat_test.ui.adapter.chatelement.ChatAdapter
+import com.example.kasperchat_test.ui.adapter.chatelement.ChatItem
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ChatsListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ChatsListFragment : Fragment(),ChatAdapter.OnItemClickListener {
+class ChatsListFragment : Fragment() {
     private lateinit var binding: FragmentChatsListBinding
     private lateinit var chatAdapter: ChatAdapter
     private val chatItems = mutableListOf<ChatItem>()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
 
     override fun onCreateView(
@@ -40,59 +36,42 @@ class ChatsListFragment : Fragment(),ChatAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding){
-            binding.rvChats.layoutManager = LinearLayoutManager(requireContext())
+            rvChats.layoutManager = LinearLayoutManager(requireContext())
             // Инициализация данных
-            chatItems.add(ChatItem("Иосиф Виссарионович", "Я подключился, ща разберусь в управлении", "12:00"))
-            chatItems.add(ChatItem("Мария", "Я родила!", "12:00"))
-            chatItems.add(ChatItem("Малыш", "Я выпал, толстяк скоро за мной прилетит", "19:00"))
-            chatItems.add(ChatItem("Дарт Вейдер", "Люк, я твой отец! (И у меня проблемы с дыханием)", "19:00"))
-            chatItems.add(ChatItem("Терминатор", "Hasta la vista, baby! (И да, я вернусь)", "00:00"))
-            chatItems.add(ChatItem("Нео", "Я знаю кунг-фу! (И где тут выход из Матрицы?)", "10:00"))
-            chatItems.add(ChatItem("Гарри Поттер", "Авада Кедавра! (Ой, не туда)", "15:00"))
-            chatItems.add(ChatItem("Шерлок Холмс", "Элементарно, Ватсон! (Но где мой чай?)", "09:00"))
-            chatItems.add(ChatItem("Доктор Кто", "Времени мало, а планет много! (И где моя отвертка?)", "11:11"))
-            chatItems.add(ChatItem("Джон Сноу", "Ты ничего не знаешь, Джон Сноу! (А я знаю, что зима близко)", "13:00"))
-            chatItems.add(ChatItem("Король Джулиан", "Я люблю двигать телом! (И у меня есть корона)", "17:00"))
-            chatItems.add(ChatItem("Баба Яга", "Опять избушка на курьих ножках забарахлила! Где мой ступа-то?", "10:00"))
-            chatItems.add(ChatItem("Илья Муромец", "Сижу на печи, жду, когда тридцать лет пройдет...", "09:00"))
-            chatItems.add(ChatItem("Кот Баюн", "Сказки сказывать - не мешки ворочать. Но я постараюсь...", "14:00"))
-            chatItems.add(ChatItem("Змей Горыныч", "Опять все три головы спорят, куда лететь...", "16:00"))
-            chatItems.add(ChatItem("Василиса Прекрасная", "Ищу лягушачью кожу, кто видел?", "11:00"))
-            chatItems.add(ChatItem("Емеля", "По щучьему велению, по моему хотению, пусть чат заработает!", "12:00"))
-            chatItems.add(ChatItem("Богатырь", "Есть ли тут супостаты, с кем силушкой померяться?", "18:00"))
-            chatItems.add(ChatItem("Снегурочка", "Дедушка Мороз опять где-то застрял, а подарки сами себя не разнесут!", "15:00"))
-            chatItems.add(ChatItem("Александр Сергеевич", "Что-то муза меня сегодня не посещает... Может, чаю?", "19:00"))
-            chatAdapter = ChatAdapter(chatItems, object : ChatAdapter.OnItemClickListener{
+            chatItems.add(ChatItem("0000001",
+                "Я подключился, ща разберусь в управлении",
+                stringToTimestamp("27.10.2023 10:30"),
+                "Fedor Kasper",
+                1
+                ))
+            chatItems.add(ChatItem("0000002",
+                "Привет как дела?",
+                stringToTimestamp("13.12.2024 14:33"),
+                "Yozhik Ron",
+                4
+            ))
+
+            chatAdapter = ChatAdapter(object : ChatAdapter.OnItemClickListener{
                 override fun onItemClick(chatItem: ChatItem) {
-                    
+                    val action = ChatsListFragmentDirections.actionChatsListFragmentToChatFragment(chatItem.chatId)
+                    view.findNavController().navigate(action)
                 }
 
             })
+            chatAdapter.submitList(chatItems)
             binding.rvChats.adapter = chatAdapter
         }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ChatsListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ChatsListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-
-    override fun onItemClick(chatItem: ChatItem) {
-        TODO("Not yet implemented")
+    private fun stringToTimestamp(dateTimeString: String, pattern: String = "dd.MM.yyyy HH:mm"): Long {
+        return try {
+            val formatter = DateTimeFormatter.ofPattern(pattern)
+            val localDateTime = LocalDateTime.parse(dateTimeString, formatter)
+            val zonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.systemDefault())
+            zonedDateTime.toInstant().toEpochMilli()
+        } catch (e: DateTimeParseException) {
+            println("Error parsing date and time: ${e.message}")
+            System.currentTimeMillis()
+        }
     }
 }

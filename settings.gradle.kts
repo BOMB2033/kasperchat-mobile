@@ -1,4 +1,7 @@
 pluginManagement {
+    plugins{
+        id("androidx.navigation.safeargs") apply false
+    }
     repositories {
         google {
             content {

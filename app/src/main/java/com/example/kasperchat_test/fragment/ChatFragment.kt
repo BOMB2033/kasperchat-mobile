@@ -1,28 +1,27 @@
 package com.example.kasperchat_test.fragment
 
+import MessagesAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kasperchat_test.databinding.FragmentChatBinding
+import com.example.kasperchat_test.fillMessageItemsWithTestData
+import com.example.kasperchat_test.ui.adapter.message.MessageItem
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_CHAT_ID = "chatId"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ChatFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
+    private var chatId: String? = null
+    private lateinit var messagesAdapter: MessagesAdapter
+    private val messagesItems = mutableListOf<MessageItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        chatId = arguments?.getString(ARG_CHAT_ID)
     }
 
     override fun onCreateView(
@@ -36,27 +35,26 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding){
-            
+            rvMessages.layoutManager = LinearLayoutManager(requireContext())
+
+            fillMessageItemsWithTestData(messagesItems)
+            messagesAdapter = MessagesAdapter(object : MessagesAdapter.OnItemClickListener{
+                override fun onItemClick(chatItem: MessageItem) {
+                    // TODO("Not yet implemented")
+                }
+
+            })
+            messagesAdapter.submitList(messagesItems)
+            rvMessages.adapter = messagesAdapter
         }
     }
 
-
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ChatFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(chatId: String) =
             ChatFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(ARG_CHAT_ID, chatId)
                 }
             }
     }
