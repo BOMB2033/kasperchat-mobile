@@ -40,7 +40,7 @@
             android:layout_marginEnd="3dp"
             android:fontFamily="@font/roboto"
             android:maxEms="15"
-            android:text="сообщение собеседника"
+            android:text="сообщение собеседнфывфывыффывфывфывфывфика"
             android:textColor="@color/color_message_text"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
