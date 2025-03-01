@@ -1,3 +1,5 @@
+package com.example.kasperchat_test.ui.adapter.message
+
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -10,17 +12,24 @@ import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.ItemMessageBinding
 import com.example.kasperchat_test.network.SocketManagerInterface
 import com.example.kasperchat_test.ui.adapter.ItemDiffCallback
-import com.example.kasperchat_test.ui.adapter.message.MessageItem
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+
+enum class TypeBorderMessage{
+    Lonely,
+    First,
+    Midl,
+    Last
+}
 
 class MessagesAdapter(private val onItemClickListener: OnItemClickListener) :
     RecyclerView.Adapter<MessagesAdapter.MessageViewHolder>() {
 
     private var messageItems: List<MessageItem> = emptyList()
     private var previousMessageItem: MessageItem? = null
+    private var nextMessageItem: MessageItem? = null
 
     fun submitList(newItems: List<MessageItem>) {
         val diffCallback = ItemDiffCallback(messageItems, newItems)
@@ -37,8 +46,32 @@ class MessagesAdapter(private val onItemClickListener: OnItemClickListener) :
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         val currentItem = messageItems[position]
-        holder.bind(currentItem, previousMessageItem, onItemClickListener)
-        previousMessageItem = currentItem
+
+        nextMessageItem =
+            if (position < messageItems.size - 1)
+                if (messageItems[position + 1].authorId == currentItem.authorId)
+                    if (messageItems[position + 1].timestamp - currentItem.timestamp < 60000)
+                        messageItems[position + 1]
+                    else
+                        null
+                else
+                    null
+            else
+                null
+
+        previousMessageItem =
+            if (position != 0)
+                if (messageItems[position - 1].authorId == currentItem.authorId)
+                    if (currentItem.timestamp - messageItems[position - 1].timestamp < 60000)
+                        messageItems[position - 1]
+                    else
+                        null
+                else
+                    null
+            else
+                null
+
+        holder.bind(currentItem, previousMessageItem, nextMessageItem, onItemClickListener)
     }
 
     override fun getItemCount(): Int = messageItems.size
@@ -49,60 +82,53 @@ class MessagesAdapter(private val onItemClickListener: OnItemClickListener) :
 
     class MessageViewHolder(private val binding: ItemMessageBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(messageItem: MessageItem, previousMessageItem: MessageItem?, clickListener: OnItemClickListener) {
+        fun bind(currentMessageItem: MessageItem, previousMessageItem: MessageItem?, nextMessageItem: MessageItem?, clickListener: OnItemClickListener) {
             with(binding) {
-                messageText.text = messageItem.text
-
+                messageText.text = currentMessageItem.text
                 messageText.post {
                     linearLayoutMessageTime.orientation =
                         if (messageText.lineCount == 1) LinearLayout.HORIZONTAL else LinearLayout.VERTICAL
                 }
-                timestamp.text = formatTimestamp(messageItem.timestamp)
+                timestamp.text = formatTimestamp(currentMessageItem.timestamp)
                 root.setOnClickListener {
-                    clickListener.onItemClick(messageItem)
+                    clickListener.onItemClick(currentMessageItem)
                 }
-                val isMyMessage = messageItem.authorId == (itemView.context.applicationContext as SocketManagerInterface).socketManager.myUserId
 
-
-                val isSameAuthorAndWithinMinute = previousMessageItem != null &&
-                        previousMessageItem.authorId == messageItem.authorId &&
-                        messageItem.timestamp - previousMessageItem.timestamp < 60000
-
+                val isMyMessage = currentMessageItem.authorId == (itemView.context.applicationContext as SocketManagerInterface).socketManager.myUserId
                 root.gravity = if (isMyMessage) Gravity.END else Gravity.START
 
-
-
-
-                // Выбираем подходящий фон
-                val backgroundDrawable = when {
-                    isMyMessage && !isSameAuthorAndWithinMinute -> R.drawable.item_message_shape_my_lonely
-                    isMyMessage && isSameAuthorAndWithinMinute -> R.drawable.item_message_shape_my_midl
-                    !isMyMessage && !isSameAuthorAndWithinMinute -> R.drawable.item_message_shape_lonely
-                    else -> R.drawable.item_message_shape_midl
+                val typeBorderMessage=  when{
+                    previousMessageItem == null && nextMessageItem != null -> TypeBorderMessage.First
+                    previousMessageItem != null && nextMessageItem != null -> TypeBorderMessage.Midl
+                    previousMessageItem != null && nextMessageItem == null -> TypeBorderMessage.Last
+                    else -> TypeBorderMessage.Lonely
                 }
-                // Устанавливаем фон
-                messageContainer.background = ContextCompat.getDrawable(root.context, backgroundDrawable)
-                  // Настраиваем отступы для messageContainer
-                val messageContainerParams = messageContainer.layoutParams as ViewGroup.MarginLayoutParams
-                if (!isMyMessage && isSameAuthorAndWithinMinute) {
-                    // Добавляем отступ слева для сообщений собеседника без "хвостика"
-                    messageContainerParams.marginStart = root.context.resources.getDimensionPixelSize(R.dimen.message_indent)
-                } else {
-                    // Убираем отступ слева для всех остальных случаев
-                    messageContainerParams.marginStart = 0
-                }
-                messageContainer.layoutParams = messageContainerParams
+                avatar.visibility = if (typeBorderMessage == TypeBorderMessage.Lonely  || typeBorderMessage == TypeBorderMessage.First  || isMyMessage) View.GONE else View.VISIBLE
 
-                   // Настраиваем видимость аватара
-                avatar.visibility = if (isSameAuthorAndWithinMinute || isMyMessage) View.GONE else View.VISIBLE
+                messageContainer.background = ContextCompat.getDrawable(root.context, when(typeBorderMessage) {
+                    TypeBorderMessage.Lonely -> R.drawable.item_message_shape_without_tail // TODO Сюда установить картинку одиночного сообщения
+                    TypeBorderMessage.First -> R.drawable.item_message_shape_my_without_tail // TODO Сюда установить картинку первого сообщения
+                    TypeBorderMessage.Midl -> R.drawable.item_message_shape_my_without_tail // TODO Сюда установить картинку среднего сообщения
+                    TypeBorderMessage.Last -> R.drawable.item_message_shape_my_without_tail // TODO Сюда установить картинку последнего сообщения
+                })
+
+                val marginLayoutParams = messageContainer.layoutParams as ViewGroup.MarginLayoutParams
+                marginLayoutParams.marginStart =
+                    when(typeBorderMessage){
+                        TypeBorderMessage.Lonely -> root.context.resources.getDimensionPixelSize(R.dimen.message_no_indent)
+                        TypeBorderMessage.First -> root.context.resources.getDimensionPixelSize(R.dimen.message_no_indent)
+                        TypeBorderMessage.Midl -> root.context.resources.getDimensionPixelSize(R.dimen.message_indent)
+                        TypeBorderMessage.Last -> root.context.resources.getDimensionPixelSize(R.dimen.message_indent)
+                    }
+                messageContainer.layoutParams = marginLayoutParams
 
                 val layoutParams = root.layoutParams as ViewGroup.MarginLayoutParams
-
-                layoutParams.topMargin = if (isSameAuthorAndWithinMinute)
-                     root.context.resources.getDimensionPixelSize(R.dimen.message_margin_small)
-                 else
-                    root.context.resources.getDimensionPixelSize(R.dimen.message_margin_large)
-
+                layoutParams.topMargin = when(typeBorderMessage){
+                    TypeBorderMessage.Lonely -> R.dimen.message_margin_large
+                    TypeBorderMessage.First -> R.dimen.message_margin_large
+                    TypeBorderMessage.Midl -> R.dimen.message_margin_small
+                    TypeBorderMessage.Last -> R.dimen.message_margin_small
+                }
                 root.layoutParams = layoutParams
             }
         }
