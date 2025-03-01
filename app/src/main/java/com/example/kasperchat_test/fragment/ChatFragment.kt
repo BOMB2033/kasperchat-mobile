@@ -1,6 +1,6 @@
 package com.example.kasperchat_test.fragment
 
-import MessagesAdapter
+import com.example.kasperchat_test.ui.adapter.message.MessagesAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
