@@ -75,10 +75,10 @@ class MessagesAdapter(private val onItemClickListener: OnItemClickListener) :
 
                 // Выбираем подходящий фон
                 val backgroundDrawable = when {
-                    isMyMessage && !isSameAuthorAndWithinMinute -> R.drawable.item_message_shape_my
-                    isMyMessage && isSameAuthorAndWithinMinute -> R.drawable.item_message_shape_my_without_tail
-                    !isMyMessage && !isSameAuthorAndWithinMinute -> R.drawable.item_message_shape
-                    else -> R.drawable.item_message_shape_without_tail
+                    isMyMessage && !isSameAuthorAndWithinMinute -> R.drawable.item_message_shape_my_lonely
+                    isMyMessage && isSameAuthorAndWithinMinute -> R.drawable.item_message_shape_my_midl
+                    !isMyMessage && !isSameAuthorAndWithinMinute -> R.drawable.item_message_shape_lonely
+                    else -> R.drawable.item_message_shape_midl
                 }
                 // Устанавливаем фон
                 messageContainer.background = ContextCompat.getDrawable(root.context, backgroundDrawable)
