@@ -106,10 +106,10 @@ class MessagesAdapter(private val onItemClickListener: OnItemClickListener) :
                 avatar.visibility = if (typeBorderMessage == TypeBorderMessage.Lonely  || typeBorderMessage == TypeBorderMessage.First  || isMyMessage) View.GONE else View.VISIBLE
 
                 messageContainer.background = ContextCompat.getDrawable(root.context, when(typeBorderMessage) {
-                    TypeBorderMessage.Lonely -> R.drawable.item_message_shape_without_tail // TODO Сюда установить картинку одиночного сообщения
-                    TypeBorderMessage.First -> R.drawable.item_message_shape_my_without_tail // TODO Сюда установить картинку первого сообщения
-                    TypeBorderMessage.Midl -> R.drawable.item_message_shape_my_without_tail // TODO Сюда установить картинку среднего сообщения
-                    TypeBorderMessage.Last -> R.drawable.item_message_shape_my_without_tail // TODO Сюда установить картинку последнего сообщения
+                    TypeBorderMessage.Lonely -> R.drawable.item_message_shape_lonely // TODO Сюда установить картинку одиночного сообщения
+                    TypeBorderMessage.First -> R.drawable.item_message_my_first // TODO Сюда установить картинку первого сообщения
+                    TypeBorderMessage.Midl -> R.drawable.item_message_shape_midl // TODO Сюда установить картинку среднего сообщения
+                    TypeBorderMessage.Last -> R.drawable.it // TODO Сюда установить картинку последнего сообщения
                 })
 
                 val marginLayoutParams = messageContainer.layoutParams as ViewGroup.MarginLayoutParams
