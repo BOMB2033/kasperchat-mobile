@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,6 +7,7 @@
     android:layout_marginHorizontal="7dp"
     android:gravity="end"
     android:layout_marginTop="5dp"
+    android:id="@+id/main_container"
     android:orientation="horizontal">
 
     <com.appbroker.roundedimageview.RoundedImageView
@@ -16,6 +16,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="6dp"
+        android:layout_gravity="bottom"
         app:radius="9dp"
         android:src="@drawable/ic_avatar"/>
 
@@ -24,52 +25,51 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:layout_gravity="end"
+        android:gravity="center"
+        android:background="@drawable/item_message_shape_first">
 
-        android:background="@drawable/item_message_shape_lonely">
+        <LinearLayout
+            android:id="@+id/linearLayout_message_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
 
-    <LinearLayout
-        android:id="@+id/linearLayout_message_time"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="4dp"
-        android:orientation="horizontal"
-        tools:ignore="UselessParent">
+            <TextView
+                android:id="@+id/message_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/roboto"
+                android:maxEms="15"
+                android:text="сообщение собеседнфывфывыффывфывфывфывфика"
+                android:textColor="@color/color_message_text"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/timestamp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
 
-        <TextView
-            android:id="@+id/message_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="3dp"
-            android:fontFamily="@font/roboto"
-            android:maxEms="15"
-            android:text="сообщение собеседнфывфывыффывфывфывфывфика"
-            android:textColor="@color/color_message_text"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/timestamp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="HardcodedText" />
+            <TextView
+                android:id="@+id/timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:fontFamily="@font/roboto"
+                android:text="12:00"
+                android:textColor="@color/color_time_message"
+                android:textSize="11sp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/message_text"
+                tools:ignore="HardcodedText" />
 
-        <TextView
-            android:id="@+id/timestamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:fontFamily="@font/roboto"
-            android:text="12:00"
-            android:textColor="@color/color_time_message"
-            android:textSize="11sp"
-            android:layout_marginStart="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/message_text"
-            tools:ignore="HardcodedText" />
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
 
 </LinearLayout>

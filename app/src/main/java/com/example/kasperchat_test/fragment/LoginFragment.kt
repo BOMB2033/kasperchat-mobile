@@ -40,7 +40,8 @@ class LoginFragment : Fragment() {
 
         with(binding){
             buttonLogin.setOnClickListener {
-                serviceIntent = Intent(context, NotificationCheckService::class.java)
+                // TODO раскомментировать строки
+                /*serviceIntent = Intent(context, NotificationCheckService::class.java)
                 requireContext().startService(serviceIntent)
                 runBlocking {
                     if(socketManager.connect()){
@@ -48,20 +49,7 @@ class LoginFragment : Fragment() {
                     }else{
                         Log.i("Socket","Failed connection")
                     }
-                }
-               /* Thread{
-                    val inputStream = socket.getInputStream()
-                    var id = 0
-                    id = inputStream.read()
-                    Log.i("Input stream", id.toString())
-                    if (id == 0)
-                        return@Thread
-                    outputStream.write("ok".toByteArray())
-                    var tempString = inputStream.read().toString()
-                    Log.i("Input stream", tempString)
-
-
-                }.start()*/
+                }*/
                 it.findNavController().navigate(R.id.action_loginFragment_to_chatsListFragment)
             }
             linkRegister.setOnClickListener {

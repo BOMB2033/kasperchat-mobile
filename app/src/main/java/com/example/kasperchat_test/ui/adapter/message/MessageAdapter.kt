@@ -1,16 +1,11 @@
 package com.example.kasperchat_test.ui.adapter.message
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kasperchat_test.R
@@ -79,7 +74,9 @@ class MessagesAdapter(private val onItemClickListener: OnItemClickListener) :
         holder.bind(currentItem, previousMessageItem, nextMessageItem, onItemClickListener)
     }
 
-    override fun getItemCount(): Int = messageItems.size
+    override fun getItemCount(): Int {
+        return messageItems.size
+    }
 
     interface OnItemClickListener {
         fun onItemClick(chatItem: MessageItem)
@@ -108,22 +105,22 @@ class MessagesAdapter(private val onItemClickListener: OnItemClickListener) :
                     previousMessageItem != null && nextMessageItem == null -> TypeBorderMessage.Last
                     else -> TypeBorderMessage.Lonely
                 }
-                avatar.visibility = if (typeBorderMessage == TypeBorderMessage.Lonely  || typeBorderMessage == TypeBorderMessage.First  || isMyMessage) View.GONE else View.VISIBLE
+                avatar.visibility = if (typeBorderMessage == TypeBorderMessage.Midl  || typeBorderMessage == TypeBorderMessage.Last  || isMyMessage) View.GONE else View.VISIBLE
 
-                messageContainer.background = when (typeBorderMessage) {
+                messageContainer.setBackgroundResource(when (typeBorderMessage) {
                     TypeBorderMessage.Lonely ->
-                        if (isMyMessage) ContextCompat.getDrawable(root.context, R.drawable.item_message_shape_lonely)
-                        else getMirroredDrawable(R.drawable.item_message_shape_lonely, root.context)
+                        if (!isMyMessage) R.drawable.item_message_shape_lonely
+                        else R.drawable.item_message_shape_my_lonely
                     TypeBorderMessage.First ->
-                        if (isMyMessage) ContextCompat.getDrawable(root.context, R.drawable.item_message_first)// TODO переименовать на item_message_shape_first
-                        else getMirroredDrawable(R.drawable.item_message_first, root.context)// TODO переименовать на item_message_shape_first
+                        if (!isMyMessage) R.drawable.item_message_shape_first
+                        else R.drawable.item_message_shape_my_first
                     TypeBorderMessage.Midl ->
-                        if (isMyMessage) ContextCompat.getDrawable(root.context, R.drawable.item_message_shape_my_midl)
-                        else getMirroredDrawable(R.drawable.item_message_shape_my_midl, root.context)
+                        if (!isMyMessage) R.drawable.item_message_shape_midl
+                        else R.drawable.item_message_shape_my_midl
                     TypeBorderMessage.Last ->
-                        if (isMyMessage) ContextCompat.getDrawable(root.context, R.drawable.item_message_shape_lonely)// TODO Сюда установить картинку последнего сообщения
-                        else getMirroredDrawable(R.drawable.item_message_shape_lonely, root.context)// TODO Сюда установить картинку последнего сообщения
-                }
+                        if (!isMyMessage) R.drawable.item_message_shape_last
+                        else  R.drawable.item_message_shape_my_last
+                })
 
                 val marginLayoutParams = messageContainer.layoutParams as ViewGroup.MarginLayoutParams
                 marginLayoutParams.marginStart =
@@ -135,24 +132,18 @@ class MessagesAdapter(private val onItemClickListener: OnItemClickListener) :
                     }
                 messageContainer.layoutParams = marginLayoutParams
 
-                val layoutParams = root.layoutParams as ViewGroup.MarginLayoutParams
-                layoutParams.topMargin = when(typeBorderMessage){
-                    TypeBorderMessage.Lonely -> R.dimen.message_margin_large
-                    TypeBorderMessage.First -> R.dimen.message_margin_large
-                    TypeBorderMessage.Midl -> R.dimen.message_margin_small
-                    TypeBorderMessage.Last -> R.dimen.message_margin_small
-                }
-                root.layoutParams = layoutParams
-            }
-        }
+                val marginRootLayoutParams = mainContainer.layoutParams as ViewGroup.MarginLayoutParams
+                marginLayoutParams.setMargins(0,when(typeBorderMessage){
+                    TypeBorderMessage.Lonely -> root.context.resources.getDimensionPixelSize(R.dimen.message_margin_large)
+                    TypeBorderMessage.First -> root.context.resources.getDimensionPixelSize(R.dimen.message_margin_large)
+                    TypeBorderMessage.Midl -> root.context.resources.getDimensionPixelSize(R.dimen.message_margin_small)
+                    TypeBorderMessage.Last -> root.context.resources.getDimensionPixelSize(R.dimen.message_margin_small)
+                },0,0)
 
-        private fun getMirroredDrawable(drawableResId: Int, context: android.content.Context): Drawable? {
-            val originalBitmap = BitmapFactory.decodeResource(context.resources, drawableResId)
-            val matrix = Matrix().apply {
-                preScale(-1f, 1f) // Отражение по горизонтали
+                mainContainer.layoutParams = marginRootLayoutParams
+                 Log.d("MessageViewHolder", "$isMyMessage $typeBorderMessage => ${currentMessageItem.text} ")
             }
-            val mirroredBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.width, originalBitmap.height, matrix, true)
-            return BitmapDrawable(context.resources, mirroredBitmap)
+
         }
 
         private fun formatTimestamp(timestamp: Long): String {

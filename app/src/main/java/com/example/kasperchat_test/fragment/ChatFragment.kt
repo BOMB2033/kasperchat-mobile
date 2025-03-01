@@ -40,7 +40,7 @@ class ChatFragment : Fragment() {
             fillMessageItemsWithTestData(messagesItems)
             messagesAdapter = MessagesAdapter(object : MessagesAdapter.OnItemClickListener{
                 override fun onItemClick(chatItem: MessageItem) {
-                    // TODO("Not yet implemented")
+
                 }
 
             })
