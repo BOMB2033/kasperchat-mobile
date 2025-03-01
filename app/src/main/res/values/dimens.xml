@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="message_margin_small">5dp</dimen>
-    <dimen name="message_margin_large">20dp</dimen>
+    <dimen name="message_indent">35dp</dimen>
+    <dimen name="message_margin_small">2dp</dimen>
+    <dimen name="message_margin_large">5dp</dimen>
 </resources>

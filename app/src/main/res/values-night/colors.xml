@@ -31,10 +31,10 @@
     <color name="link_register">#6582A8</color>
     <color name="color_chat_list_messageCount">#FFFFFF</color>
     <color name="color_message_count">#FC2B6FA4</color>
-    <color name="color_item_message_send">#202D3E</color>
+    <color name="color_item_message_send">#262A2F</color>
     <color name="color_item_message_shadow_send">#181616</color>
-    <color name="color_time_message">#597E8C</color>
+    <color name="color_time_message">#7C8689</color>
     <color name="color_message_text">#F0FCFF</color>
-    <color name="background_chat">#1D232F</color>
+    <color name="background_chat">#181818</color>
     <color name="color_message_indicator">#18d95d</color>
 </resources>

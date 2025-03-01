@@ -23,7 +23,7 @@
         android:id="@+id/message_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:padding="8dp"
         android:layout_gravity="end"
 
         android:background="@drawable/item_message_shape">
@@ -62,6 +62,7 @@
             android:text="12:00"
             android:textColor="@color/color_time_message"
             android:textSize="11sp"
+            android:layout_marginStart="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/message_text"

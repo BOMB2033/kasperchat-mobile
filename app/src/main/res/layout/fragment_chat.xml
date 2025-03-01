@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,37 +8,49 @@
     tools:context=".fragment.ChatFragment"
     android:background="@color/background_chat">
 
+    <!-- Тулбар -->
+    <include
+        layout="@layout/toolbar_chat"
+        android:id="@+id/toolbar_include"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- RecyclerView для сообщений -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMessages"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="50"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_include"
+        app:layout_constraintBottom_toTopOf="@id/Layout_edit_massage"
         android:foreground="@drawable/shadow_list_chat"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_message" />
 
+    <!-- Область ввода сообщения -->
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/Layout_edit_massage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp"
+        android:background="@drawable/layout_edit_message"
+        android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <EditText
             android:id="@+id/editTextMessage"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/item_message_shape"
+            android:paddingTop="8dp"
+            android:textSize="18sp"
+            android:fontFamily="@font/inter_regular"
+            android:paddingStart="15dp"
+            android:textCursorDrawable="@drawable/custom_cursor"
+            android:background="@drawable/edit_message"
             android:gravity="start"
-             android:hint="Введите сообщение"
+            android:hint="Введите сообщение"
             android:inputType="textMultiLine"
-            android:minHeight="48dp"
-            android:padding="12dp" />
+            android:minHeight="40dp" />
 
         <ImageButton
             android:id="@+id/imageButton"
@@ -47,7 +60,6 @@
             app:tint="#DAE7FF"
             android:scaleType="centerInside"
             android:src="@drawable/send_icon" />
-
-
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout >
+
+</androidx.constraintlayout.widget.ConstraintLayout>

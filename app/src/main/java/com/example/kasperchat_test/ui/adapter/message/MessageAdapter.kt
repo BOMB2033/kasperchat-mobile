@@ -70,11 +70,30 @@ class MessagesAdapter(private val onItemClickListener: OnItemClickListener) :
 
                 root.gravity = if (isMyMessage) Gravity.END else Gravity.START
 
-                messageContainer.background = if (isSameAuthorAndWithinMinute)
-                     ContextCompat.getDrawable(root.context, R.drawable.item_message_shape_without_tail)
-                 else
-                    ContextCompat.getDrawable(root.context, R.drawable.item_message_shape)
 
+
+
+                // Выбираем подходящий фон
+                val backgroundDrawable = when {
+                    isMyMessage && !isSameAuthorAndWithinMinute -> R.drawable.item_message_shape_my
+                    isMyMessage && isSameAuthorAndWithinMinute -> R.drawable.item_message_shape_my_without_tail
+                    !isMyMessage && !isSameAuthorAndWithinMinute -> R.drawable.item_message_shape
+                    else -> R.drawable.item_message_shape_without_tail
+                }
+                // Устанавливаем фон
+                messageContainer.background = ContextCompat.getDrawable(root.context, backgroundDrawable)
+                  // Настраиваем отступы для messageContainer
+                val messageContainerParams = messageContainer.layoutParams as ViewGroup.MarginLayoutParams
+                if (!isMyMessage && isSameAuthorAndWithinMinute) {
+                    // Добавляем отступ слева для сообщений собеседника без "хвостика"
+                    messageContainerParams.marginStart = root.context.resources.getDimensionPixelSize(R.dimen.message_indent)
+                } else {
+                    // Убираем отступ слева для всех остальных случаев
+                    messageContainerParams.marginStart = 0
+                }
+                messageContainer.layoutParams = messageContainerParams
+
+                   // Настраиваем видимость аватара
                 avatar.visibility = if (isSameAuthorAndWithinMinute || isMyMessage) View.GONE else View.VISIBLE
 
                 val layoutParams = root.layoutParams as ViewGroup.MarginLayoutParams
