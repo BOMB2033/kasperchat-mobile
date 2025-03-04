@@ -1,5 +1,4 @@
 package com.example.kasperchat_test.ui.adapter.message
-
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater

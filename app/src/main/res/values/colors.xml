@@ -30,6 +30,8 @@
     <color name="color_chat_list_messageCount">#FFFFFF</color>
     <color name="color_message_count">#ff8b00</color>
     <color name="color_item_message_send">#202D3E</color>
+    <color name="color_item_message_incoming">#0069F2</color>
+    <color name="color_item_message_shadow_incoming">#FFF7F7</color>
     <color name="color_item_message_shadow_send">#181616</color>
     <color name="color_time_message">#FFFFFF</color>
     <color name="color_message_text">#FFFFFF</color>

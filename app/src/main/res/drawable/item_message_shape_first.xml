@@ -5,7 +5,7 @@
             <solid android:color="?color_item_message_shadow_send" />
             <corners
                 android:bottomLeftRadius="3dp"
-                android:topLeftRadius="20dp"
+                android:topLeftRadius="3dp"
                 android:bottomRightRadius="10dp"
                 android:topRightRadius="15dp"/>
 
@@ -16,7 +16,7 @@
             <solid android:color="?color_item_message_send" />
             <corners
                 android:bottomLeftRadius="3dp"
-                android:topLeftRadius="20dp"
+                android:topLeftRadius="3dp"
                 android:bottomRightRadius="10dp"
                 android:topRightRadius="15dp"/>
 

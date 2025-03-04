@@ -6,8 +6,8 @@
             <corners
                 android:bottomLeftRadius="10dp"
                 android:topLeftRadius="15dp"
-                android:bottomRightRadius="3dp"
-                android:topRightRadius="20dp"/>
+                android:bottomRightRadius="1dp"
+                android:topRightRadius="3dp"/>
 
         </shape>
     </item>
@@ -17,8 +17,8 @@
             <corners
                 android:bottomLeftRadius="10dp"
                 android:topLeftRadius="15dp"
-                android:bottomRightRadius="3dp"
-                android:topRightRadius="20dp"/>
+                android:bottomRightRadius="1dp"
+                android:topRightRadius="3dp"/>
 
         </shape>
     </item>

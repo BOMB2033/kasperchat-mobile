@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="7dp"
     android:gravity="end"
-    android:layout_marginTop="5dp"
+    android:layout_marginTop="0dp"
     android:id="@+id/main_container"
     android:orientation="horizontal">
 
@@ -15,8 +15,9 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="0dp"
-        android:layout_marginEnd="6dp"
-        android:layout_gravity="bottom"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="top"
         app:radius="9dp"
         android:src="@drawable/ic_avatar"/>
 
@@ -44,7 +45,7 @@
                 android:layout_marginEnd="3dp"
                 android:fontFamily="@font/roboto"
                 android:maxEms="15"
-                android:text="сообщение собеседнфывфывыффывфывфывфывфика"
+                android:text="сообщение собеседника"
                 android:textColor="@color/color_message_text"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
