@@ -61,7 +61,7 @@
                 android:layout_gravity="end|bottom"
                 android:fontFamily="@font/roboto"
                 android:text="12:00"
-                android:textColor="@color/color_time_message"
+
                 android:textSize="11sp"
                 android:layout_marginStart="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"

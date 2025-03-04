@@ -50,7 +50,13 @@ class ChatsListFragment : Fragment() {
                 "Yozhik Ron",
                 4
             ))
+addChannelButton.setOnClickListener {
+    it.findNavController().navigate(R.id.action_chatsListFragment_to_options_chat_group)
+}
 
+optionsButton.setOnClickListener {
+    it.findNavController().navigate(R.id.action_chatsListFragment_to_preferensFragment)
+}
             chatAdapter = ChatAdapter(object : ChatAdapter.OnItemClickListener{
                 override fun onItemClick(chatItem: ChatItem) {
                     val action = ChatsListFragmentDirections.actionChatsListFragmentToChatFragment(chatItem.chatId)

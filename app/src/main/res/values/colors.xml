@@ -30,11 +30,15 @@
     <color name="color_chat_list_messageCount">#FFFFFF</color>
     <color name="color_message_count">#ff8b00</color>
     <color name="color_item_message_send">#202D3E</color>
-    <color name="color_item_message_incoming">#0069F2</color>
-    <color name="color_item_message_shadow_incoming">#FFF7F7</color>
+    <color name="color_item_message_incoming">#2e343d</color>
+    <color name="color_item_message_shadow_incoming">#2e343d</color>
     <color name="color_item_message_shadow_send">#181616</color>
     <color name="color_time_message">#FFFFFF</color>
+    <color name="color_timestamp_send">#FFFFFF</color>
+    <color name="color_timestamp_incoming">#96999f</color>
     <color name="color_message_text">#FFFFFF</color>
     <color name="background_chat">#FAFAFAFA</color>
     <color name="color_message_indicator">#446B9E</color>
+    <color name="color_edit_message">#18d95d</color>
+    <color name="color_search_background_options">#0CE8ECF2</color>
 </resources>

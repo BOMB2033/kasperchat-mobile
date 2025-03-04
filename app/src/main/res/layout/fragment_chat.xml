@@ -12,6 +12,7 @@
     <include
         layout="@layout/toolbar_chat"
         android:id="@+id/toolbar_include"
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +54,7 @@
             android:minHeight="40dp" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/send_message"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="#00FFFFFF"

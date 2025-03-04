@@ -4,9 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/transparent"
-    android:paddingBottom="0dp"
+        android:paddingBottom="0dp"
     android:paddingStart="0dp"
     android:paddingEnd="0dp"
+    android:layout_marginEnd="3dp"
+    android:layout_marginBottom="3dp"
+    android:layout_marginStart="3dp"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -16,6 +19,7 @@
         android:background="@drawable/is_item_chat_light_selector"
         android:orientation="horizontal"
         android:clickable="true"
+        android:paddingBottom="2dp"
         android:baselineAligned="true"
         >
         <androidx.constraintlayout.widget.ConstraintLayout

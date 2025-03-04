@@ -16,6 +16,7 @@
         android:layout_height="0dp"
         android:layout_weight="5"
         android:paddingBottom="0dp"
+
         android:foreground="@drawable/shadow_list_chat"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,7 +100,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvChats"
                 tools:ignore="MissingConstraints" />
+
         </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

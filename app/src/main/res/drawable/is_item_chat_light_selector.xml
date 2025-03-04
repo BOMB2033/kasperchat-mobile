@@ -1,25 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="true" android:state_activated="true"  android:state_focused="true" android:state_checkable="true" android:state_checked="true" >
-        <shape
-            android:shape="rectangle">
-            <corners android:radius="0dp" /> <!-- Радиус закругления углов -->
-            <solid android:color="@color/select_item_chat_list"/>
-        </shape>
+    <item android:state_pressed="true" >
+        <layer-list>
+
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="#202935" />
+                    <corners android:radius="10dp" />
+                </shape>
+            </item>
+            <!-- bottom shadow with gradient -->
+            <item android:bottom="4dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/select_item_chat_list"/>
+                    <corners android:radius="10dp" />
+                </shape>
+            </item>
+
+        </layer-list>
+
     </item>
     <!-- Нажатое состояние -->
 
-
-    <item android:state_selected="false" android:state_activated="false"  android:state_focused="false" android:state_checkable="false" android:state_checked="false">
+    <item android:state_pressed="false">
 
         <layer-list>
 
-            <item android:bottom="0dp">
+            <item>
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/item_chat_list" />
-                    <corners android:radius="0dp" />
+                    <solid android:color="#202935" />
+                    <corners android:radius="10dp" />
                 </shape>
             </item>
+            <!-- bottom shadow with gradient -->
+            <item android:bottom="4dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/item_chat_list"/>
+                    <corners android:radius="10dp" />
+                </shape>
+            </item>
+
         </layer-list>
 
     </item>

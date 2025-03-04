@@ -1,14 +1,374 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.PreferenceFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+        android:id="@+id/scroll_view_settings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout >
+        <LinearLayout
+            android:id="@+id/layout_account_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@color/background_color_login_screen">
+
+            <!-- Настройки учетной записи -->
+            <TextView
+                android:id="@+id/text_title_account_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Настройки учетной записи"
+                android:textSize="18sp"
+                android:textColor="#1976D2"
+                android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/layout_profile_photo_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_profile_photo_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Фото профиля"/>
+                <Button
+                    android:id="@+id/button_change_profile_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Изменить"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_username_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_username_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Имя пользователя"/>
+                <EditText
+                    android:id="@+id/edit_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Введите имя"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_status_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_status_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Статус"/>
+                <EditText
+                    android:id="@+id/edit_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Введите статус"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_account_actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <Button
+                    android:id="@+id/button_logout_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Выйти"
+                    android:layout_marginTop="8dp"/>
+                <Button
+                    android:id="@+id/button_delete_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Удалить"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider_account_settings"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Настройки уведомлений -->
+            <TextView
+                android:id="@+id/text_title_notifications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Настройки уведомлений"
+                android:textSize="18sp"
+                android:textColor="#1976D2"
+                android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/layout_enable_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_enable_notifications_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Включить уведомления"/>
+                <CheckBox
+                    android:id="@+id/checkbox_enable_notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_notification_sound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_notification_sound_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Звук уведомления"/>
+                <Spinner
+                    android:id="@+id/spinner_notification_sound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_vibration_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_vibration_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Вибрация"/>
+                <CheckBox
+                    android:id="@+id/checkbox_vibration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Настройки чата -->
+            <TextView
+                android:id="@+id/text_title_chat_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Настройки чата"
+                android:textSize="18sp"
+                android:textColor="#1976D2"
+                android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/layout_font_size_chat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_font_size_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Размер шрифта"/>
+                <SeekBar
+                    android:id="@+id/seekbar_font_size"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="10"
+                    android:progress="5"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_message_color_chat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_message_color_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Цвет сообщений"/>
+                <Button
+                    android:id="@+id/button_choose_message_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Выбрать цвет"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_read_receipts_chat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_read_receipts_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Отображать аватар собеседников в групах"/>
+                <Switch
+                    android:id="@+id/switch_read_receipts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider_chat_settings"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Настройки конфиденциальности -->
+            <TextView
+                android:id="@+id/text_title_privacy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Конфиденциальность"
+                android:textSize="18sp"
+                android:textColor="#1976D2"
+                android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/layout_profile_visibility_privacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_profile_visibility_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Кто видит профиль"/>
+                <Spinner
+                    android:id="@+id/spinner_profile_visibility"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_show_last_seen_privacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_show_last_seen_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Показывать время входа"/>
+                <Switch
+                    android:id="@+id/switch_show_last_seen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider_privacy"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Настройки использования данных -->
+            <TextView
+                android:id="@+id/text_title_data_usage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Использование данных"
+                android:textSize="18sp"
+                android:textColor="#1976D2"
+                android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/layout_auto_download_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_auto_download_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Автозагрузка медиа"/>
+                <CheckBox
+                    android:id="@+id/checkbox_auto_download"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <!-- Настройки безопасности -->
+            <TextView
+                android:id="@+id/text_title_security"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Безопасность"
+                android:textSize="18sp"
+                android:textColor="#1976D2"
+                android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/layout_two_factor_auth_security"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/text_two_factor_auth_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Двухфакторная аутентификация"/>
+                <Switch
+                    android:id="@+id/switch_two_factor_auth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

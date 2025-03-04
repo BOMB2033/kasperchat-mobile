@@ -29,17 +29,24 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View
+
+    {
         binding = FragmentLoginBinding.inflate(inflater,container,false)
         return binding.root
+
     }
+
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding){
+
             buttonLogin.setOnClickListener {
+
                 // TODO раскомментировать строки
                 /*serviceIntent = Intent(context, NotificationCheckService::class.java)
                 requireContext().startService(serviceIntent)
@@ -55,6 +62,7 @@ class LoginFragment : Fragment() {
             linkRegister.setOnClickListener {
                 it.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
             }
+
         }
     }
 
