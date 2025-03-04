@@ -1,5 +1,6 @@
 package com.example.kasperchat_test.ui.adapter.message
 import android.util.Log
+import android.content.res.ColorStateList
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -106,6 +107,11 @@ class MessagesAdapter(private val onItemClickListener: OnItemClickListener) :
                 }
                 avatar.visibility = if (typeBorderMessage == TypeBorderMessage.Midl  || typeBorderMessage == TypeBorderMessage.Last  || isMyMessage) View.GONE else View.VISIBLE
 
+                val color = root.context.getColor(if (isMyMessage) R.color.color_item_message_send else R.color.color_item_message_incoming)
+                messageContainer.backgroundTintList = ColorStateList.valueOf(color)
+
+
+
                 messageContainer.setBackgroundResource(when (typeBorderMessage) {
                     TypeBorderMessage.Lonely ->
                         if (!isMyMessage) R.drawable.item_message_shape_lonely
@@ -121,6 +127,7 @@ class MessagesAdapter(private val onItemClickListener: OnItemClickListener) :
                         else  R.drawable.item_message_shape_my_last
                 })
 
+                
                 val marginLayoutParams = messageContainer.layoutParams as ViewGroup.MarginLayoutParams
                 marginLayoutParams.marginStart =
                     when(typeBorderMessage){

@@ -70,6 +70,11 @@ dependencies {
     testImplementation("androidx.room:room-testing:2.5.2")
 }
 dependencies {
+
+
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
+
     implementation (libs.circleimageview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
