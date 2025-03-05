@@ -31,5 +31,4 @@ private fun bytesToHex(bytes: ByteArray): String {
     }
     return String(hexChars)
 }
-
 private val HEX_ARRAY = "0123456789ABCDEF".toCharArray()

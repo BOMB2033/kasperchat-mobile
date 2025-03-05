@@ -110,7 +110,7 @@ class MessagesAdapter(
                     clickListener.onItemClick(currentMessageItem)
                 }
 
-                // Обработка долгого нажатия
+                // Обработка долгого нажатия 
                 root.setOnLongClickListener {
                     showPopupMenu(it, adapterPosition, currentMessageItem)
                     true

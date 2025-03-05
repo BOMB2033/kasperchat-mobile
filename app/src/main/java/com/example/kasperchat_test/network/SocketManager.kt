@@ -12,6 +12,8 @@ import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.SocketAddress
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import java.util.Locale
 
 interface SocketManagerInterface {
@@ -34,6 +36,7 @@ class SocketManager(
     private var socket: Socket? = null
 
     public var myUserId: String = "null"
+
     suspend fun connect(endPoint: SocketAddress = _endPoint): Boolean {
         return withContext(Dispatchers.IO) {
             try {
@@ -42,8 +45,10 @@ class SocketManager(
                     return@withContext true
                 }
                 socket = Socket()
-                Log.i("Socket", "Start connect to server")
-                socket?.connect(endPoint, 3000)
+                // Устанавливаем таймаут на подключение
+                socket?.connect(endPoint, 3000) // 3 секунды таймаут
+                // Устанавливаем таймаут на чтение
+                socket?.soTimeout = 3000 // 3 секунды таймаут
                 if (socket?.isConnected == true && isSocketAlive()) {
                     Log.i("Socket", "Socket is connected and alive")
                     return@withContext true
@@ -52,13 +57,22 @@ class SocketManager(
                     disconnect()
                     return@withContext false
                 }
+            } catch (ex: SocketTimeoutException) {
+                Log.e("Socket-Exception", "Connection timeout: ${ex.message}")
+                disconnect()
+                return@withContext false
+            } catch (ex: UnknownHostException) {
+                Log.e("Socket-Exception", "Unknown host: ${ex.message}")
+                disconnect()
+                return@withContext false
             } catch (ex: Exception) {
                 Log.e("Socket-Exception", "Error: ${ex.message}")
                 disconnect()
-                false
+                return@withContext false
             }
         }
     }
+
     private suspend fun isSocketAlive(): Boolean {
         return withContext(Dispatchers.IO) {
             try {
@@ -77,6 +91,9 @@ class SocketManager(
                     Log.e("Socket", "Socket is not alive, received: $response")
                     return@withContext false
                 }
+            } catch (e: SocketTimeoutException) {
+                Log.e("Socket-Exception", "Socket aliveness check timeout: ${e.message}")
+                return@withContext false
             } catch (e: Exception) {
                 Log.e("Socket-Exception", "Error checking socket aliveness: ${e.message}")
                 return@withContext false
@@ -86,7 +103,11 @@ class SocketManager(
 
     private suspend fun disconnect() {
         withContext(Dispatchers.IO) {
-            socket?.close()
+            try {
+                socket?.close()
+            } catch (e: IOException) {
+                Log.e("Socket-Exception", "Error closing socket: ${e.message}")
+            }
             socket = null
         }
         Log.i("Socket", "Socket is closed")
@@ -123,6 +144,9 @@ class SocketManager(
             } catch (e: IOException) {
                 Log.e("Socket-Exception", "Error sending data: ${e.message}")
                 disconnect()
+            } catch (e: Exception) {
+                Log.e("Socket-Exception", "Error sending data: ${e.message}")
+                disconnect()
             }
         }
     }
@@ -140,10 +164,18 @@ class SocketManager(
                         return@withContext ""
                     }
                 } ?: ""
+            } catch (e: SocketTimeoutException) {
+                Log.e("Socket-Exception", "Read timeout: ${e.message}")
+                disconnect()
+                return@withContext ""
             } catch (e: IOException) {
                 Log.e("Socket-Exception", "Error reading data: ${e.message}")
                 disconnect()
-                ""
+                return@withContext ""
+            } catch (e: Exception) {
+                Log.e("Socket-Exception", "Error reading data: ${e.message}")
+                disconnect()
+                return@withContext ""
             }
         }
     }

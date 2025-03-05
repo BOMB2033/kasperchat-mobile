@@ -64,6 +64,11 @@ optionsButton.setOnClickListener {
                 }
 
             })
+
+            optionsButton.setOnClickListener {
+                it.findNavController().navigate(R.id.action_chatsListFragment_to_preferensFragment)
+            }
+
             chatAdapter.submitList(chatItems)
             binding.rvChats.adapter = chatAdapter
         }
