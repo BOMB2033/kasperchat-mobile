@@ -39,8 +39,9 @@
     <color name="color_timestamp_send">#FFFFFF</color>
     <color name="color_timestamp_incoming">#96999f</color>
     <color name="color_message_text">#F0FCFF</color>
-    <color name="background_chat">#202329</color>
+    <color name="background_chat">#1a222c</color>
     <color name="color_message_indicator">#18d95d</color>
-    <color name="color_edit_message">#0C427EC1</color>
-    <color name="color_search_background_options">#AB427EC1</color>
+    <color name="color_edit_message">#242F3D</color>
+    <color name="color_search_background_options">#1a222c</color>
+    <color name="background_color_options">#1a222c</color>
 </resources>

@@ -41,4 +41,5 @@
     <color name="color_message_indicator">#446B9E</color>
     <color name="color_edit_message">#18d95d</color>
     <color name="color_search_background_options">#0CE8ECF2</color>
+    <color name="background_color_options">#C6CED7</color>
 </resources>

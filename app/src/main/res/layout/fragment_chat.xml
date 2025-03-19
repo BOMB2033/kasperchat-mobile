@@ -6,13 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.ChatFragment"
-    android:background="@color/background_chat">
+    android:background="@color/black">
 
     <!-- Тулбар -->
     <include
         layout="@layout/toolbar_chat"
         android:id="@+id/toolbar_include"
-        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,11 +19,14 @@
     <!-- RecyclerView для сообщений -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMessages"
-        android:layout_width="match_parent"
+             android:layout_width="match_parent"
+        android:layout_marginTop="6dp"
         android:layout_height="0dp"
+        android:paddingEnd="4dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar_include"
         app:layout_constraintBottom_toTopOf="@id/Layout_edit_massage"
-        android:foreground="@drawable/shadow_list_chat"
+        android:background="@drawable/shadow_list_chat"
+         android:backgroundTint="@color/background_chat"
         tools:listitem="@layout/item_message" />
 
     <!-- Область ввода сообщения -->
@@ -33,16 +35,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/layout_edit_message"
-        android:padding="12dp"
+        android:background="#242f3d"
+        android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <EditText
             android:id="@+id/editTextMessage"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:paddingTop="8dp"
+            android:paddingTop="11dp"
             android:textSize="18sp"
             android:fontFamily="@font/inter_regular"
             android:paddingStart="15dp"
@@ -55,12 +57,13 @@
 
         <ImageButton
             android:id="@+id/send_message"
-            android:layout_width="50dp"
+            android:layout_width="32dp"
+            android:layout_marginEnd="6dp"
             android:layout_height="match_parent"
             android:background="#00FFFFFF"
-            app:tint="#DAE7FF"
             android:scaleType="centerInside"
-            android:src="@drawable/send_icon" />
+            android:src="@drawable/send"
+            app:tint="#516989"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
