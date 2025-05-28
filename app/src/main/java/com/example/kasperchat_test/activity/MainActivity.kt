@@ -3,6 +3,7 @@ package com.example.kasperchat_test.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kasperchat_test.databinding.ActivityMainBinding
+import com.example.kasperchat_test.network.MyApplication
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -11,5 +12,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        MyApplication.initialize(this)
     }
 }

@@ -27,7 +27,7 @@
         android:layout_width="293dp"
         android:layout_height="50dp"
         android:layout_marginTop="70dp"
-        android:id="@+id/editTextText"
+        android:id="@+id/editTextLogin"
         style="@style/EditStyle"
         android:autofillHints=""
         android:ems="10"
@@ -44,7 +44,7 @@
         android:layout_marginTop="18dp"
         android:selectAllOnFocus="true"
         android:focusableInTouchMode="true"
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/editTextPassword"
         style="@style/EditStyle"
         android:autofillHints=""
         android:ems="10"
@@ -52,7 +52,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextLogin" />
 
     <TextView
 
@@ -67,10 +67,10 @@
         android:textColor="@drawable/my_text_view_selector"
         android:textSize="14sp"
         android:clickable="true"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword"
+        app:layout_constraintEnd_toEndOf="@+id/editTextPassword"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintStart_toStartOf="@+id/editTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
 
     <TextView
