@@ -1,21 +1,47 @@
 package com.example.kasperchat_test.api
 
+import com.example.kasperchat_test.model.Chat
+import com.example.kasperchat_test.model.Link
+import com.example.kasperchat_test.model.LoginRequest
 import com.example.kasperchat_test.model.LoginResponse
 import com.example.kasperchat_test.model.Message
-import com.example.kasperchat_test.model.User
-import retrofit2.Call
+import com.example.kasperchat_test.model.UserProfile
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
 
     @POST("api/auth/login")
-    fun login(@Body user: User): Call<LoginResponse>
+    suspend fun loginUser(@Body loginRequest: LoginRequest): Response<LoginResponse>
+    @GET("api/auth/me")
+    suspend fun getCurrentUserProfile(): Response<UserProfile>
 
-    @GET("api/messages")
-    fun getMessages(): Call<List<Message>>
+    @GET("api/chats")
+    suspend fun getChats(): Response<List<Chat>>
 
-    @POST("api/messages")
-    fun sendMessage(@Body message: Message): Call<Message>
+    @GET("api/chats/{chatId}/messages")
+    suspend fun getMessagesByChatId(
+        @Path("chatId") chatId: Int
+    ): Response<List<Message>>
+
+    @GET("api/chats/{chatId}/users")
+    suspend fun getUsersByChatId(
+        @Path("chatId") chatId: Int
+    ): Response<List<UserProfile>>
+
+    @GET("api/chats/users")
+    suspend fun getUsers(): Response<List<UserProfile>>
+
+    @GET("api/chats/links")
+    suspend fun getLinks(): Response<List<Link>>
+
+    @POST("api/chats/{chatId}/messages")
+    suspend fun sendMessageToChat(
+        @Path("chatId") chatId: Int,
+        @Body content: String
+     ): Response<Message>
 }
+

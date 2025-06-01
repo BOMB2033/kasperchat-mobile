@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.ItemMessageBinding
-import com.example.kasperchat_test.network.SocketManagerInterface
+import com.example.kasperchat_test.model.Message
 import com.example.kasperchat_test.ui.adapter.ItemDiffCallback
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Date
 
 enum class TypeBorderMessage {
     Lonely,
@@ -26,103 +27,109 @@ enum class TypeBorderMessage {
     Last
 }
 
-class MessagesAdapter(
-    private val onItemClickListener: OnItemClickListener,
-    private val onItemLongClickListener: OnItemLongClickListener
-) : RecyclerView.Adapter<MessagesAdapter.MessageViewHolder>() {
+class MessageListAdapter(val chatId: Int,
+                         private var currentUserId: Int,
+                         private val onItemClickListener: OnItemClickListener,
+                         private val onItemLongClickListener: OnItemLongClickListener
+) : RecyclerView.Adapter<MessageListAdapter.MessageViewHolder>() {
 
-    private var messageItems: MutableList<MessageItem> = mutableListOf() // MutableList для изменения списка
-    private var previousMessageItem: MessageItem? = null
-    private var nextMessageItem: MessageItem? = null
+    private var messages: MutableList<Message> = mutableListOf() // MutableList для изменения списка
+    private var previousMessage: Message? = null
+    private var nextMessage: Message? = null
 
     // Обновление списка сообщений с использованием DiffUtil
-    fun submitList(newItems: List<MessageItem>) {
-        val diffCallback = ItemDiffCallback(messageItems, newItems)
+    fun submitList(newItems: List<Message>) {
+        val diffCallback = ItemDiffCallback(messages, newItems)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-        messageItems.clear()
-        messageItems.addAll(newItems)
+        messages.clear()
+        messages.addAll(newItems)
         diffResult.dispatchUpdatesTo(this)
     }
 
     // Метод для удаления сообщения
     fun removeItem(position: Int) {
-        messageItems.removeAt(position)
+        messages.removeAt(position)
         notifyItemRemoved(position)
-        notifyItemRangeChanged(position, messageItems.size) // Обновляем диапазон после удаления
+        notifyItemRangeChanged(position, messages.size) // Обновляем диапазон после удаления
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemMessageBinding.inflate(inflater, parent, false)
-        return MessageViewHolder(binding, onItemClickListener, onItemLongClickListener)
+        return MessageViewHolder(binding, currentUserId, onItemClickListener, onItemLongClickListener)
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-        val currentItem = messageItems[position]
+        val currentItem = messages[position]
 
-        nextMessageItem = if (position < messageItems.size - 1) {
-            if (messageItems[position + 1].authorId == currentItem.authorId &&
-                messageItems[position + 1].timestamp - currentItem.timestamp < 60000) {
-                messageItems[position + 1]
+        nextMessage = if (position < messages.size - 1) {
+            if (messages[position + 1].authorId == currentItem.authorId &&
+                messages[position + 1].timestamp - currentItem.timestamp < 60000) {
+                messages[position + 1]
             } else null
         } else null
 
-        previousMessageItem = if (position != 0) {
-            if (messageItems[position - 1].authorId == currentItem.authorId &&
-                currentItem.timestamp - messageItems[position - 1].timestamp < 60000) {
-                messageItems[position - 1]
+        previousMessage = if (position != 0) {
+            if (messages[position - 1].authorId == currentItem.authorId &&
+                currentItem.timestamp - messages[position - 1].timestamp < 60000) {
+                messages[position - 1]
             } else null
         } else null
 
-        holder.bind(currentItem, previousMessageItem, nextMessageItem)
+        holder.bind(currentItem, previousMessage, nextMessage)
     }
 
-    override fun getItemCount(): Int = messageItems.size
+    override fun getItemCount(): Int = messages.size
+    fun setCurrentUserId(currentUserId: Int) {
+        this.currentUserId = currentUserId
+    }
 
     // Интерфейс для кликов
     interface OnItemClickListener {
-        fun onItemClick(chatItem: MessageItem)
+        fun onItemClick(chatItem: Message)
     }
 
     // Интерфейс для долгого нажатия
     interface OnItemLongClickListener {
-        fun onEditMessage(position: Int, message: MessageItem)
+        fun onEditMessage(position: Int, message: Message)
         fun onDeleteMessage(position: Int)
     }
 
     class MessageViewHolder(
         private val binding: ItemMessageBinding,
+        private val currentUserId: Int,
         private val clickListener: OnItemClickListener,
         private val longClickListener: OnItemLongClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(currentMessageItem: MessageItem, previousMessageItem: MessageItem?, nextMessageItem: MessageItem?) {
+        fun bind(currentMessage: Message, previousMessage: Message?, nextMessage: Message?) {
             with(binding) {
-                messageText.text = currentMessageItem.text
+                messageText.text = currentMessage.content
                 messageText.post {
                     linearLayoutMessageTime.orientation =
                         if (messageText.lineCount == 1) LinearLayout.HORIZONTAL else LinearLayout.VERTICAL
                 }
-                timestamp.text = formatTimestamp(currentMessageItem.timestamp)
+                timestamp.text = formatTimestamp(currentMessage.timestamp)
 
                 // Обработка короткого клика
                 root.setOnClickListener {
-                    clickListener.onItemClick(currentMessageItem)
+                    clickListener.onItemClick(currentMessage)
                 }
 
                 // Обработка долгого нажатия 
                 root.setOnLongClickListener {
-                    showPopupMenu(it, adapterPosition, currentMessageItem)
+                    showPopupMenu(it, adapterPosition, currentMessage)
                     true
                 }
 
-                val isMyMessage = currentMessageItem.authorId == (itemView.context.applicationContext as SocketManagerInterface).socketManager.myUserId
+
+                val isMyMessage = currentMessage.authorId == currentUserId
                 root.gravity = if (isMyMessage) Gravity.END else Gravity.START
 
                 val typeBorderMessage = when {
-                    previousMessageItem == null && nextMessageItem != null -> TypeBorderMessage.First
-                    previousMessageItem != null && nextMessageItem != null -> TypeBorderMessage.Midl
-                    previousMessageItem != null && nextMessageItem == null -> TypeBorderMessage.Last
+                    previousMessage == null && nextMessage != null -> TypeBorderMessage.First
+                    previousMessage != null && nextMessage != null -> TypeBorderMessage.Midl
+                    previousMessage != null && nextMessage == null -> TypeBorderMessage.Last
                     else -> TypeBorderMessage.Lonely
                 }
                 avatar.visibility = if (typeBorderMessage == TypeBorderMessage.Midl || typeBorderMessage == TypeBorderMessage.Last || isMyMessage) View.GONE else View.VISIBLE
@@ -162,12 +169,12 @@ class MessagesAdapter(
                 }, 0, 0)
                 mainContainer.layoutParams = marginRootLayoutParams
 
-                Log.d("MessageViewHolder", "$isMyMessage $typeBorderMessage => ${currentMessageItem.text}")
+                Log.d("MessageViewHolder", "$isMyMessage $typeBorderMessage => ${currentMessage.content}")
             }
         }
 
         // Метод для показа всплывающего меню
-        private fun showPopupMenu(view: View, position: Int, message: MessageItem) {
+        private fun showPopupMenu(view: View, position: Int, message: Message) {
             val popupMenu = PopupMenu(view.context, view)
             popupMenu.menuInflater.inflate(R.menu.message_options_menu, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { item ->
@@ -186,17 +193,33 @@ class MessagesAdapter(
             popupMenu.show()
         }
 
-        private fun formatTimestamp(timestamp: Long): String {
-            val instant = Instant.ofEpochMilli(timestamp)
-            val localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+        private fun formatTimestamp(timestamp: Date): String {
+            val localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp.time), ZoneId.systemDefault())
             val now = LocalDateTime.now()
+
             return if (localDateTime.toLocalDate() == now.toLocalDate()) {
                 val formatter = DateTimeFormatter.ofPattern("HH:mm")
                 localDateTime.format(formatter)
             } else {
-                val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+                val formatter = DateTimeFormatter.ofPattern("dd.MM")
                 localDateTime.format(formatter)
             }
         }
     }
+}
+
+/**
+ * Сравнивает две даты.
+ *
+ * @param other другая дата для сравнения.
+ * @return отрицательное значение, если эта дата раньше другой,
+ * положительное значение, если эта дата позже другой,
+ * и ноль, если даты равны.
+ */
+private operator fun Date.compareTo(other: Date): Int {
+    return this.time.compareTo(other.time)
+}
+
+private operator fun Date.minus(timestamp: Date): Long {
+    return this.time - timestamp.time
 }

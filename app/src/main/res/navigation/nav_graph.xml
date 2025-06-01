@@ -15,7 +15,9 @@
             app:destination="@id/registrationFragment" />
         <action
             android:id="@+id/action_loginFragment_to_chatsListFragment"
-            app:destination="@id/chatsListFragment" />
+            app:destination="@id/chatsListFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -25,7 +27,7 @@
         tools:layout="@layout/fragment_chat">
         <argument
             android:name="chatId"
-            app:argType="string" />
+            app:argType="integer" />
         <action
             android:id="@+id/action_chatFragment_to_options_chat_group"
             app:destination="@id/options_chat_group" />
@@ -38,9 +40,7 @@
         android:id="@+id/preferensFragment"
         android:name="com.example.kasperchat_test.fragment.PreferenceFragment"
         android:label="fragment_preferens"
-        tools:layout="@layout/fragment_preference">
-
-    </fragment>
+        tools:layout="@layout/fragment_preference"/>
 
     <fragment
         android:id="@+id/chatsListFragment"
@@ -56,6 +56,11 @@
         <action
             android:id="@+id/action_chatsListFragment_to_options_chat_group"
             app:destination="@id/options_chat_group" />
+        <action
+            android:id="@+id/action_chatsListFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/chatsListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

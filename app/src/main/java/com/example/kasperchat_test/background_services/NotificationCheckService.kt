@@ -1,7 +1,5 @@
 package com.example.kasperchat_test.background_services
 
-import com.example.kasperchat_test.network.SocketManager
-import com.example.kasperchat_test.network.SocketManagerInterface
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -25,13 +23,11 @@ class NotificationCheckService : Service() {
     private val ALARM_REQUEST_CODE = 100
     private val CHECK_INTERVAL = 3 * 100L  // 1 minutes in milliseconds
 
-    private lateinit var socketManager: SocketManager
 
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
         Log.d("NotificationCheck", "Service created")
-        socketManager = (application as SocketManagerInterface).socketManager
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -82,14 +78,7 @@ class NotificationCheckService : Service() {
     private fun checkNotifications() {
         Log.d("NotificationCheck", "Checking for notifications...")
         runBlocking {
-            val isConnected = socketManager.connect()
-            val notificationText = if (isConnected) {
-                "Связь сервером установлена"
-            } else {
-                "Связь с сервером потерена"
-            }
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.notify(NOTIFICATION_ID, createNotification(notificationText))
+
         }
     }
     private fun updateNotification(text: String) {

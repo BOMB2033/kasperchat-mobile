@@ -13,54 +13,98 @@
         layout="@layout/toolbar_chat"
         android:id="@+id/toolbar_include"
         android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- RecyclerView для сообщений -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMessages"
-        android:layout_width="match_parent"
+    <!-- ProgressBar для индикации загрузки сообщений -->
+    <ProgressBar
+        android:id="@+id/progressBarMessages"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+    app:layout_constraintTop_toBottomOf="@id/toolbar_include"
+    app:layout_constraintBottom_toTopOf="@id/Layout_edit_massage"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    tools:visibility="visible"/>
+
+    <!-- TextView для отображения ошибок или пустого состояния -->
+    <TextView
+        android:id="@+id/textViewErrorMessages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_loading_messages"
+        android:visibility="gone"
+    app:layout_constraintTop_toBottomOf="@id/toolbar_include"
+    app:layout_constraintBottom_toTopOf="@id/Layout_edit_massage"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    tools:visibility="visible"/>
+
+    <!-- SwipeRefreshLayout для обновления списка сообщений -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayoutMessages"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar_include"
         app:layout_constraintBottom_toTopOf="@id/Layout_edit_massage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- RecyclerView для сообщений -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMessages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp"
+        android:clipToPadding="false"
         android:foreground="@drawable/shadow_list_chat"
         tools:listitem="@layout/item_message" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- Область ввода сообщения -->
     <LinearLayout
         android:id="@+id/Layout_edit_massage"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/layout_edit_message"
+    android:padding="12dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
+
+    <EditText
+        android:id="@+id/editTextMessage"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/layout_edit_message"
-        android:padding="12dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_weight="1"
+        android:paddingTop="8dp"
+        android:textSize="18sp"
+        android:fontFamily="@font/inter_regular"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+    android:textCursorDrawable="@drawable/custom_cursor"
+    android:background="@drawable/edit_message"
+    android:gravity="start"
+    android:hint="Введите сообщение"
+    android:inputType="textMultiLine"
+    android:minHeight="40dp" />
 
-        <EditText
-            android:id="@+id/editTextMessage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingTop="8dp"
-            android:textSize="18sp"
-            android:fontFamily="@font/inter_regular"
-            android:paddingStart="15dp"
-            android:textCursorDrawable="@drawable/custom_cursor"
-            android:background="@drawable/edit_message"
-            android:gravity="start"
-            android:hint="Введите сообщение"
-            android:inputType="textMultiLine"
-            android:minHeight="40dp" />
+    <ImageButton
+        android:id="@+id/buttonSendMessage"
+    android:layout_width="50dp"
+    android:layout_height="match_parent"
+    android:background="#00FFFFFF"
+    app:tint="#DAE7FF"
+    android:scaleType="centerInside"
+    android:src="@drawable/send_icon"
+    android:contentDescription="Send message" />
+</LinearLayout>
 
-        <ImageButton
-            android:id="@+id/send_message"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:background="#00FFFFFF"
-            app:tint="#DAE7FF"
-            android:scaleType="centerInside"
-            android:src="@drawable/send_icon" />
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>

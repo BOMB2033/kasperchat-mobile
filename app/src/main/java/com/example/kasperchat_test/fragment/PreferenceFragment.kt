@@ -5,14 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.FragmentPreferenceBinding
 import com.example.kasperchat_test.network.RetrofitClient
+import com.example.kasperchat_test.viewmodel.LoginViewModel
 
 
 class PreferenceFragment : Fragment() {
     private lateinit var binding: FragmentPreferenceBinding
+    private val loginViewModel: LoginViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +33,12 @@ class PreferenceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding){
+
             buttonLogoutAccount.setOnClickListener {
-                RetrofitClient.clearToken() // Очищаем токен при ошибке
-                it.findNavController().navigate(R.id.loginFragment) // TODO Сделать запрет возвращение по стаку
+                loginViewModel.clearAuthToken()
+                it.findNavController().navigate(R.id.loginFragment, null, NavOptions.Builder()
+                    .setPopUpTo(R.id.nav_graph, true) // Очищает весь стек до начального фрагмента
+                    .build())
             }
         }
     }

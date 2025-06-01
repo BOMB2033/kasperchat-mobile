@@ -1,93 +1,114 @@
 package com.example.kasperchat_test.fragment
 
-import android.content.Context
-import com.example.kasperchat_test.network.SocketManager
-import com.example.kasperchat_test.network.SocketManagerInterface
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels // Для делегата viewModels
+import androidx.lifecycle.Observer // Для наблюдения за LiveData
+import androidx.navigation.fragment.findNavController // Улучшенный способ получения NavController
 import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.FragmentLoginBinding
-import com.example.kasperchat_test.model.LoginResponse
-import com.example.kasperchat_test.model.Message
-import com.example.kasperchat_test.model.User
-import com.example.kasperchat_test.network.RetrofitClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.kasperchat_test.viewmodel.LoginResult // Импортируем наш sealed class
+import com.example.kasperchat_test.viewmodel.LoginViewModel // Импортируем нашу ViewModel
+import kotlin.text.trim
 
 class LoginFragment : Fragment() {
-    private lateinit var binding: FragmentLoginBinding
-    private lateinit var socketManager: SocketManager
+    private var _binding: FragmentLoginBinding? = null // Сделаем nullable для безопасного обращения в onDestroyView
+    private val binding get() = _binding!! // Для удобства доступа
+
+    // Инициализируем ViewModel с помощью делегата
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
-        binding = FragmentLoginBinding.inflate(inflater,container,false)
+    ): View {
+        // Попытка автоматического входа, если токен существует
+        // Настоящая валидация токена должна происходить на сервере при первом запросе
+        // Здесь мы просто проверяем его наличие для быстрого входа
+        val existingToken = loginViewModel.getAuthToken()
+        if (!existingToken.isNullOrEmpty()) {
+            // В идеале, здесь можно было бы сделать тестовый запрос к защищенному эндпоинту
+            // чтобы убедиться, что токен все еще валиден на сервере.
+            // Для упрощения, мы просто переходим дальше, если токен есть.
+            Log.i("LoginFragment", "Token found, attempting auto-login.")
+            navigateToChatsList()
+        }
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Проверяем, есть ли сохранённый токен
-        val sharedPreferences = requireContext().getSharedPreferences("KasperChatPrefs", Context.MODE_PRIVATE)
-        val token = sharedPreferences.getString("auth_token", null)
 
-        if (token != null) {
-            RetrofitClient.apiService.getMessages().enqueue(object : Callback<List<Message>> {
-                override fun onResponse(call: Call<List<Message>>, response: Response<List<Message>>) {
-                    if (response.isSuccessful) {
-                        findNavController().navigate(R.id.action_loginFragment_to_chatsListFragment)
-                    } else {
-                        RetrofitClient.clearToken() // Токен недействителен, очищаем
-                    }
-                }
 
-                override fun onFailure(call: Call<List<Message>>, t: Throwable) {
-                    Log.e("LoginFragment", "Error: ${t.message}")
-                    RetrofitClient.clearToken() // Очищаем токен при ошибке
-                }
-            })
-        }
+        setupUI()
+        observeViewModel()
+    }
 
-        // Если токена нет, показываем экран логина и обрабатываем вход
+    private fun setupUI() {
         with(binding) {
-            buttonLogin.setOnClickListener {
-                // Пример авторизации
-                val user = User(editTextLogin.text.toString(), editTextPassword.text.toString())
-                RetrofitClient.apiService.login(user).enqueue(object : Callback<LoginResponse> {
-                    override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                        if (response.isSuccessful) {
-                            val loginResponse = response.body()
-                            loginResponse?.token?.let { token ->
-                                RetrofitClient.saveToken(token) // Сохраняем токен
-                                Log.d("LoginFragment", "Login successful, token saved: $token")
-                                // Переходим на ChatsListFragment после успешного логина
-                                it.findNavController().navigate(R.id.action_loginFragment_to_chatsListFragment)
-                            }
-                        } else {
-                            Log.e("LoginFragment", "Login failed: ${response.message()}")
-                        }
-                    }
+            // Скрываем progressBar по умолчанию
+            progressBar.isVisible = false
 
-                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                        Log.e("LoginFragment", "Error: ${t.message}")
-                    }
-                })
+            buttonLogin.setOnClickListener {
+                val email = editTextLogin.text.toString().trim()
+                val password = editTextPassword.text.toString().trim()
+
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(context, "Please enter email and password", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                // Запускаем процесс логина через ViewModel
+                loginViewModel.loginUser(email, password)
             }
 
             linkRegister.setOnClickListener {
-                it.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+                findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
             }
         }
     }
 
+    private fun observeViewModel() {
+        loginViewModel.loginResult.observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is LoginResult.Loading -> {
+                    binding.progressBar.isVisible = true
+                    binding.buttonLogin.isEnabled = false // Блокируем кнопку во время загрузки
+                    Log.d("LoginFragment", "Login loading...")
+                }
+                is LoginResult.Success -> {
+                    binding.progressBar.isVisible = false
+                    binding.buttonLogin.isEnabled = true
+                    Log.i("LoginFragment", "Login successful. Token: ${result.token}")
+                    Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
+                    navigateToChatsList()
+                }
+                is LoginResult.Error -> {
+                    binding.progressBar.isVisible = false
+                    binding.buttonLogin.isEnabled = true
+                    Log.e("LoginFragment", "Login error: ${result.message}")
+                    Toast.makeText(context, "Login Failed: ${result.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+    }
+
+    private fun navigateToChatsList() {
+        // Убедимся, что мы все еще в этом фрагменте, чтобы избежать крэшей при быстрой навигации
+        if (isAdded && findNavController().currentDestination?.id == R.id.loginFragment) {
+            findNavController().navigate(R.id.action_loginFragment_to_chatsListFragment)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null // Очищаем ссылку на binding, чтобы избежать утечек памяти
+    }
 }

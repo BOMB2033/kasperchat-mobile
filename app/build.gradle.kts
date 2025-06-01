@@ -76,10 +76,14 @@ dependencies {
 }
 dependencies {
 
-
+    implementation(libs.microsoft.signalr) // Или последняя стабильная версия
+    implementation(libs.slf4j.jdk14) // SignalR требует SLF4J логгер
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
-
+    implementation(libs.logging.interceptor)
     implementation (libs.circleimageview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

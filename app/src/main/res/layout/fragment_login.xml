@@ -7,6 +7,20 @@
     android:background="@color/background_color_login_screen"
     tools:context=".fragment.LoginFragment">
 
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:backgroundTint="@color/logo_color"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/is_logo_chat" />
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -14,8 +28,8 @@
         android:layout_marginTop="13dp"
         android:fontFamily="@font/didacthgothic"
         android:text="@string/kasper_chat"
-        android:textSize="24sp"
         android:textColor="@color/logo_text"
+        android:textSize="24sp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,32 +38,32 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
+        android:id="@+id/editTextLogin"
+        style="@style/EditStyle"
         android:layout_width="293dp"
         android:layout_height="50dp"
         android:layout_marginTop="70dp"
-        android:id="@+id/editTextLogin"
-        style="@style/EditStyle"
         android:autofillHints=""
         android:ems="10"
+        android:focusableInTouchMode="true"
         android:hint="@string/login"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        android:focusableInTouchMode="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
+        android:id="@+id/editTextPassword"
+        style="@style/EditStyle"
         android:layout_width="293dp"
         android:layout_height="50dp"
         android:layout_marginTop="18dp"
-        android:selectAllOnFocus="true"
-        android:focusableInTouchMode="true"
-        android:id="@+id/editTextPassword"
-        style="@style/EditStyle"
         android:autofillHints=""
         android:ems="10"
+        android:focusableInTouchMode="true"
         android:hint="@string/Password"
         android:inputType="textPassword"
+        android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextLogin" />
@@ -61,46 +75,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="7dp"
-        android:visibility="gone"
+        android:clickable="true"
         android:fontFamily="@font/didacthgothic"
         android:text="@string/Do_you_forgot_password"
         android:textColor="@drawable/my_text_view_selector"
         android:textSize="14sp"
-        android:clickable="true"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/editTextPassword"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
 
-    <TextView
-        android:id="@+id/linkRegister"
-        android:textColor="@color/link_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:fontFamily="@font/inter_regular"
-        android:text="Зарегестрироваться"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
-        tools:ignore="HardcodedText" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:backgroundTint="@color/logo_color"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/is_logo_chat" />
 
     <Button
         android:id="@+id/buttonLogin"
@@ -121,6 +107,31 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="TextViewEdits" />
+    <TextView
+        android:id="@+id/linkRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:fontFamily="@font/inter_regular"
+        android:text="Зарегестрироваться"
+        android:textColor="@color/link_register"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
+        tools:ignore="HardcodedText" />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#AA000000"
+        android:elevation="10dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
