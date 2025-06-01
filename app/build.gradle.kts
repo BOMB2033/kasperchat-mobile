@@ -76,8 +76,7 @@ dependencies {
 }
 dependencies {
 
-    implementation(libs.microsoft.signalr) // Или последняя стабильная версия
-    implementation(libs.slf4j.jdk14) // SignalR требует SLF4J логгер
+    implementation(libs.microsoft.signalr) // Используй актуальную версию
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

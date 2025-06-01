@@ -1,6 +1,7 @@
 package com.example.kasperchat_test.api
 
 import com.example.kasperchat_test.model.Chat
+import com.example.kasperchat_test.model.ChatData
 import com.example.kasperchat_test.model.Link
 import com.example.kasperchat_test.model.LoginRequest
 import com.example.kasperchat_test.model.LoginResponse
@@ -27,11 +28,6 @@ interface ApiService {
         @Path("chatId") chatId: Int
     ): Response<List<Message>>
 
-    @GET("api/chats/{chatId}/users")
-    suspend fun getUsersByChatId(
-        @Path("chatId") chatId: Int
-    ): Response<List<UserProfile>>
-
     @GET("api/chats/users")
     suspend fun getUsers(): Response<List<UserProfile>>
 
@@ -43,5 +39,10 @@ interface ApiService {
         @Path("chatId") chatId: Int,
         @Body content: String
      ): Response<Message>
+
+    @GET("/api/chats/{chatId}")
+    suspend fun getChatById(@Path("chatId") chatId: Int): Response<ChatData>
 }
+
+
 

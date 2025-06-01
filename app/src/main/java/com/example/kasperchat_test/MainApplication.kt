@@ -2,11 +2,12 @@ package com.example.kasperchat_test // Ваш корневой пакет
 
 import android.app.Application
 import com.example.kasperchat_test.network.RetrofitClient
+import com.example.kasperchat_test.network.SignalRClient
 
 class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        // Инициализация RetrofitClient с applicationContext
         RetrofitClient.initialize(this)
+        SignalRClient.initialize(this, null) // Токен можно обновить после логина
     }
 }

@@ -33,7 +33,7 @@ class MessageListAdapter(val chatId: Int,
                          private val onItemLongClickListener: OnItemLongClickListener
 ) : RecyclerView.Adapter<MessageListAdapter.MessageViewHolder>() {
 
-    private var messages: MutableList<Message> = mutableListOf() // MutableList для изменения списка
+    var messages: MutableList<Message> = mutableListOf() // MutableList для изменения списка
     private var previousMessage: Message? = null
     private var nextMessage: Message? = null
 

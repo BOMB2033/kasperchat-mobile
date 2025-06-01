@@ -9,14 +9,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.kasperchat_test.model.LoginRequest
 import com.example.kasperchat_test.model.UserProfile
-import com.example.kasperchat_test.network.RetrofitClient // Импортируем наш клиент
+import com.example.kasperchat_test.network.RetrofitClient
+import com.example.kasperchat_test.network.SignalRClient
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.launch
-import java.io.IOException // Для обработки сетевых ошибок
+import java.io.IOException
 
 sealed class LoginResult {
-    data class Success(val token: String, val userProfile: UserProfile?) : LoginResult() // Добавляем userProfile
+    data class Success(val token: String, val userProfile: UserProfile?) : LoginResult()
     data class Error(val message: String) : LoginResult()
     data object Loading : LoginResult()
 }
@@ -26,27 +27,37 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    // LiveData для хранения профиля пользователя
     private val _userProfile = MutableLiveData<UserProfile?>()
     val userProfile: LiveData<UserProfile?> = _userProfile
 
     private val apiService = RetrofitClient.instance
-    private val gson = Gson() // Для сериализации/десериализации UserProfile
+    private val gson = Gson()
+
+    private var isFetchingProfile = false // Флаг для предотвращения повторных вызовов
 
     private companion object {
         const val AUTH_PREFS_NAME = "auth_prefs"
         const val AUTH_TOKEN_KEY = "auth_token"
-        const val USER_PROFILE_KEY = "user_profile" // Ключ для сохранения профиля
+        const val TOKEN_EXPIRY_KEY = "token_expiry"
+        const val USER_PROFILE_KEY = "user_profile"
     }
+
     init {
-        // При инициализации ViewModel пытаемся загрузить сохраненный профиль и токен
         loadUserProfileFromPrefs()
-        if (getAuthToken() != null && _userProfile.value == null) {
-            // Если есть токен, но нет профиля в LiveData (например, после перезапуска приложения),
-            // попробуем загрузить его с сервера.
-            fetchCurrentUserProfile()
+        val tokenData = loadToken()
+        if (tokenData.first != null && tokenData.second != null && tokenData.second!! > System.currentTimeMillis()) {
+            Log.i("LoginViewModel", "Valid token found, initializing SignalR")
+            SignalRClient.initialize(getApplication(), tokenData.first, tokenData.second)
+            SignalRClient.startConnection()
+            if (_userProfile.value == null && !isFetchingProfile) {
+                fetchCurrentUserProfile()
+            }
+        } else if (tokenData.first != null) {
+            Log.w("LoginViewModel", "Expired token found, clearing")
+            clearAuthToken()
         }
     }
+
     fun loginUser(email: String, pass: String) {
         _loginResult.postValue(LoginResult.Loading)
         viewModelScope.launch {
@@ -57,23 +68,14 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                 if (response.isSuccessful && response.body() != null) {
                     val loginResponse = response.body()!!
                     val token = loginResponse.token
-                    saveAuthToken(token)
-                    Log.i("LoginViewModel", "Login successful. Token: $token")
+                    val expiry = loginResponse.expiresAt.time
+                    saveAuthToken(token, expiry)
+                    SignalRClient.updateToken(token, expiry)
+                    SignalRClient.startConnection()
+                    Log.i("LoginViewModel", "Login successful. Token: $token, Expiry: $expiry")
 
-                    // После успешного логина и сохранения токена, запрашиваем профиль пользователя
-                    val profileResponse = apiService.getCurrentUserProfile()
-                    if (profileResponse.isSuccessful && profileResponse.body() != null) {
-                        val user = profileResponse.body()!!
-                        saveUserProfile(user) // Сохраняем профиль
-                        _userProfile.postValue(user)
-                        _loginResult.postValue(LoginResult.Success(token, user))
-                        Log.i("LoginViewModel", "User profile fetched and saved: $user")
-                    } else {
-                        Log.e("LoginViewModel", "Failed to fetch user profile after login: ${profileResponse.code()} - ${profileResponse.message()}")
-                        // Логин успешен, но профиль не получен. Можно решить, как обрабатывать:
-                        // 1. Считать логин успешным без профиля (текущая реализация _loginResult)
-                        // 2. Считать это ошибкой логина.
-                        _loginResult.postValue(LoginResult.Success(token, null)) // Успех, но профиль не получен
+                    if (!isFetchingProfile) {
+                        fetchCurrentUserProfile()
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
@@ -86,20 +88,22 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                     _loginResult.postValue(LoginResult.Error(errorMessage))
                 }
             } catch (e: IOException) {
-                Log.e("LoginViewModel", "Сетевая ошибка во время входа или получения профиля", e)
+                Log.e("LoginViewModel", "Сетевая ошибка во время входа", e)
                 _loginResult.postValue(LoginResult.Error("Сетевая ошибка. Проверьте ваше подключение."))
             } catch (e: Exception) {
-                Log.e("LoginViewModel", "Непредвиденная ошибка во время входа или получения профиля", e)
+                Log.e("LoginViewModel", "Непредвиденная ошибка во время входа", e)
                 _loginResult.postValue(LoginResult.Error("Произошла непредвиденная ошибка."))
             }
         }
     }
+
     fun fetchCurrentUserProfile(onResult: ((UserProfile?) -> Unit)? = null) {
-        if (getAuthToken() == null) {
-            Log.w("LoginViewModel", "Cannot fetch profile, token is null.")
+        if (getAuthToken() == null || isFetchingProfile) {
+            Log.w("LoginViewModel", "Cannot fetch profile: token is null or fetch in progress")
             onResult?.invoke(null)
             return
         }
+        isFetchingProfile = true
         viewModelScope.launch {
             try {
                 Log.d("LoginViewModel", "Fetching current user profile...")
@@ -112,11 +116,11 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                     onResult?.invoke(user)
                 } else {
                     Log.e("LoginViewModel", "Failed to fetch user profile: ${response.code()} - ${response.message()}")
-                    // Если не удалось получить профиль (например, токен истек), можно очистить старый
                     if (response.code() == 401) {
-                        clearAuthToken() // Очищаем токен и профиль
+                        clearAuthToken()
                         clearUserProfile()
                         _userProfile.postValue(null)
+                        SignalRClient.stopConnection()
                     }
                     onResult?.invoke(null)
                 }
@@ -126,33 +130,40 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             } catch (e: Exception) {
                 Log.e("LoginViewModel", "Unexpected error fetching user profile", e)
                 onResult?.invoke(null)
+            } finally {
+                isFetchingProfile = false
             }
         }
     }
-    private fun saveAuthToken(token: String) {
+
+    private fun saveAuthToken(token: String, expiry: Long) {
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
             putString(AUTH_TOKEN_KEY, token)
+            putLong(TOKEN_EXPIRY_KEY, expiry)
             apply()
         }
-        Log.i("LoginViewModel", "Auth token saved.")
+        Log.i("LoginViewModel", "Auth token saved with expiry: $expiry")
     }
 
     fun getAuthToken(): String? {
-        val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
-        return sharedPreferences.getString(AUTH_TOKEN_KEY, null)
+        val (token, expiry) = loadToken()
+        return if (expiry != null && expiry > System.currentTimeMillis()) token else null
     }
 
     fun clearAuthToken() {
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
             remove(AUTH_TOKEN_KEY)
+            remove(TOKEN_EXPIRY_KEY)
             apply()
         }
-        clearUserProfile() // Также очищаем профиль пользователя при выходе
-        _userProfile.postValue(null) // Обновляем LiveData
+        clearUserProfile()
+        _userProfile.postValue(null)
+        SignalRClient.stopConnection()
         Log.i("LoginViewModel", "Auth token and user profile cleared.")
     }
+
     private fun saveUserProfile(userProfile: UserProfile) {
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
         try {
@@ -163,8 +174,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             }
             Log.i("LoginViewModel", "User profile saved to SharedPreferences: $userProfileJson")
         } catch (e: Exception) {
-            // Это может произойти, если объект UserProfile не может быть сериализован Gson,
-            // хотя это маловероятно для простых data-классов.
             Log.e("LoginViewModel", "Error serializing user profile to JSON", e)
         }
     }
@@ -175,11 +184,10 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         if (userProfileJson != null) {
             try {
                 val userProfile = gson.fromJson(userProfileJson, UserProfile::class.java)
-                _userProfile.postValue(userProfile) // Используем postValue, так как init может вызываться не из главного потока
+                _userProfile.postValue(userProfile)
                 Log.i("LoginViewModel", "User profile loaded from SharedPreferences: $userProfile")
             } catch (e: JsonSyntaxException) {
                 Log.e("LoginViewModel", "Error parsing UserProfile JSON from SharedPreferences. Clearing corrupted profile.", e)
-                // Если данные повреждены, лучше их очистить
                 clearUserProfile()
                 _userProfile.postValue(null)
             } catch (e: Exception) {
@@ -187,9 +195,18 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                 _userProfile.postValue(null)
             }
         } else {
-            _userProfile.postValue(null) // Если профиля нет в SharedPreferences
+            _userProfile.postValue(null)
             Log.i("LoginViewModel", "No user profile found in SharedPreferences.")
         }
+    }
+
+    private fun loadToken(): Pair<String?, Long?> {
+        val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString(AUTH_TOKEN_KEY, null)
+        val expiry = if (sharedPreferences.contains(TOKEN_EXPIRY_KEY)) {
+            sharedPreferences.getLong(TOKEN_EXPIRY_KEY, 0)
+        } else null
+        return Pair(token, expiry)
     }
 
     private fun clearUserProfile() {
@@ -198,17 +215,14 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             remove(USER_PROFILE_KEY)
             apply()
         }
-        // _userProfile.postValue(null) // Обновление LiveData уже происходит в clearAuthToken или при загрузке, если профиля нет
         Log.i("LoginViewModel", "User profile cleared from SharedPreferences.")
     }
 
-    // Дополнительная публичная LiveData для удобного доступа к ID пользователя из других частей приложения
-    // (если UserProfile содержит поле id)
     val currentUserIdLiveData: LiveData<Int?> = MutableLiveData<Int?>().apply {
-        // Наблюдаем за изменениями в _userProfile и обновляем currentUserIdLiveData
         _userProfile.observeForever { profile ->
             this.value = profile?.id
         }
     }
+
     val userLiveData: LiveData<UserProfile?> get() = _userProfile
 }

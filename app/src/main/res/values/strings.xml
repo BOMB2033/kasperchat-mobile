@@ -15,6 +15,10 @@
         <!-- ... другие строки ... -->
     <string name="no_messages_in_chat">В этом чате пока нет сообщений.</string>
     <string name="error_loading_messages">Ошибка загрузки сообщений</string>
+    <string name="chat_status_reconnecting" >Переподключение...</string>
+    <string name="chat_status_connecting" >Подключение...</string>
+    <string name="chat_status_disconnected">Отключено</string>
+    <string name="chat_status_connected">Подключено</string>
 
 
 </resources>
