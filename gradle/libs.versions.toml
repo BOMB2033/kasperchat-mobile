@@ -1,33 +1,35 @@
 [versions]
-agp = "8.8.0"
+agp = "8.10.1"
 circleimageview = "3.1.0"
 converterGson = "2.9.0"
-gson = "2.10.1"
-kotlin = "1.9.21"
-coreKtx = "1.13.1"
+googleHiltAndroid = "2.56.2"
+gson = "2.11.0"
+kotlin = "2.1.0"
+coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-appcompat = "1.7.0"
+appcompat = "1.7.1"
 loggingInterceptor = "4.12.0"
 material = "1.12.0"
-activity = "1.9.3"
-constraintlayout = "2.1.4"
-microsoftSignalr = "7.0.0"
-navigationFragment = "2.8.5"
-navigationFragmentKtx = "2.8.5"
-navigationUiKtx = "2.8.5"
-lifecycleViewmodelKtx = "2.8.7"
-lifecycleLivedataKtx = "2.8.7"
-slf4jJdk14 = "1.7.32"
+activity = "1.10.1"
+constraintlayout = "2.2.1"
+navigationFragment = "2.9.0"
+lifecycleViewmodelKtx = "2.9.1"
+lifecycleLivedataKtx = "2.9.1"
+roundedimageview = "v1.0.1"
+signalr = "7.0.0"
 swiperefreshlayout = "1.1.0"
-firebaseDatabaseKtx = "21.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragment" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragment" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+google-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "googleHiltAndroid" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "googleHiltAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -37,17 +39,13 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
-androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
-androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
-microsoft-signalr = { module = "com.microsoft.signalr:signalr", version.ref = "microsoftSignalr" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "converterGson" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
-slf4j-jdk14 = { module = "org.slf4j:slf4j-jdk14", version.ref = "slf4jJdk14" }
-firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
+roundedimageview = { module = "com.github.mmmelik:RoundedImageView", version.ref = "roundedimageview" }
+signalr-v504 = { module = "com.microsoft.signalr:signalr", version.ref = "signalr" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-

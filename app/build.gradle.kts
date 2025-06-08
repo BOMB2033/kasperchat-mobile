@@ -3,36 +3,45 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.dagger.hilt.android")
 }
-
 
 
 android {
     namespace = "com.example.kasperchat_test"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.kasperchat_test"
         minSdk = 29
+        //noinspection OldTargetApi
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildFeatures{
-        viewBinding = true
-    }
-
     buildTypes {
-        release {
+        getByName("release") {
+            buildConfigField("String","SERVER_IP","\"185.130.224.155\"")
+            buildConfigField("String","SERVER_PORT","\"5012\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
+        getByName("debug") {
+            buildConfigField("String","SERVER_IP","\"192.168.1.42\"")
+            buildConfigField("String","SERVER_PORT","\"5012\"")
+        }
     }
+
+    buildFeatures{
+        viewBinding = true
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -49,39 +58,16 @@ dependencies {
 }
 
 dependencies {
-    // Room
 
-
-    implementation ("com.github.mmmelik:RoundedImageView:v1.0.1")
-    implementation("androidx.room:room-runtime:2.5.2")
-    annotationProcessor("androidx.room:room-compiler:2.5.2")
-
-    // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:2.5.2")
-
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:2.5.2")
-
-    // optional - RxJava2 support forRoom
-    implementation("androidx.room:room-rxjava2:2.5.2")
-
-    // optional - RxJava3 support for Room
-    implementation("androidx.room:room-rxjava3:2.5.2")
-
-    // optional - Guava support for Room, including Optional and ListenableFuture
-    implementation("androidx.room:room-guava:2.5.2")
-
-    // optional - Test helpers
-    testImplementation("androidx.room:room-testing:2.5.2")
-}
-dependencies {
-
-    implementation(libs.microsoft.signalr) // Используй актуальную версию
+    implementation (libs.roundedimageview)
+    implementation(libs.google.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.signalr.v504)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.logging.interceptor)
     implementation (libs.circleimageview)
     implementation(libs.androidx.core.ktx)
@@ -93,4 +79,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+kapt {
+    correctErrorTypes = true
 }
