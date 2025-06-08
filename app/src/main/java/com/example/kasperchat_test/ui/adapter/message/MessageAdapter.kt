@@ -27,7 +27,7 @@ enum class TypeBorderMessage {
     Last
 }
 
-class MessageListAdapter(val chatId: String,
+class MessageListAdapter(val chatId: String, //TODO Настроить адаптер сообщений
                          private var currentUserId: String,
                          private val onItemClickListener: OnItemClickListener,
                          private val onItemLongClickListener: OnItemLongClickListener
@@ -206,18 +206,6 @@ class MessageListAdapter(val chatId: String,
             }
         }
     }
-}
-
-/**
- * Сравнивает две даты.
- *
- * @param other другая дата для сравнения.
- * @return отрицательное значение, если эта дата раньше другой,
- * положительное значение, если эта дата позже другой,
- * и ноль, если даты равны.
- */
-private operator fun Date.compareTo(other: Date): Int {
-    return this.time.compareTo(other.time)
 }
 
 private operator fun Date.minus(timestamp: Date): Long {

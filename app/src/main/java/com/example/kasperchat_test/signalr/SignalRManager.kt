@@ -41,14 +41,14 @@ class SignalRManager @Inject constructor() { // Используем @Inject д�
     val messages: StateFlow<List<Message>> get() = _messages
 
     private val _chatMembers = MutableStateFlow<List<ChatMember>>(emptyList())
-    val chatMembers: StateFlow<List<ChatMember>> get() = _chatMembers
+    val chatMembers: StateFlow<List<ChatMember>> get() = _chatMembers //TODO Реализовать или удалить
 
     private val _chatEvents = MutableStateFlow<ChatEvent?>(null)
     val chatEvents: StateFlow<ChatEvent?> get() = _chatEvents
 
     // Предоставляем Flow для новых сообщений
     val newMessageFlow: Flow<Message> = callbackFlow {
-        val handler = hubConnection.on("NewMessage", { message: Message ->
+        hubConnection.on("NewMessage", { message: Message ->
             Log.d("SignalR", "New message received via Flow: ${message.content}")
             trySend(message) // Отправляем только одно новое сообщение в Flow
         }, Message::class.java)

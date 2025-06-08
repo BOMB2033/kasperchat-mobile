@@ -17,6 +17,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
+import androidx.core.content.edit
+
 sealed class LoginResult {
     data class Success(val token: String, val userProfile: UserProfile?) : LoginResult()
     data class Error(val message: String, val code: Int? = null) : LoginResult()
@@ -140,10 +142,9 @@ class LoginViewModel @Inject constructor(
 
     fun saveAuthToken(token: String, expiry: Long) {
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
-        with(sharedPreferences.edit()) {
+        sharedPreferences.edit {
             putString(AUTH_TOKEN_KEY, token)
             putLong(TOKEN_EXPIRY_KEY, expiry)
-            apply()
         }
         Log.i("LoginViewModel", "Auth token saved with expiry: $expiry")
     }
@@ -155,10 +156,9 @@ class LoginViewModel @Inject constructor(
 
     fun clearAuthToken() {
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
-        with(sharedPreferences.edit()) {
+        sharedPreferences.edit {
             remove(AUTH_TOKEN_KEY)
             remove(TOKEN_EXPIRY_KEY)
-            apply()
         }
         clearUserProfile()
         _userProfile.postValue(null)
@@ -170,9 +170,8 @@ class LoginViewModel @Inject constructor(
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
         try {
             val userProfileJson = gson.toJson(userProfile)
-            with(sharedPreferences.edit()) {
+            sharedPreferences.edit {
                 putString(USER_PROFILE_KEY, userProfileJson)
-                apply()
             }
             Log.i("LoginViewModel", "User profile saved to SharedPreferences: $userProfileJson")
         } catch (e: Exception) {
@@ -213,18 +212,17 @@ class LoginViewModel @Inject constructor(
 
     private fun clearUserProfile() {//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1L
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
-        with(sharedPreferences.edit()) {
+        sharedPreferences.edit {
             remove(USER_PROFILE_KEY)
-            apply()
         }
         Log.i("LoginViewModel", "User profile cleared from SharedPreferences.")
     }
 
-    val currentUserIdLiveData: LiveData<String?> = MutableLiveData<String?>().apply {
+    val currentUserIdLiveData: LiveData<String?> = MutableLiveData<String?>().apply {//TODO Реализовать или удалить
         _userProfile.observeForever { profile ->
             value = profile?.id
         }
     }
 
-    val userLiveData: LiveData<UserProfile?> get() = _userProfile
+    val userLiveData: LiveData<UserProfile?> get() = _userProfile //TODO Реализовать или удалить
 }

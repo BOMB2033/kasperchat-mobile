@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserProfileViewModel @Inject constructor(
+class UserProfileViewModel @Inject constructor( //TODO реализовать настройку профиля
     private val apiService: ApiService,
     private val gson: Gson
 ) : ViewModel() {

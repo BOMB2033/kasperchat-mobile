@@ -10,7 +10,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.kasperchat_test.api.ApiService
 import com.example.kasperchat_test.api.RetrofitClient
 import com.example.kasperchat_test.model.RegisterRequest
-import com.example.kasperchat_test.model.RegisterResponse
 import com.example.kasperchat_test.model.UserProfile
 import com.example.kasperchat_test.signalr.SignalRManager
 import com.google.gson.Gson
@@ -19,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
+import androidx.core.content.edit
 
 sealed class RegisterResult {
     data class Success(val token: String, val userId: String, val userProfile: UserProfile?) : RegisterResult()
@@ -157,10 +157,9 @@ class RegisterViewModel @Inject constructor(
 
     private fun saveAuthToken(token: String, expiry: Long) {
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
-        with(sharedPreferences.edit()) {
+        sharedPreferences.edit {
             putString(AUTH_TOKEN_KEY, token)
             putLong(TOKEN_EXPIRY_KEY, expiry)
-            apply()
         }
         Log.i("RegisterViewModel", "Auth token saved with expiry: $expiry")
     }
@@ -183,9 +182,8 @@ class RegisterViewModel @Inject constructor(
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
         try {
             val userProfileJson = gson.toJson(userProfile)
-            with(sharedPreferences.edit()) {
+            sharedPreferences.edit {
                 putString(USER_PROFILE_KEY, userProfileJson)
-                apply()
             }
             Log.i("RegisterViewModel", "User profile saved to SharedPreferences: $userProfileJson")
         } catch (e: Exception) {
@@ -195,11 +193,10 @@ class RegisterViewModel @Inject constructor(
 
     private fun clearAuthToken() {
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
-        with(sharedPreferences.edit()) {
+        sharedPreferences.edit {
             remove(AUTH_TOKEN_KEY)
             remove(TOKEN_EXPIRY_KEY)
             remove(USER_PROFILE_KEY)
-            apply()
         }
         _userProfile.postValue(null)
         signalRManager.stopConnection()

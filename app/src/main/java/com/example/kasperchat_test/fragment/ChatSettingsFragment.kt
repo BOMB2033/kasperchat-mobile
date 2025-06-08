@@ -16,18 +16,9 @@ class ChatSettingsFragment : Fragment() {
     private var _binding: FragmentOptionsChatGroupBinding? = null
     private val binding get() = _binding!!
 
-    private var param1: String? = null
-    private var param2: String? = null
-    private var chatId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Проверяем, есть ли аргументы, и получаем их, если есть
-        if (arguments != null) {
-            chatId = requireArguments().getString(ARG_CHAT_ID)
-            param1 = requireArguments().getString(ARG_PARAM1)
-            param2 = requireArguments().getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -53,23 +44,5 @@ class ChatSettingsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        private const val ARG_CHAT_ID = "chat_id"
-        private const val ARG_PARAM1 = "param1"
-        private const val ARG_PARAM2 = "param2"
-
-        @JvmStatic
-        fun newInstance(chatId: String?, param1: String?, param2: String?): ChatSettingsFragment {
-            val fragment = ChatSettingsFragment()
-            val args = Bundle().apply {
-                putString(ARG_CHAT_ID, chatId)
-                putString(ARG_PARAM1, param1)
-                putString(ARG_PARAM2, param2)
-            }
-            fragment.arguments = args
-            return fragment
-        }
     }
 }

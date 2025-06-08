@@ -16,7 +16,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.FragmentChatBinding
-import com.example.kasperchat_test.model.Chat
 import com.example.kasperchat_test.model.Message
 import com.example.kasperchat_test.ui.adapter.message.MessageListAdapter
 import com.example.kasperchat_test.viewmodel.ChatViewModel
@@ -148,7 +147,7 @@ class ChatFragment : Fragment() {
         // Наблюдение за данными чата
         chatViewModel.chat.observe(viewLifecycleOwner) { chat ->
             if (chat != null) {
-                val chatName = chat.name?.takeIf { it.isNotBlank() } ?: getString(R.string.default_chat_name, chatId)
+                val chatName = chat.name.takeIf { it.isNotBlank() } ?: getString(R.string.default_chat_name, chatId)
                 binding.toolbarInclude.chatTitle.text = chatName
                 Log.d("ChatFragment", "Chat title set to: $chatName")
             } else {

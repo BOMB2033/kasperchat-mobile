@@ -10,7 +10,6 @@ import com.example.kasperchat_test.model.CreateChatRequest
 import com.example.kasperchat_test.model.DisplayableChatItem
 import com.example.kasperchat_test.signalr.ChatEvent
 import com.example.kasperchat_test.signalr.SignalRManager
-import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -20,8 +19,7 @@ import kotlin.collections.map
 @HiltViewModel
 class ChatsListViewModel @Inject constructor(
     private val apiService: ApiService,
-    private val signalRManager: SignalRManager,
-    private val gson: Gson
+    private val signalRManager: SignalRManager
 ) : ViewModel() {
     private val _chats = MutableLiveData<List<DisplayableChatItem>>()
     val chats: LiveData<List<DisplayableChatItem>> = _chats

@@ -1,6 +1,7 @@
 package com.example.kasperchat_test.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -107,8 +108,8 @@ class RegistrationFragment : Fragment() {
         // Наблюдение за профилем пользователя (для отладки или UI)
         registerViewModel.userProfile.observe(viewLifecycleOwner) { profile ->
             if (profile != null) {
-                // Можно обновить UI, если профиль нужен сразу (например, отобразить имя)
-                // Log.d("RegistrationFragment", "User profile loaded: ${profile.fullName}")
+                //  Можно обновить UI, если профиль нужен сразу (например, отобразить имя)
+                 Log.d("RegistrationFragment", "User profile loaded: ${profile.fullName}")
             }
         }
     }

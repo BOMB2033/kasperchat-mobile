@@ -54,13 +54,13 @@ interface ApiService {
     suspend fun createChat(@Body request: CreateChatRequest): Response<Chat>
 
     @PUT("api/chats/{chatId}")
-    suspend fun updateChat(
+    suspend fun updateChat(//TODO Реализовать обновление чата
         @Path("chatId") chatId: String,
         @Body chat: Chat
     ): Response<Chat>
 
     @POST("api/chats/{chatId}/members")
-    suspend fun addChatMember(
+    suspend fun addChatMember( //TODO Реализовать добавление связей с чатом
         @Path("chatId") chatId: String,
         @Body userId: String
     ): Response<ChatMember>

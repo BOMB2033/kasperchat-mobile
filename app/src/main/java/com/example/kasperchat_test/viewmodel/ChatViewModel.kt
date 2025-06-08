@@ -27,7 +27,7 @@ class ChatViewModel @Inject constructor(
     val messages: LiveData<List<Message>> = _messages
 
     private val _chatMembers = MutableLiveData<List<ChatMember>>()
-    val chatMembers: LiveData<List<ChatMember>> = _chatMembers
+    val chatMembers: LiveData<List<ChatMember>> = _chatMembers //TODO Реализовать или удалить
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
