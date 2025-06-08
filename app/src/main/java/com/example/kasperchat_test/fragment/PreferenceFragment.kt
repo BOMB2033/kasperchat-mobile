@@ -10,10 +10,10 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.FragmentPreferenceBinding
-import com.example.kasperchat_test.network.RetrofitClient
 import com.example.kasperchat_test.viewmodel.LoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class PreferenceFragment : Fragment() {
     private lateinit var binding: FragmentPreferenceBinding
     private val loginViewModel: LoginViewModel by activityViewModels()

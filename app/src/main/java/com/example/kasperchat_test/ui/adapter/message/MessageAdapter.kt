@@ -27,8 +27,8 @@ enum class TypeBorderMessage {
     Last
 }
 
-class MessageListAdapter(val chatId: Int,
-                         private var currentUserId: Int,
+class MessageListAdapter(val chatId: String,
+                         private var currentUserId: String,
                          private val onItemClickListener: OnItemClickListener,
                          private val onItemLongClickListener: OnItemLongClickListener
 ) : RecyclerView.Adapter<MessageListAdapter.MessageViewHolder>() {
@@ -80,7 +80,7 @@ class MessageListAdapter(val chatId: Int,
     }
 
     override fun getItemCount(): Int = messages.size
-    fun setCurrentUserId(currentUserId: Int) {
+    fun setCurrentUserId(currentUserId: String) {
         this.currentUserId = currentUserId
     }
 
@@ -97,7 +97,7 @@ class MessageListAdapter(val chatId: Int,
 
     class MessageViewHolder(
         private val binding: ItemMessageBinding,
-        private val currentUserId: Int,
+        private val currentUserId: String,
         private val clickListener: OnItemClickListener,
         private val longClickListener: OnItemLongClickListener
     ) : RecyclerView.ViewHolder(binding.root) {

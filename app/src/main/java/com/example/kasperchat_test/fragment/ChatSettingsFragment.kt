@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.FragmentOptionsChatGroupBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChatSettingsFragment : Fragment() {
 
     private var _binding: FragmentOptionsChatGroupBinding? = null
