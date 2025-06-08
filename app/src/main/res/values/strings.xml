@@ -12,13 +12,36 @@
     <string name="add_options_button_description">Кнопка опции</string>
     <string name="error_loading_chats">Ошибка загрузки чатов</string>
     <string name="no_chats_found">Нет чатов</string>
-        <!-- ... другие строки ... -->
+    <!-- ... другие строки ... -->
     <string name="no_messages_in_chat">В этом чате пока нет сообщений.</string>
     <string name="error_loading_messages">Ошибка загрузки сообщений</string>
-    <string name="chat_status_reconnecting" >Переподключение...</string>
-    <string name="chat_status_connecting" >Подключение...</string>
+    <string name="chat_status_reconnecting">Переподключение...</string>
+    <string name="chat_status_connecting">Подключение...</string>
     <string name="chat_status_disconnected">Отключено</string>
     <string name="chat_status_connected">Подключено</string>
 
+    <string name="error_username_empty">Логин не может быть пустым</string>
+    <string name="error_username_too_short">Логин должен содержать минимум 3 символа</string>
+    <string name="error_username_too_long">Логин не должен превышать 50 символов</string>
+    <string name="error_password_empty">Пароль не может быть пустым</string>
+    <string name="error_password_too_short">Пароль должен содержать минимум 6 символов</string>
+    <string name="error_password_too_long">Пароль не должен превышать 100 символов</string>
+    <string name="error_fix_fields">Исправьте ошибки в полях</string>
+    <string name="login_success">Вход успешен!</string>
+    <string name="hint_username">Логин</string>
+    <string name="hint_password">Пароль</string>
+    <string name="button_login">Войти</string>
+    <string name="link_register">Нет аккаунта? Зарегистрироваться</string>
+    <string name="session_expired">Срок действия сеанса истек</string>
+
+    <string name="create_chat">Создать чат</string>
+    <string name="settings">Настройки</string>
+
+    <string name="loading">Загрузка...</string>
+    <string name="default_chat_name">Чат %1$s</string>
+    <string name="user_not_authenticated">Пользователь не авторизован</string>
+
+    <string name="hint_chat_name">Название чата</string>
+    <string name="button_create_chat">Создать чат</string>
 
 </resources>

@@ -9,6 +9,7 @@
     android:paddingEnd="0dp"
     android:layout_marginEnd="3dp"
     android:layout_marginBottom="3dp"
+    android:clickable="true"
     android:layout_marginStart="3dp"
     android:layout_height="wrap_content">
 
@@ -18,7 +19,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/is_item_chat_light_selector"
         android:orientation="horizontal"
-        android:clickable="true"
         android:paddingBottom="2dp"
         android:baselineAligned="true"
         >

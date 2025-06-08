@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_chat">
         <argument
             android:name="chatId"
-            app:argType="integer" />
+            app:argType="string" />
         <action
             android:id="@+id/action_chatFragment_to_options_chat_group"
             app:destination="@id/options_chat_group" />
@@ -61,6 +61,9 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/chatsListFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_chatsListFragment_to_createChatFragment"
+            app:destination="@id/createChatFragment" />
     </fragment>
 
     <fragment
@@ -81,6 +84,8 @@
         android:name="com.example.kasperchat_test.fragment.ChatSettingsFragment"
         android:label="fragment_options_chat_group"
         tools:layout="@layout/fragment_options_chat_group">
+        <argument android:name="chatId"
+            app:argType="string" />
         <action
             android:id="@+id/action_options_chat_group_to_add_members"
             app:destination="@id/member_management_fragment"
@@ -95,7 +100,11 @@
 
     <fragment
         android:id="@+id/member_management_fragment"
-        android:name="com.example.kasperchat_test.fragment.MemberManagementFragment"
         android:label="fragment_member_management"
         tools:layout="@layout/fragment_member_management" />
+    <fragment
+        android:id="@+id/createChatFragment"
+        android:name="com.example.kasperchat_test.fragment.CreateChatFragment"
+        android:label="fragment_create_chat"
+        tools:layout="@layout/fragment_create_chat" />
 </navigation>
