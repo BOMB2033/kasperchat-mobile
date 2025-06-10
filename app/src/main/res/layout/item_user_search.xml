@@ -23,17 +23,17 @@
 
         <TextView
             android:id="@+id/text_view_full_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:textSize="14sp"
+            android:layout_width="wrap_content"
             android:textColor="@color/name_item_chat"
+            android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceBody1"
             tools:text="Full Name" />
 
         <TextView
             android:id="@+id/text_view_login"
             android:layout_width="wrap_content"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:textColor="@color/name_item_chat"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceCaption"
@@ -44,7 +44,7 @@
         android:id="@+id/button_add_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_minus"
+        android:src="@drawable/ic_plus"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:tint="@color/color_message_indicator" />
 </LinearLayout>

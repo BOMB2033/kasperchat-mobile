@@ -83,7 +83,7 @@
         android:id="@+id/options_chat_group"
         android:name="com.example.kasperchat_test.fragment.ChatSettingsFragment"
         android:label="fragment_options_chat_group"
-        tools:layout="@layout/fragment_options_chat_group">
+        tools:layout="@layout/fragment_chat_settings">
         <argument android:name="chatId"
             app:argType="string" />
         <action

@@ -1,5 +1,6 @@
 package com.example.kasperchat_test.ui.adapter.message
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.util.Log
 import android.view.Gravity
@@ -10,15 +11,18 @@ import android.widget.LinearLayout
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kasperchat_test.GlideApp
 import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.ItemMessageBinding
 import com.example.kasperchat_test.model.Message
+import com.example.kasperchat_test.model.UserProfile
 import com.example.kasperchat_test.ui.adapter.ItemDiffCallback
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
+import androidx.core.view.isVisible
 
 enum class TypeBorderMessage {
     Lonely,
@@ -27,16 +31,24 @@ enum class TypeBorderMessage {
     Last
 }
 
-class MessageListAdapter(val chatId: String, //TODO Настроить адаптер сообщений
-                         private var currentUserId: String,
-                         private val onItemClickListener: OnItemClickListener,
-                         private val onItemLongClickListener: OnItemLongClickListener
+class MessageListAdapter(
+    val chatId: String,
+    private var currentUserId: String,
+    private val onItemClickListener: OnItemClickListener,
+    private val onItemLongClickListener: OnItemLongClickListener
 ) : RecyclerView.Adapter<MessageListAdapter.MessageViewHolder>() {
 
     var messages: MutableList<Message> = mutableListOf() // MutableList для изменения списка
     private var previousMessage: Message? = null
     private var nextMessage: Message? = null
+    private var chatMembers: Map<String, UserProfile> = emptyMap()
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun setChatMembers(members: List<UserProfile>) {
+        // Преобразуем список в карту для быстрого доступа по ID
+        this.chatMembers = members.associateBy { it.id }
+        notifyDataSetChanged() // Перерисовать весь список, т.к. аватарки могли поменяться
+    }
     // Обновление списка сообщений с использованием DiffUtil
     fun submitList(newItems: List<Message>) {
         val diffCallback = ItemDiffCallback(messages, newItems)
@@ -56,7 +68,8 @@ class MessageListAdapter(val chatId: String, //TODO Настроить адап�
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemMessageBinding.inflate(inflater, parent, false)
-        return MessageViewHolder(binding, currentUserId, onItemClickListener, onItemLongClickListener)
+        // Передаем карту участников в ViewHolder
+        return MessageViewHolder(binding, currentUserId, chatMembers, onItemClickListener, onItemLongClickListener)
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
@@ -76,7 +89,7 @@ class MessageListAdapter(val chatId: String, //TODO Настроить адап�
             } else null
         } else null
 
-        holder.bind(currentItem, previousMessage, nextMessage)
+        holder.bind(messages[position], previousMessage, nextMessage)
     }
 
     override fun getItemCount(): Int = messages.size
@@ -98,6 +111,7 @@ class MessageListAdapter(val chatId: String, //TODO Настроить адап�
     class MessageViewHolder(
         private val binding: ItemMessageBinding,
         private val currentUserId: String,
+        private val chatMembers: Map<String, UserProfile>,
         private val clickListener: OnItemClickListener,
         private val longClickListener: OnItemLongClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -132,7 +146,25 @@ class MessageListAdapter(val chatId: String, //TODO Настроить адап�
                     previousMessage != null && nextMessage == null -> TypeBorderMessage.Last
                     else -> TypeBorderMessage.Lonely
                 }
+                // >>>>> НАЧАЛО ИЗМЕНЕНИЙ ДЛЯ АВАТАРА <<<<<
                 avatar.visibility = if (typeBorderMessage == TypeBorderMessage.Midl || typeBorderMessage == TypeBorderMessage.Last || isMyMessage) View.GONE else View.VISIBLE
+
+                // Если аватар видим, загружаем его
+                if (avatar.isVisible) {
+                    // Находим автора сообщения в нашей карте участников
+                    val author = chatMembers[currentMessage.authorId]
+                    val avatarUrl = author?.avatarUrl
+
+                    // Используем GlideApp (сгенерированный Glide)
+                    GlideApp.with(root.context)
+                        .load(avatarUrl) // Загружаем URL
+                        .placeholder(R.drawable.ic_avatar) // Заглушка, пока изображение грузится
+                        .error(R.drawable.ic_avatar) // Заглушка, если произошла ошибка
+                        .circleCrop() // Делаем изображение круглым
+                        .into(avatar) // Указываем, куда загружать (в наш ImageView)
+                }
+
+                // >>>>> КОНЕЦ ИЗМЕНЕНИЙ ДЛЯ АВАТАРА <<<<<
 
                 val color = root.context.getColor(if (isMyMessage) R.color.color_item_message_send else R.color.color_item_message_incoming)
                 messageContainer.backgroundTintList = ColorStateList.valueOf(color)

@@ -143,6 +143,11 @@ class ChatFragment : Fragment() {
                 handleAuthOrAccessError()
             }
         }
+        chatViewModel.chatMembers.observe(viewLifecycleOwner) { members ->
+            if (::messageAdapter.isInitialized) {
+                messageAdapter.setChatMembers(members)
+            }
+        }
 
         // Наблюдение за данными чата
         chatViewModel.chat.observe(viewLifecycleOwner) { chat ->

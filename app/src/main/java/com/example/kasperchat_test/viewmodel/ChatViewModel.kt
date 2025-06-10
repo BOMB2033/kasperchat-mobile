@@ -10,6 +10,7 @@ import com.example.kasperchat_test.model.Chat
 import com.example.kasperchat_test.model.ChatMember
 import com.example.kasperchat_test.model.CreateMessageRequest
 import com.example.kasperchat_test.model.Message
+import com.example.kasperchat_test.model.UserProfile
 import com.example.kasperchat_test.signalr.SignalRManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -26,8 +27,8 @@ class ChatViewModel @Inject constructor(
     private val _messages = MutableLiveData<List<Message>>()
     val messages: LiveData<List<Message>> = _messages
 
-    private val _chatMembers = MutableLiveData<List<ChatMember>>()
-    val chatMembers: LiveData<List<ChatMember>> = _chatMembers //TODO Реализовать или удалить
+    private val _chatMembers = MutableLiveData<List<UserProfile>>()
+    val chatMembers: LiveData<List<UserProfile>> = _chatMembers
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading

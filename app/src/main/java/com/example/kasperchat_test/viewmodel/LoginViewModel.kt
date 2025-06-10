@@ -11,13 +11,13 @@ import com.example.kasperchat_test.api.RetrofitClient
 import com.example.kasperchat_test.model.LoginRequest
 import com.example.kasperchat_test.model.UserProfile
 import com.example.kasperchat_test.signalr.SignalRManager
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 import androidx.core.content.edit
+import androidx.lifecycle.asLiveData
+import com.example.kasperchat_test.repository.UserRepository
 
 sealed class LoginResult {
     data class Success(val token: String, val userProfile: UserProfile?) : LoginResult()
@@ -29,13 +29,15 @@ class LoginViewModel @Inject constructor(
     application: Application,
     private val apiService: ApiService,
     private val signalRManager: SignalRManager,
-    private val gson: Gson
+    private val userRepository: UserRepository, // Внедряем репозиторий
+    // gson и SharedPreferences больше не нужны напрямую
+    //  private val sessionManager: SessionManager // Предполагается, что у вас есть SessionManager для токена
 ) : AndroidViewModel(application) {
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
     private val _userProfile = MutableLiveData<UserProfile?>()
-    val userProfile: LiveData<UserProfile?> = _userProfile
+    val userProfile: LiveData<UserProfile?> = userRepository.userProfile.asLiveData()
 
     private var isFetchingProfile = false
 
@@ -47,7 +49,6 @@ class LoginViewModel @Inject constructor(
     }
 
     init {
-        loadUserProfileFromPrefs()
         val tokenData = loadToken()
         if (tokenData.first != null && tokenData.second != null && tokenData.second!! > System.currentTimeMillis()) {
             Log.i("LoginViewModel", "Valid token found, initializing SignalR")
@@ -70,17 +71,22 @@ class LoginViewModel @Inject constructor(
 
                 if (response.isSuccessful && response.body() != null) {
                     val loginResponse = response.body()!!
-                    val token = loginResponse.token
-                    val expiry = loginResponse.expiresAt.time
-                    saveAuthToken(token, expiry)
-                    RetrofitClient.setToken(token)
+                    // Сохраняем токен через SessionManager или прямо здесь
+                    // sessionManager.saveToken(loginResponse.token) // Предполагаемый метод
+                    RetrofitClient.setToken(loginResponse.token) // Ваш текущий быстрый способ
+                    saveToken(loginResponse.token)
+
 
                     signalRManager.startConnection()
-                    Log.i("LoginViewModel", "Login successful. Token: $token, Expiry: $expiry")
 
-                    if (!isFetchingProfile) {
-                        fetchCurrentUserProfile { fetchedProfile ->
-                            _loginResult.postValue(LoginResult.Success(token, fetchedProfile))
+                    // Запрашиваем профиль через репозиторий
+                    viewModelScope.launch {
+                        val profileResult = userRepository.fetchCurrentUserProfile()
+                        profileResult.onSuccess { fetchedProfile ->
+                            _loginResult.postValue(LoginResult.Success(loginResponse.token, fetchedProfile))
+                        }.onFailure {
+                            // Профиль не загрузился, но логин успешен
+                            _loginResult.postValue(LoginResult.Success(loginResponse.token, null))
                         }
                     }
                 } else {
@@ -116,7 +122,7 @@ class LoginViewModel @Inject constructor(
                 val response = apiService.getCurrentUserProfile()
                 if (response.isSuccessful && response.body() != null) {
                     val user = response.body()!!
-                    saveUserProfile(user)
+                    userRepository.saveProfile(user)
                     _userProfile.postValue(user)
                     Log.i("LoginViewModel", "User profile fetched successfully: $user")
                     onResult?.invoke(user)
@@ -140,68 +146,27 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun saveAuthToken(token: String, expiry: Long) {
-        val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
-        sharedPreferences.edit {
-            putString(AUTH_TOKEN_KEY, token)
-            putLong(TOKEN_EXPIRY_KEY, expiry)
-        }
-        Log.i("LoginViewModel", "Auth token saved with expiry: $expiry")
-    }
-
     fun getAuthToken(): String? {
         val (token, expiry) = loadToken()
         return if (expiry != null && expiry > System.currentTimeMillis()) token else null
     }
 
     fun clearAuthToken() {
+        //sessionManager.clearToken() // Предполагаемый метод
+        RetrofitClient.setToken(null) // Очищаем токен
+        userRepository.clearProfile() // Очищаем профиль через репозиторий
+        // Удаление токена из памяти SharedPreferences
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
         sharedPreferences.edit {
             remove(AUTH_TOKEN_KEY)
             remove(TOKEN_EXPIRY_KEY)
         }
-        clearUserProfile()
-        _userProfile.postValue(null)
         signalRManager.stopConnection()
         Log.i("LoginViewModel", "Auth token and user profile cleared.")
     }
 
-    private fun saveUserProfile(userProfile: UserProfile) {
-        val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
-        try {
-            val userProfileJson = gson.toJson(userProfile)
-            sharedPreferences.edit {
-                putString(USER_PROFILE_KEY, userProfileJson)
-            }
-            Log.i("LoginViewModel", "User profile saved to SharedPreferences: $userProfileJson")
-        } catch (e: Exception) {
-            Log.e("LoginViewModel", "Error serializing user profile to JSON", e)
-        }
-    }
-
-    private fun loadUserProfileFromPrefs() {
-        val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
-        val userProfileJson = sharedPreferences.getString(USER_PROFILE_KEY, null)
-        if (userProfileJson != null) {
-            try {
-                val userProfile = gson.fromJson(userProfileJson, UserProfile::class.java)
-                _userProfile.postValue(userProfile)
-                Log.i("LoginViewModel", "User profile loaded from SharedPreferences: $userProfile")
-            } catch (e: JsonSyntaxException) {
-                Log.e("LoginViewModel", "Error parsing UserProfile JSON from SharedPreferences. Clearing corrupted profile.", e)
-                clearUserProfile()
-                _userProfile.postValue(null)
-            } catch (e: Exception) {
-                Log.e("LoginViewModel", "Unexpected error loading user profile from SharedPreferences", e)
-                _userProfile.postValue(null)
-            }
-        } else {
-            _userProfile.postValue(null)
-            Log.i("LoginViewModel", "No user profile found in SharedPreferences.")
-        }
-    }
-
     private fun loadToken(): Pair<String?, Long?> {
+
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
         val token = sharedPreferences.getString(AUTH_TOKEN_KEY, null)
         val expiry = if (sharedPreferences.contains(TOKEN_EXPIRY_KEY)) {
@@ -209,20 +174,13 @@ class LoginViewModel @Inject constructor(
         } else null
         return Pair(token, expiry)
     }
-
-    private fun clearUserProfile() {//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1L
+    private fun saveToken(token: String){
         val sharedPreferences = getApplication<Application>().getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
+        val expiry = System.currentTimeMillis() + 3600000 // Токен действителен 1 час
         sharedPreferences.edit {
-            remove(USER_PROFILE_KEY)
+            putString(AUTH_TOKEN_KEY, token)
+            putLong(TOKEN_EXPIRY_KEY, expiry)
         }
-        Log.i("LoginViewModel", "User profile cleared from SharedPreferences.")
+        Log.i("LoginViewModel", "Token saved with expiry: $expiry")
     }
-
-    val currentUserIdLiveData: LiveData<String?> = MutableLiveData<String?>().apply {//TODO Реализовать или удалить
-        _userProfile.observeForever { profile ->
-            value = profile?.id
-        }
-    }
-
-    val userLiveData: LiveData<UserProfile?> get() = _userProfile //TODO Реализовать или удалить
 }

@@ -32,7 +32,7 @@ android {
             )
         }
         getByName("debug") {
-            buildConfigField("String","SERVER_IP","\"192.168.1.42\"")
+            buildConfigField("String","SERVER_IP","\"192.168.83.176\"")
             buildConfigField("String","SERVER_PORT","\"5012\"")
         }
     }
@@ -56,9 +56,15 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.gson)
 }
-
 dependencies {
-
+    // ... other dependencies
+    // annotationProcessor "com.github.bumptech.glide:compiler:4.12.0" // For Java projects
+    // For Kotlin projects, use kapt instead of annotationProcessor
+}
+dependencies {
+    implementation(libs.glide)
+    kapt(libs.compiler)
+    implementation(libs.coil)
     implementation (libs.roundedimageview)
     implementation(libs.google.hilt.android)
     kapt(libs.hilt.compiler)

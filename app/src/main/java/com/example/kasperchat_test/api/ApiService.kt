@@ -8,6 +8,8 @@ import com.example.kasperchat_test.model.LoginResponse
 import com.example.kasperchat_test.model.Message
 import com.example.kasperchat_test.model.RegisterRequest
 import com.example.kasperchat_test.model.RegisterResponse
+import com.example.kasperchat_test.model.UpdateChatRequest
+import com.example.kasperchat_test.model.UpdateUserProfileRequest
 import com.example.kasperchat_test.model.UserProfile
 import retrofit2.Response
 import retrofit2.http.Body
@@ -21,9 +23,6 @@ interface ApiService {
     suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
     @POST("api/auth/login")
     suspend fun loginUser(@Body loginRequest: LoginRequest): Response<LoginResponse>
-
-    @GET("api/auth/me")
-    suspend fun getCurrentUserProfile(): Response<UserProfile>
 
     @GET("api/chats")
     suspend fun getChats(): Response<List<Chat>>
@@ -39,7 +38,7 @@ interface ApiService {
     suspend fun getUsers(): Response<List<UserProfile>>
 
     @GET("api/chats/{chatId}/members")
-    suspend fun getChatMembers(@Path("chatId") chatId: String): Response<List<ChatMember>>
+    suspend fun getChatMembers(@Path("chatId") chatId: String): Response<List<UserProfile>>
 
     @POST("api/chats/{chatId}/messages")
     suspend fun sendMessageToChat(
@@ -54,14 +53,36 @@ interface ApiService {
     suspend fun createChat(@Body request: CreateChatRequest): Response<Chat>
 
     @PUT("api/chats/{chatId}")
-    suspend fun updateChat(//TODO Реализовать обновление чата
+    suspend fun updateChat(
         @Path("chatId") chatId: String,
-        @Body chat: Chat
+        @Body chat: UpdateChatRequest
     ): Response<Chat>
 
     @POST("api/chats/{chatId}/members")
-    suspend fun addChatMember( //TODO Реализовать добавление связей с чатом
+    suspend fun addChatMember(
         @Path("chatId") chatId: String,
         @Body userId: String
     ): Response<ChatMember>
+
+    // Путь изменен с /api/auth/me на /api/users/me
+    @GET("api/users/me")
+    suspend fun getCurrentUserProfile(): Response<UserProfile>
+
+    // НОВЫЙ МЕТОД
+    @PUT("api/users/me")
+    suspend fun updateUserProfile(@Body request: UpdateUserProfileRequest): Response<UserProfile>
+
+    /**
+     * Выполняет поиск пользователей для добавления в чат.
+     * Отправляет GET-запрос на эндпоинт: /api/users/search
+     *
+     * @param query Текст для поиска (логин или полное имя пользователя).
+     * @param chatId ID чата, в который планируется добавление (для исключения текущих участников).
+     * @return Ответ сервера, содержащий список найденных пользователей в виде List<UserProfile>.
+     */
+    @GET("api/users/search")
+    suspend fun searchUsers(
+        @Query("query") query: String,
+        @Query("chatId") chatId: String
+    ): Response<List<UserProfile>>
 }

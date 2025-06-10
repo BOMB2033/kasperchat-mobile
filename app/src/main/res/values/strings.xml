@@ -43,5 +43,18 @@
 
     <string name="hint_chat_name">Название чата</string>
     <string name="button_create_chat">Создать чат</string>
+    <string name="full_name">ФИО</string>
+    <string name="bio">О себе</string>
+    <string name="save">Сохранить</string>
+    <string name="email">Почта</string>
+    <string name="exit_account">Выйти из аккаунта</string>
 
+    <string name="chat_settings">Настройки чата</string>
+    <string name="chat_name">Название чата</string>
+    <string name="save_success">Изменения сохранены</string>
+    <string name="error_saving">Ошибка при сохранении</string>
+    <string name="error_field_cant_be_empty">Поле не может быть пустым</string>
+    <string name="add_members_hint">Поиск и добавление участников</string>
+    <string name="members">Участники</string>
+    <string name="user_added_success">Пользователь добавлен в чат</string>
 </resources>

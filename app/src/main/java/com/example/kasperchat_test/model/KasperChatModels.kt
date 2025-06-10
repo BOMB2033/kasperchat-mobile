@@ -3,6 +3,12 @@ package com.example.kasperchat_test.model
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
+data class UpdateUserProfileRequest(
+    val fullName: String?,
+    val bio: String?,
+    val avatarUrl: String?
+)
+
 data class Chat(
     @SerializedName("id")
     val id: String? = null,
@@ -154,3 +160,11 @@ data class DisplayableChatItem(
 ) {
     val id: String = chat.id ?: ""
 }
+
+data class UpdateChatRequest(
+    val name: String,
+    val isGroup: Boolean,
+    val avatarUrl: String?,
+    val backgroundUrl: String?,
+    val bubbleColor: String?
+)
