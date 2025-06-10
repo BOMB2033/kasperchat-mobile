@@ -47,6 +47,7 @@ class ChatSettingsViewModel @Inject constructor(
     private val _members = MutableLiveData<List<UserProfile>>()
     val members: LiveData<List<UserProfile>> = _members
 
+
     /**
      * Загружает детальную информацию о чате с сервера.
      * @param chatId ID чата для загрузки.
@@ -119,17 +120,35 @@ class ChatSettingsViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Загружает участников чата.
+     * Стратегия:
+     * 1. Загружаем полный список пользователей (из общих чатов).
+     * 2. Загружаем список ID участников текущего чата.
+     * 3. Фильтруем полный список пользователей, оставляя только участников.
+     */
     fun fetchChatMembers(chatId: String) {
         viewModelScope.launch {
             try {
-                val response = apiService.getChatMembers(chatId) // Предполагаем, что этот метод возвращает List<ChatMember>
-                if(response.isSuccessful && response.body() != null) {
-                    // TODO: Вам нужно будет получить полные профили пользователей по их ID,
-                    // либо изменить API, чтобы оно сразу возвращало UserProfile.
-                    // Пока оставим пустым для простоты.
+                // Шаг 1: Загружаем всех доступных пользователей
+                val usersResponse = apiService.getUsers()
+                // Шаг 2: Загружаем ID участников
+                val membersResponse = apiService.getChatMembers(chatId)
+
+                if (usersResponse.isSuccessful && membersResponse.isSuccessful) {
+                    val allUsers = usersResponse.body() ?: emptyList()
+                    val memberIds = membersResponse.body()?.map { it.userId }?.toSet() ?: emptySet()
+
+                    // Шаг 3: Фильтруем
+                    val chatMembersProfiles = allUsers.filter { user ->
+                        memberIds.contains(user.id)
+                    }
+                    _members.postValue(chatMembersProfiles)
+                } else {
+                    _error.postValue("Ошибка загрузки участников: ${membersResponse.code()}")
                 }
             } catch (e: Exception) {
-                _error.postValue("Ошибка загрузки участников: ${e.message}")
+                _error.postValue("Сетевая ошибка при загрузке участников: ${e.message}")
             }
         }
     }
@@ -164,6 +183,32 @@ class ChatSettingsViewModel @Inject constructor(
                     fetchChatMembers(chatId) // Обновляем список участников
                 } else {
                     _error.postValue("Ошибка добавления пользователя: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                _error.postValue("Сетевая ошибка: ${e.message}")
+            } finally {
+                _isLoading.postValue(false)
+            }
+        }
+    }
+
+    /**
+     * Удаляет пользователя из чата.
+     * @param chatId ID чата.
+     * @param userToRemove Пользователь для удаления.
+     */
+    fun removeUserFromChat(chatId: String, userToRemove: UserProfile) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Вам понадобится эндпоинт для удаления. Предположим, он такой:
+                // DELETE /api/chats/{chatId}/members/{userId}
+                val response = apiService.removeChatMember(chatId, userToRemove.id) // <--- НУЖНО ДОБАВИТЬ В ApiService
+                if (response.isSuccessful) {
+                    _error.postValue("${userToRemove.fullName} удален из чата")
+                    fetchChatMembers(chatId) // Обновляем список
+                } else {
+                    _error.postValue("Ошибка удаления: ${response.code()}")
                 }
             } catch (e: Exception) {
                 _error.postValue("Сетевая ошибка: ${e.message}")

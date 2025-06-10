@@ -56,5 +56,6 @@
     <string name="error_field_cant_be_empty">Поле не может быть пустым</string>
     <string name="add_members_hint">Поиск и добавление участников</string>
     <string name="members">Участники</string>
+    <string name="members_count">Участники (%d)</string>
     <string name="user_added_success">Пользователь добавлен в чат</string>
 </resources>

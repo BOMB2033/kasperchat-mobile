@@ -109,9 +109,20 @@ class ChatViewModel @Inject constructor(
     fun fetchChatMembers(chatId: String) {
         viewModelScope.launch {
             try {
-                val response = apiService.getChatMembers(chatId)
-                if (response.isSuccessful && response.body() != null) {
-                    _chatMembers.postValue(response.body()!!)
+                // Используем ту же эффективную стратегию, что и в ChatSettingsViewModel
+                val usersResponse = apiService.getUsers()
+                val membersResponse = apiService.getChatMembers(chatId)
+
+                if (usersResponse.isSuccessful && membersResponse.isSuccessful) {
+                    val allUsers = usersResponse.body() ?: emptyList()
+                    val memberIds = membersResponse.body()?.map { it.userId }?.toSet() ?: emptySet()
+
+                    val chatMembersProfiles = allUsers.filter { user ->
+                        memberIds.contains(user.id)
+                    }
+                    _chatMembers.postValue(chatMembersProfiles) // Отправляем список профилей
+                } else {
+                    Log.e("ChatViewModel", "Error fetching members: membersResponse code ${membersResponse.code()}, usersResponse code ${usersResponse.code()}")
                 }
             } catch (e: Exception) {
                 Log.e("ChatViewModel", "Error fetching members: ${e.message}")

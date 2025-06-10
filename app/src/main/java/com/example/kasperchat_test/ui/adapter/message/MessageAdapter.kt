@@ -23,6 +23,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import androidx.core.view.isVisible
+import com.example.kasperchat_test.model.ChatMember
 
 enum class TypeBorderMessage {
     Lonely,

@@ -62,12 +62,9 @@ class PreferenceFragment : Fragment() {
         binding.buttonLogout.setOnClickListener {
             loginViewModel.clearAuthToken()
             // Используйте navigate для перехода к LoginFragment и popUpTo для очистки стека до него
-            findNavController().navigate(R.id.loginFragment) {
-                popUpTo(R.id.loginFragment) {
-                    inclusive = true // Удалить и сам loginFragment из стека, если он там уже есть
-                }
-                launchSingleTop = true // Не создавать новый экземпляр, если уже в топе
-            }
+            findNavController().navigate(R.id.loginFragment)
+            findNavController().popBackStack(R.id.loginFragment, false)
+
         }
     }
 

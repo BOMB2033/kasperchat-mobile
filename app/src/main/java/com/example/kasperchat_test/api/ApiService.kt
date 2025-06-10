@@ -13,6 +13,7 @@ import com.example.kasperchat_test.model.UpdateUserProfileRequest
 import com.example.kasperchat_test.model.UserProfile
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -37,8 +38,8 @@ interface ApiService {
     @GET("api/users")
     suspend fun getUsers(): Response<List<UserProfile>>
 
-    @GET("api/chats/{chatId}/members")
-    suspend fun getChatMembers(@Path("chatId") chatId: String): Response<List<UserProfile>>
+    @GET("api/chats/ChatMembers/{chatId}")
+    suspend fun getChatMembers(@Path("chatId") chatId: String): Response<List<ChatMember>>
 
     @POST("api/chats/{chatId}/messages")
     suspend fun sendMessageToChat(
@@ -58,7 +59,7 @@ interface ApiService {
         @Body chat: UpdateChatRequest
     ): Response<Chat>
 
-    @POST("api/chats/{chatId}/members")
+    @POST("api/chats/ChatMembers/{chatId}")
     suspend fun addChatMember(
         @Path("chatId") chatId: String,
         @Body userId: String
@@ -85,4 +86,10 @@ interface ApiService {
         @Query("query") query: String,
         @Query("chatId") chatId: String
     ): Response<List<UserProfile>>
+
+    @DELETE("api/chats/ChatMembers/{chatId}/{userId}") // Используем HTTP DELETE
+    suspend fun removeChatMember(
+        @Path("chatId") chatId: String,
+        @Path("userId") userId: String
+    ): Response<Unit> // Ответ может быть пустым (204 No Content)
 }

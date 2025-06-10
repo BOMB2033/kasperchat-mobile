@@ -41,7 +41,7 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/button_add_user"
+        android:id="@+id/buttonRemove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_minus"

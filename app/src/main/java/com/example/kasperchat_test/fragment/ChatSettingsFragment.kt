@@ -1,5 +1,6 @@
 package com.example.kasperchat_test.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,8 @@ import com.example.kasperchat_test.ui.adapter.UserSearchAdapter
 import com.example.kasperchat_test.viewmodel.ChatSettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.widget.doAfterTextChanged
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kasperchat_test.ui.adapter.ChatMembersAdapter
 
 @AndroidEntryPoint
 class ChatSettingsFragment : Fragment() {
@@ -28,6 +31,9 @@ class ChatSettingsFragment : Fragment() {
     private val chatViewModel: ChatSettingsViewModel by viewModels()
 
     private lateinit var searchAdapter: UserSearchAdapter
+    private lateinit var membersAdapter: ChatMembersAdapter // Добавляем адаптер для участников
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,24 +46,30 @@ class ChatSettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecyclerViews() // Новый метод
+        setupRecyclerViews()
         setupUI()
         observeViewModel()
 
         chatViewModel.fetchChatDetails(args.chatId)
-        // viewModel.fetchChatMembers(args.chatId) // TODO Вызываем загрузку участников
+        chatViewModel.fetchChatMembers(args.chatId) // Загружаем участников при старте
     }
     private fun setupRecyclerViews() {
+        // Адаптер для результатов поиска
         searchAdapter = UserSearchAdapter { user ->
-            // Клик по кнопке "добавить"
             chatViewModel.addUserToChat(args.chatId, user)
-            binding.editTextSearchUser.text?.clear() // Очищаем поле поиска
+            binding.editTextSearchUser.text?.clear()
         }
         binding.recyclerViewSearchResults.adapter = searchAdapter
+        binding.recyclerViewSearchResults.layoutManager = LinearLayoutManager(context)
 
-        // TODO Инициализация адаптера для участников
-        // membersAdapter = ChatMembersAdapter()
-        // binding.recyclerViewMembers.adapter = membersAdapter
+        // Адаптер для списка участников
+        membersAdapter = ChatMembersAdapter { user ->
+            // Клик по кнопке "удалить"
+            // TODO: Добавить диалог подтверждения перед удалением
+            chatViewModel.removeUserFromChat(args.chatId, user)
+        }
+        binding.recyclerViewMembers.adapter = membersAdapter
+        binding.recyclerViewMembers.layoutManager = LinearLayoutManager(context)
     }
     private fun setupUI() {
         binding.toolbar.setNavigationOnClickListener {
@@ -125,10 +137,12 @@ class ChatSettingsFragment : Fragment() {
             searchAdapter.submitList(users)
         }
 
-        // TODO Наблюдатель для списка участников
-        // viewModel.members.observe(viewLifecycleOwner) { members ->
-        //     membersAdapter.submitList(members)
-        // }
+        // Наблюдатель для списка участников
+        chatViewModel.members.observe(viewLifecycleOwner) { members ->
+            binding.textViewMembersTitle.text = getString(R.string.members_count, members.size)
+            membersAdapter.submitList(members)
+        }
+
     }
 
     override fun onDestroyView() {
