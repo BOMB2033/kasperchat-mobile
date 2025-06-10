@@ -92,4 +92,8 @@ interface ApiService {
         @Path("chatId") chatId: String,
         @Path("userId") userId: String
     ): Response<Unit> // Ответ может быть пустым (204 No Content)
+
+    @DELETE("api/chats/{chatId}")
+    suspend fun deleteChat(@Path("chatId") chatId: String): Response<Unit>
+
 }

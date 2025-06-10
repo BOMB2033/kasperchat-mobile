@@ -100,6 +100,9 @@ class ChatSettingsFragment : Fragment() {
         binding.editTextSearchUser.doAfterTextChanged { text ->
             chatViewModel.searchUsers(text.toString(), args.chatId)
         }
+        binding.buttonDelete.setOnClickListener {
+            chatViewModel.deleteChat(args.chatId)
+        }
     }
 
     private fun observeViewModel() {
@@ -142,7 +145,6 @@ class ChatSettingsFragment : Fragment() {
             binding.textViewMembersTitle.text = getString(R.string.members_count, members.size)
             membersAdapter.submitList(members)
         }
-
     }
 
     override fun onDestroyView() {

@@ -218,6 +218,27 @@ class ChatSettingsViewModel @Inject constructor(
         }
     }
 
+    fun deleteChat(chatId: String) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                val response = apiService.deleteChat(chatId)
+                if (response.isSuccessful) {
+                    _error.postValue("Чат удален")
+                    _updateSuccessEvent.postValue(Event(Unit)) // Успешное удаление
+                    fetchChatMembers(chatId)
+                } else {
+                    _error.postValue("Ошибка удаления: ${response.code()}")
+                }
+            }catch (e: Exception) {
+                _error.postValue("Сетевая ошибка: ${e.message}")
+            } finally {
+                _isLoading.postValue(false)
+            }
+        }
+
+    }
+
 }
 
 /**

@@ -33,6 +33,4 @@ object AppModule {
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences =
         context.getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
-
-
 }

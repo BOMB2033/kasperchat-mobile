@@ -58,4 +58,5 @@
     <string name="members">Участники</string>
     <string name="members_count">Участники (%d)</string>
     <string name="user_added_success">Пользователь добавлен в чат</string>
+    <string name="delete">Удалить</string>
 </resources>
