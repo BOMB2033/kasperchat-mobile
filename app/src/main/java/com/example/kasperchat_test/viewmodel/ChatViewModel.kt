@@ -11,6 +11,7 @@ import com.example.kasperchat_test.model.ChatMember
 import com.example.kasperchat_test.model.CreateMessageRequest
 import com.example.kasperchat_test.model.Message
 import com.example.kasperchat_test.model.UserProfile
+import com.example.kasperchat_test.repository.UserRepository
 import com.example.kasperchat_test.signalr.SignalRManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val apiService: ApiService,
-    private val signalRManager: SignalRManager
+    private val signalRManager: SignalRManager,
+    private val userRepository: UserRepository
 ) : ViewModel() {
     private val _chat = MutableLiveData<Chat?>()
     val chat: LiveData<Chat?> = _chat
@@ -40,14 +42,13 @@ class ChatViewModel @Inject constructor(
         // Подписываемся на новые сообщения ОДИН РАЗ при создании ViewModel
         viewModelScope.launch {
             signalRManager.newMessageFlow.collect { newMessage ->
-                // Проверяем, что сообщение для текущего чата (если ViewModel используется для разных чатов)
-                // В вашем случае ChatFragment создается заново, так что это нестрого, но хорошая практика
                 val currentChatId = _chat.value?.id
                 if (newMessage.chatId.toString() == currentChatId) {
                     val currentList = _messages.value ?: emptyList()
-                    // Убедимся, что не добавляем дубликат
                     if (!currentList.any { it.id == newMessage.id }) {
                         _messages.postValue(currentList + newMessage)
+
+                        markMessagesAsRead(newMessage.chatId)
                     }
                 }
             }
@@ -94,6 +95,7 @@ class ChatViewModel @Inject constructor(
                 val response = apiService.getMessagesByChatId(chatId, offset, limit)
                 if (response.isSuccessful && response.body() != null) {
                     _messages.postValue(response.body()!!)
+                    markMessagesAsRead(chatId)
                     _error.postValue(null)
                 } else {
                     _error.postValue("Ошибка загрузки сообщений: ${response.message()}")
@@ -129,7 +131,51 @@ class ChatViewModel @Inject constructor(
             }
         }
     }
+    private fun markMessagesAsRead(chatId: String) {
+        viewModelScope.launch {
+            try {
+                // Просто отправляем запрос, сервер сам разберется
+                val response = apiService.markMessagesAsRead(chatId)
+                if (response.isSuccessful) {
+                    Log.d("ChatViewModel", "Messages in chat $chatId marked as read.")
+                    // Локально обновляем статус isRead для всех входящих сообщений,
+                    // чтобы UI обновился мгновенно, не дожидаясь следующей загрузки с сервера.
+                    updateIncomingMessagesAsReadLocally()
+                } else {
+                    Log.e("ChatViewModel", "Failed to mark messages as read. Code: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e("ChatViewModel", "Error marking messages as read", e)
+            }
+        }
+    }
+    private fun updateIncomingMessagesAsReadLocally() {
+        // 1. Получаем ID текущего пользователя из репозитория
+        val currentUserId = userRepository.userProfile.value?.id
+        if (currentUserId == null) {
+            Log.w("ChatViewModel", "Cannot update read status locally: currentUserId is null.")
+            return
+        }
 
+        val currentMessages = _messages.value
+        if (currentMessages.isNullOrEmpty()) return
+
+        // 2. Обновляем только входящие (чужие) сообщения, которые еще не помечены как прочитанные
+        val updatedMessages = currentMessages.map { message ->
+            // Обновляем, только если это чужое сообщение и оно еще не прочитано
+            if (message.authorId != currentUserId && !message.isRead) {
+                message.copy(isRead = true)
+            } else {
+                message // Возвращаем без изменений
+            }
+        }
+
+        // 3. Отправляем обновленный список в LiveData, только если были изменения
+        if (currentMessages != updatedMessages) {
+            _messages.postValue(updatedMessages)
+            Log.d("ChatViewModel", "Updated incoming messages' read status locally.")
+        }
+    }
     fun sendMessage(chatId: String, content: String, messageType: String = "Text") {
         viewModelScope.launch {
             try {

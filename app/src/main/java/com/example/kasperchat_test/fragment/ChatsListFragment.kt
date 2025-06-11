@@ -99,6 +99,11 @@ class ChatsListFragment : Fragment() {
             if (chats.isEmpty()) {
                 binding.textViewErrorChats.text = getString(R.string.no_chats_found)
             } else {
+                chats.map {
+                    if(it.authorName == loginViewModel.userProfile.value?.fullName)
+                    it.authorName=null
+                    it
+                }
                 chatAdapter.submitList(chats)
             }
         }

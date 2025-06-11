@@ -13,6 +13,7 @@ object RetrofitClient {
     // Свойство для хранения токена
     private var token: String? = null
 
+
     fun setToken(string: String?) {
         token = string
     }

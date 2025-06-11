@@ -33,7 +33,13 @@ data class Chat(
     @SerializedName("bubbleColor")
     val bubbleColor: String? = null,
     @SerializedName("createdAt")
-    val createdAt: Date
+    val createdAt: Date,
+    @SerializedName("lastMessage")
+    val lastMessage: Message? = null,
+    @SerializedName("authorNameLastMessage")
+    val authorNameLastMessage: String? = null,
+    @SerializedName("countUnreadMessages")
+    val countUnreadMessages: Int? = null,
 )
 
 data class CreateChatRequest(
@@ -155,6 +161,7 @@ data class DisplayableChatItem(
     val chat: Chat,
     val linkedUserProfiles: List<UserProfile>,
     val lastMessageText: String? = null,
+    var authorName: String? = null,
     val lastMessageTimestamp: Date? = null,
     val unreadMessagesCount: Int = 0
 ) {
@@ -167,4 +174,9 @@ data class UpdateChatRequest(
     val avatarUrl: String?,
     val backgroundUrl: String?,
     val bubbleColor: String?
+)
+
+data class UploadResponse(
+    @SerializedName("url") // Имя поля должно совпадать с JSON-ответом сервера ("Url")
+    val url: String
 )

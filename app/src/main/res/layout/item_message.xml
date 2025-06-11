@@ -68,7 +68,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/message_text"
                 tools:ignore="HardcodedText" />
-
+            <!-- НОВЫЙ ЭЛЕМЕНТ ДЛЯ СТАТУСА ПРОЧТЕНИЯ -->
+            <ImageView
+                android:id="@+id/imageViewReadStatus"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="4dp"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:src="@drawable/ic_double_check_blue" />
         </LinearLayout>
 
     </LinearLayout>

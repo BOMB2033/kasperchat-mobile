@@ -9,6 +9,11 @@ import com.example.kasperchat_test.model.UserProfile
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
+import java.net.URL
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -63,13 +68,38 @@ class UserRepository @Inject constructor(
             Result.failure(e)
         }
     }
+    suspend fun uploadAvatar(file: File): Result<String> {
+        return try {
+            // 1. Создаем RequestBody из файла
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
 
-    suspend fun updateUserProfile(fullName: String, bio: String): Result<UserProfile> {
+            // 2. Создаем MultipartBody.Part
+            // Имя "file" должно совпадать с именем параметра в методе контроллера на сервере (IFormFile file)
+            val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+            // 3. Вызываем метод API
+            val response = apiService.uploadFile(body)
+
+            if (response.isSuccessful && response.body() != null) {
+                val fileUrl = response.body()!!.url
+                Log.i("UserRepository", "File uploaded successfully. URL: $fileUrl")
+                Result.success(fileUrl)
+            } else {
+                val errorMsg = "Failed to upload file: ${response.code()} - ${response.message()}"
+                Log.e("UserRepository", errorMsg)
+                Result.failure(Exception(errorMsg))
+            }
+        } catch (e: Exception) {
+            Log.e("UserRepository", "Exception during file upload", e)
+            Result.failure(e)
+        }
+    }
+    suspend fun updateUserProfile(fullName: String, bio: String, avatarUrl: String?): Result<UserProfile> {
         return try {
             val request = UpdateUserProfileRequest(
                 fullName = fullName,
                 bio = bio,
-                avatarUrl = _userProfile.value?.avatarUrl
+                avatarUrl = avatarUrl
             )
             val response = apiService.updateUserProfile(request)
             if (response.isSuccessful && response.body() != null) {
@@ -83,7 +113,9 @@ class UserRepository @Inject constructor(
             Result.failure(e)
         }
     }
-
+    suspend fun updateUserProfile(fullName: String, bio: String): Result<UserProfile> {
+        return updateUserProfile(fullName, bio, userProfile.value?.avatarUrl)
+    }
     // Сохраняет профиль в StateFlow и SharedPreferences
     fun saveProfile(profile: UserProfile) {
         _userProfile.value = profile

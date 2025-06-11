@@ -67,7 +67,7 @@ class RegisterViewModel @Inject constructor(
                     val userId = registerResponse.userId
                     // Предполагаем, что токен действителен 12 часов, как на сервере
                     val expiry = System.currentTimeMillis() + 12 * 60 * 60 * 1000
-                    saveAuthToken(token, expiry)
+                    //saveAuthToken(token, expiry)
                     RetrofitClient.setToken(token)
                     signalRManager.startConnection()
                     Log.i("RegisterViewModel", "Регистрация успешна: userId=$userId")
