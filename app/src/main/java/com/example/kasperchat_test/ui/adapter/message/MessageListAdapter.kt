@@ -23,7 +23,6 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import androidx.core.view.isVisible
-import com.example.kasperchat_test.model.ChatMember
 
 enum class TypeBorderMessage {
     Lonely,
@@ -165,7 +164,22 @@ class MessageListAdapter(
                         .into(avatar) // Указываем, куда загружать (в наш ImageView)
                 }
 
-                // >>>>> КОНЕЦ ИЗМЕНЕНИЙ ДЛЯ АВАТАРА <<<<<
+                if (isMyMessage) {
+                    imageViewReadStatus.isVisible = true
+                    if (currentMessage.isRead) {
+                        // Прочитано: ставим синюю двойную галочку
+                        imageViewReadStatus.setImageResource(R.drawable.ic_double_check_blue) // Замените на свою иконку
+                        // Можно также менять цвет программно:
+                        // imageViewReadStatus.imageTintList = ColorStateList.valueOf(root.context.getColor(R.color.your_read_color))
+                    } else {
+                        // Отправлено, но не прочитано: ставим серую одинарную галочку
+                        imageViewReadStatus.setImageResource(R.drawable.ic_single_check_gray) // Замените на свою иконку
+                        // imageViewReadStatus.imageTintList = ColorStateList.valueOf(root.context.getColor(R.color.your_sent_color))
+                    }
+                } else {
+                    // Скрываем иконку для входящих сообщений
+                    imageViewReadStatus.isVisible = false
+                }
 
                 val color = root.context.getColor(if (isMyMessage) R.color.color_item_message_send else R.color.color_item_message_incoming)
                 messageContainer.backgroundTintList = ColorStateList.valueOf(color)

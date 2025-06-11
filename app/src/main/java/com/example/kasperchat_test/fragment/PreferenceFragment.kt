@@ -1,6 +1,9 @@
 package com.example.kasperchat_test.fragment
 
+import android.content.ContentResolver
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -8,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,11 +19,21 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.kasperchat_test.GlideApp
 import com.example.kasperchat_test.R
+import com.example.kasperchat_test.api.RetrofitClient
 import com.example.kasperchat_test.databinding.FragmentPreferenceBinding
+import com.example.kasperchat_test.viewmodel.LoadAvatarResult
 import com.example.kasperchat_test.viewmodel.LoginViewModel
 import com.example.kasperchat_test.viewmodel.UpdateResult
 import com.example.kasperchat_test.viewmodel.UserProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import java.io.File
+import java.io.FileOutputStream
 
 @AndroidEntryPoint
 class PreferenceFragment : Fragment() {
@@ -50,6 +64,54 @@ class PreferenceFragment : Fragment() {
         observeViewModel()
         setupTextWatchers()
     }
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            handleImageSelection(it)
+        }
+    }
+
+    private fun handleImageSelection(uri: Uri) {
+        // Копируем выбранный файл во внутреннее хранилище, чтобы получить объект File
+        // Это более надежный способ, чем пытаться работать с Uri напрямую
+        val file = getFileFromUri(uri)
+        file?.let {
+            userProfileViewModel.uploadAndSaveAvatar(it)
+        } ?: Toast.makeText(context, "Не удалось обработать выбранный файл", Toast.LENGTH_SHORT).show()
+    }
+
+    // Вспомогательная функция для копирования файла из Uri
+    private fun getFileFromUri(uri: Uri): File? {
+        val context = requireContext()
+        val contentResolver: ContentResolver = context.contentResolver
+        // Создаем временный файл в кеше приложения
+        val fileName = getFileName(contentResolver, uri) ?: "temp_avatar.jpg"
+        val tempFile = File(context.cacheDir, fileName)
+        try {
+            val inputStream = contentResolver.openInputStream(uri)
+            val outputStream = FileOutputStream(tempFile)
+            inputStream?.copyTo(outputStream)
+            inputStream?.close()
+            outputStream.close()
+            return tempFile
+        } catch (e: Exception) {
+            Log.e("PreferenceFragment", "Failed to copy file from Uri", e)
+            return null
+        }
+    }
+
+    // Вспомогательная функция для получения имени файла
+    private fun getFileName(resolver: ContentResolver, uri: Uri): String? {
+        val cursor = resolver.query(uri, null, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                if (nameIndex != -1) {
+                    return it.getString(nameIndex)
+                }
+            }
+        }
+        return null
+    }
 
     private fun setupUI() {
         binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
@@ -58,6 +120,10 @@ class PreferenceFragment : Fragment() {
             val fullName = binding.editTextFullName.text.toString()
             val bio = binding.editTextBio.text.toString()
             userProfileViewModel.saveUserProfile(fullName, bio)
+        }
+        binding.buttonChangeAvatar.setOnClickListener {
+            // Запускаем выбор изображения из галереи
+            pickImageLauncher.launch("image/*")
         }
         binding.buttonLogout.setOnClickListener {
             loginViewModel.clearAuthToken()
@@ -98,7 +164,26 @@ class PreferenceFragment : Fragment() {
                 // так как данные уже загружены и отображены.
             }
         }
+        userProfileViewModel.loadAvatarResult.observe(viewLifecycleOwner) { result ->
+            // Показываем/скрываем ProgressBar, блокируем UI
+            binding.progressBar.isVisible = result is LoadAvatarResult.Loading
+            binding.buttonChangeAvatar.isEnabled = result !is LoadAvatarResult.Loading
+            binding.buttonSave.isEnabled = result !is LoadAvatarResult.Loading
 
+            when (result) {
+                is LoadAvatarResult.Success -> {
+                    Toast.makeText(context, "Аватар успешно обновлен", Toast.LENGTH_SHORT).show()
+                    // Glide сам обновит картинку, т.к. userProfile LiveData изменится.
+                    // Можно дополнительно принудительно загрузить новый URL для мгновенного эффекта,
+                    // но это не обязательно, если ViewModel все делает правильно.
+                }
+                is LoadAvatarResult.Error -> {
+                    Toast.makeText(context, "Ошибка загрузки: ${result.message}", Toast.LENGTH_LONG).show()
+                }
+                is LoadAvatarResult.Loading -> { /* UI уже обновлен */ }
+                is LoadAvatarResult.Idle -> { /* Ничего не делаем */ }
+            }
+        }
         userProfileViewModel.updateResult.observe(viewLifecycleOwner) { result ->
             binding.progressBar.isVisible = result is UpdateResult.Loading
             // Блокируем кнопку сохранения только во время загрузки, но видимость управляется отдельно

@@ -68,9 +68,10 @@ class ChatsListViewModel @Inject constructor(
                         DisplayableChatItem(
                             chat = chat,
                             linkedUserProfiles = emptyList(), // Заполнить, если нужно
-                            lastMessageText = null, // Заполнить на основе данных
-                            lastMessageTimestamp = null,
-                            unreadMessagesCount = 0
+                            lastMessageText = chat.lastMessage?.content, // Заполнить на основе данных
+                            lastMessageTimestamp = chat.lastMessage?.timestamp,
+                            authorName = chat.authorNameLastMessage,
+                            unreadMessagesCount = chat.countUnreadMessages ?: 0
                         )
                     }
                     _chats.postValue(chats)

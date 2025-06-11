@@ -13,6 +13,8 @@ import com.example.kasperchat_test.model.UserProfile
 import com.example.kasperchat_test.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import java.io.File
 import javax.inject.Inject
 
 sealed class UpdateResult {
@@ -20,6 +22,12 @@ sealed class UpdateResult {
     data class Error(val message: String) : UpdateResult()
     data object Loading : UpdateResult()
     data object Idle : UpdateResult()
+}
+sealed class LoadAvatarResult {
+    data class Success(val url: String) : LoadAvatarResult()
+    data class Error(val message: String) : LoadAvatarResult()
+    data object Loading : LoadAvatarResult()
+    data object Idle : LoadAvatarResult()
 }
 sealed class FetchResult {
     data object Success : FetchResult()
@@ -30,7 +38,7 @@ sealed class FetchResult {
 // File: viewmodel/UserProfileViewModel.kt
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(
-    application: Application,
+    private val application: Application,
     private val userRepository: UserRepository // Внедряем ТОЛЬКО репозиторий
 ) : AndroidViewModel(application) {
 
@@ -40,8 +48,39 @@ class UserProfileViewModel @Inject constructor(
     private val _updateResult = MutableLiveData<UpdateResult>(UpdateResult.Idle)
     val updateResult: LiveData<UpdateResult> = _updateResult
 
+    private val _loadAvatarResult = MutableLiveData<LoadAvatarResult>(LoadAvatarResult.Idle)
+    val loadAvatarResult: LiveData<LoadAvatarResult> = _loadAvatarResult
+
     private val _fetchResult = MutableLiveData<FetchResult>(FetchResult.Idle)
     val fetchResult: LiveData<FetchResult> = _fetchResult
+
+
+    fun uploadAndSaveAvatar(file: File) {
+        _loadAvatarResult.value = LoadAvatarResult.Loading
+        viewModelScope.launch {
+            // Шаг 1: Загрузить файл на сервер и получить URL
+            val uploadResult = userRepository.uploadAvatar(file)
+
+            uploadResult.onSuccess { newAvatarUrl ->
+                // Шаг 2: Если загрузка успешна, обновить профиль пользователя с новым URL
+                val currentUser = userProfile.value
+                val updateProfileResult = userRepository.updateUserProfile(
+                    fullName = currentUser?.fullName ?: "",
+                    bio = currentUser?.bio ?: "",
+                    avatarUrl = newAvatarUrl // Используем новый URL
+                )
+
+                updateProfileResult.onSuccess {
+                    _loadAvatarResult.postValue(LoadAvatarResult.Success(newAvatarUrl))
+                    // Обновление профиля в репозитории уже произошло, LiveData обновится автоматически
+                }.onFailure { exception ->
+                    _loadAvatarResult.postValue(LoadAvatarResult.Error(exception.message ?: "Failed to update profile with new avatar"))
+                }
+            }.onFailure { exception ->
+                _loadAvatarResult.postValue(LoadAvatarResult.Error(exception.message ?: "Unknown upload error"))
+            }
+        }
+    }
 
     fun saveUserProfile(fullName: String, bio: String) {
         _updateResult.value = UpdateResult.Loading
@@ -54,6 +93,7 @@ class UserProfileViewModel @Inject constructor(
             }
         }
     }
+
 
     fun onResultHandled() {
         _updateResult.value = UpdateResult.Idle

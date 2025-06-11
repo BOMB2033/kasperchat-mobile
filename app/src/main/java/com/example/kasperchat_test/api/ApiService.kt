@@ -10,15 +10,20 @@ import com.example.kasperchat_test.model.RegisterRequest
 import com.example.kasperchat_test.model.RegisterResponse
 import com.example.kasperchat_test.model.UpdateChatRequest
 import com.example.kasperchat_test.model.UpdateUserProfileRequest
+import com.example.kasperchat_test.model.UploadResponse
 import com.example.kasperchat_test.model.UserProfile
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
+
 interface ApiService {
     @POST("api/auth/register")
     suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
@@ -93,7 +98,19 @@ interface ApiService {
         @Path("userId") userId: String
     ): Response<Unit> // Ответ может быть пустым (204 No Content)
 
+    /**
+     * Отмечает все сообщения в чате как прочитанные для текущего пользователя.
+     * Отправляет POST-запрос на эндпоинт: /api/chats/{chatId}/read
+     */
+    @POST("api/chats/{chatId}/messages/read")
+    suspend fun markMessagesAsRead(@Path("chatId") chatId: String): Response<Unit>
+
     @DELETE("api/chats/{chatId}")
     suspend fun deleteChat(@Path("chatId") chatId: String): Response<Unit>
+
+    @Multipart
+    @POST("api/file/upload")
+    suspend fun uploadFile(@Part file: MultipartBody.Part): Response<UploadResponse>
+
 
 }
