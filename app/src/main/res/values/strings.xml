@@ -59,4 +59,8 @@
     <string name="members_count">Участники (%d)</string>
     <string name="user_added_success">Пользователь добавлен в чат</string>
     <string name="delete">Удалить</string>
+    <string name="confirm_deletion_title">Подтверждение удаления</string>
+    <string name="confirm_remove_user_message">Вы действительно хотите удалить пользователя %s?</string>
+    <string name="confirm_leave_chat_message">Вы действительно хотите покинуть этот чат?</string>
+    <string name="cancel">Отмена</string>
 </resources>

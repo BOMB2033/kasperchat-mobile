@@ -20,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kasperchat_test.ui.adapter.ChatMembersAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 @AndroidEntryPoint
 class ChatSettingsFragment : Fragment() {
@@ -64,9 +65,16 @@ class ChatSettingsFragment : Fragment() {
 
         // Адаптер для списка участников
         membersAdapter = ChatMembersAdapter { user ->
-            // Клик по кнопке "удалить"
-            // TODO: Добавить диалог подтверждения перед удалением
-            chatViewModel.removeUserFromChat(args.chatId, user)
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.confirm_deletion_title)
+                .setMessage(getString(R.string.confirm_remove_user_message, user.fullName))
+                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setPositiveButton(R.string.delete) { _, _ ->
+                    chatViewModel.removeUserFromChat(args.chatId, user)
+                }
+                .show()
         }
         binding.recyclerViewMembers.adapter = membersAdapter
         binding.recyclerViewMembers.layoutManager = LinearLayoutManager(context)

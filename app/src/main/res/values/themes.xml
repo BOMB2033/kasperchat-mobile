@@ -3,8 +3,10 @@
     <style name="Base.Theme.KasperChatTest" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="color_item_message_send">@color/color_item_message_send</item>
         <item name="color_item_message_shadow_send">@color/color_item_message_shadow_send</item>
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="colorSurface">@color/background_dark</item>
+        <item name="colorOnSurface">@color/text_color_login_button</item>
+
     </style>
     <style name="Theme.KasperChatTest" parent="Base.Theme.KasperChatTest" >
 
