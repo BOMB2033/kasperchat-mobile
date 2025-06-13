@@ -63,4 +63,8 @@
     <string name="confirm_remove_user_message">Вы действительно хотите удалить пользователя %s?</string>
     <string name="confirm_leave_chat_message">Вы действительно хотите покинуть этот чат?</string>
     <string name="cancel">Отмена</string>
+    <string name="delete_chat">Удалить чат</string>
+    <string name="leave_chat">Покинуть чат</string>
+    <string name="confirm_delete_chat_message">Вы точно хотите удалить чат?</string>
+    <string name="leave">Покинуть</string>
 </resources>

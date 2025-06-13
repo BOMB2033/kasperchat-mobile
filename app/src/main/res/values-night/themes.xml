@@ -5,5 +5,6 @@
         <item name="color_item_message_shadow_send">@color/color_item_message_shadow_send</item>
         <item name="colorSurface">@color/background_dark</item>
         <item name="colorOnSurface">@color/text_color_login_button</item>
-           </style>
+    </style>
+
 </resources>

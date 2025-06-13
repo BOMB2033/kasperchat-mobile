@@ -8,9 +8,21 @@ import com.example.kasperchat_test.api.ApiService
 import com.example.kasperchat_test.model.Chat
 import com.example.kasperchat_test.model.UpdateChatRequest
 import com.example.kasperchat_test.model.UserProfile
+import com.example.kasperchat_test.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
+
+// Sealed class для управления всеми результатами на этом экране
+sealed class ChatSettingsResult {
+    data class Success(val message: String) : ChatSettingsResult()
+    data class Error(val message: String) : ChatSettingsResult()
+    data object Loading : ChatSettingsResult()
+    data object Idle : ChatSettingsResult()
+    data object NavigationBack : ChatSettingsResult() // Для удаления или выхода
+}
+
 
 /**
  * ViewModel для экрана настроек чата.
@@ -18,34 +30,29 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ChatSettingsViewModel @Inject constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
-    // --- LiveData для состояния UI ---
-
-    // Хранит текущие данные о чате.
     private val _chat = MutableLiveData<Chat?>()
     val chat: LiveData<Chat?> = _chat
 
-    // Управляет видимостью ProgressBar.
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
-    // Хранит текст ошибки для отображения в Toast/Snackbar.
-    private val _error = MutableLiveData<String?>()
+    private val _error = MutableLiveData<String?>() // Оставляем для простых уведомлений
     val error: LiveData<String?> = _error
 
-    // Событие, сигнализирующее об успешном обновлении.
-    // Фрагмент должен наблюдать за ним, чтобы выполнить навигацию назад.
-    private val _updateSuccessEvent = MutableLiveData<Event<Unit>>()
-    val updateSuccessEvent: LiveData<Event<Unit>> = _updateSuccessEvent
+    // Новая LiveData для управления состоянием UI
+    private val _settingsResult = MutableLiveData<ChatSettingsResult>(ChatSettingsResult.Idle)
+    val settingsResult: LiveData<ChatSettingsResult> = _settingsResult
 
-    // Новые LiveData для поиска и участников
+    // LiveData для поиска и участников (остаются без изменений)
     private val _searchResults = MutableLiveData<List<UserProfile>>()
     val searchResults: LiveData<List<UserProfile>> = _searchResults
 
     private val _members = MutableLiveData<List<UserProfile>>()
     val members: LiveData<List<UserProfile>> = _members
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
 
 
     /**
@@ -53,25 +60,16 @@ class ChatSettingsViewModel @Inject constructor(
      * @param chatId ID чата для загрузки.
      */
     fun fetchChatDetails(chatId: String) {
-        // Показываем индикатор загрузки
-        _isLoading.value = true
-
         viewModelScope.launch {
             try {
                 val response = apiService.getChatById(chatId)
                 if (response.isSuccessful && response.body() != null) {
-                    // Успешно загрузили, обновляем LiveData
                     _chat.postValue(response.body())
                 } else {
-                    // Сервер вернул ошибку
                     _error.postValue("Ошибка загрузки данных чата: ${response.code()}")
                 }
             } catch (e: Exception) {
-                // Ошибка сети или другая непредвиденная проблема
                 _error.postValue("Сетевая ошибка: ${e.message}")
-            } finally {
-                // В любом случае убираем индикатор загрузки
-                _isLoading.postValue(false)
             }
         }
     }
@@ -82,22 +80,19 @@ class ChatSettingsViewModel @Inject constructor(
      * @param newName Новое название чата.
      * @param newAvatarUrl Новый URL аватара (может быть null).
      */
-    fun updateChat(chatId: String, newName: String, newAvatarUrl: String?) {
-        // Получаем текущее состояние чата, чтобы не потерять другие поля
-        val currentChat = _chat.value
-        if (currentChat == null) {
-            _error.value = "Данные чата еще не загружены. Попробуйте снова."
+    fun updateChat(chatId: String, newName: String) {
+        val currentChat = _chat.value ?: run {
+            _settingsResult.value = ChatSettingsResult.Error("Данные чата не загружены.")
             return
         }
 
-        _isLoading.value = true
+        _settingsResult.value = ChatSettingsResult.Loading
 
-        // Создаем DTO для запроса на обновление
         val request = UpdateChatRequest(
             name = newName,
-            isGroup = currentChat.isGroup, // Отправляем текущее значение, т.к. не меняем его
-            avatarUrl = newAvatarUrl,
-            backgroundUrl = currentChat.backgroundUrl, // Сохраняем старые значения
+            isGroup = currentChat.isGroup,
+            avatarUrl = currentChat.avatarUrl, // Сохраняем текущий аватар
+            backgroundUrl = currentChat.backgroundUrl,
             bubbleColor = currentChat.bubbleColor
         )
 
@@ -105,20 +100,58 @@ class ChatSettingsViewModel @Inject constructor(
             try {
                 val response = apiService.updateChat(chatId, request)
                 if (response.isSuccessful) {
-                    // Успех! Отправляем событие для навигации
-                    _updateSuccessEvent.postValue(Event(Unit))
+                    // Обновляем локальные данные и сообщаем об успехе
+                    fetchChatDetails(chatId) // Перезагружаем для свежести
+                    _settingsResult.postValue(ChatSettingsResult.Success("Название чата обновлено"))
                 } else {
-                    // Ошибка сервера
-                    _error.postValue("Ошибка сохранения: ${response.code()}")
+                    _settingsResult.postValue(ChatSettingsResult.Error("Ошибка сохранения: ${response.code()}"))
                 }
             } catch (e: Exception) {
-                // Ошибка сети
-                _error.postValue("Сетевая ошибка: ${e.message}")
-            } finally {
-                _isLoading.postValue(false)
+                _settingsResult.postValue(ChatSettingsResult.Error("Сетевая ошибка: ${e.message}"))
             }
         }
     }
+
+    fun uploadAndSaveChatAvatar(chatId: String, file: File) {
+        _settingsResult.value = ChatSettingsResult.Loading
+        viewModelScope.launch {
+            // Шаг 1: Загрузить файл
+            userRepository.uploadAvatar(file).onSuccess { newAvatarUrl ->
+                // Шаг 2: Обновить чат с новым URL
+                val currentChat = _chat.value ?: run {
+                    _settingsResult.postValue(ChatSettingsResult.Error("Данные чата не загружены."))
+                    return@onSuccess
+                }
+                val request = UpdateChatRequest(
+                    name = currentChat.name,
+                    isGroup = currentChat.isGroup,
+                    avatarUrl = newAvatarUrl, // Используем новый URL
+                    backgroundUrl = currentChat.backgroundUrl,
+                    bubbleColor = currentChat.bubbleColor
+                )
+
+                try {
+                    val response = apiService.updateChat(chatId, request)
+                    if (response.isSuccessful) {
+                        fetchChatDetails(chatId) // Обновляем данные чата
+                        _settingsResult.postValue(ChatSettingsResult.Success("Аватар чата обновлен"))
+                    } else {
+                        _settingsResult.postValue(ChatSettingsResult.Error("Ошибка обновления аватара: ${response.code()}"))
+                    }
+                } catch (e: Exception) {
+                    _settingsResult.postValue(ChatSettingsResult.Error("Сетевая ошибка: ${e.message}"))
+                }
+
+            }.onFailure { exception ->
+                _settingsResult.postValue(ChatSettingsResult.Error("Ошибка загрузки файла: ${exception.message}"))
+            }
+        }
+    }
+
+    fun onResultHandled() {
+        _settingsResult.value = ChatSettingsResult.Idle
+    }
+
 
     /**
      * Загружает участников чата.
@@ -219,44 +252,39 @@ class ChatSettingsViewModel @Inject constructor(
     }
 
     fun deleteChat(chatId: String) {
-        _isLoading.value = true
+        _settingsResult.value = ChatSettingsResult.Loading
         viewModelScope.launch {
             try {
                 val response = apiService.deleteChat(chatId)
                 if (response.isSuccessful) {
-                    _error.postValue("Чат удален")
-                    _updateSuccessEvent.postValue(Event(Unit)) // Успешное удаление
-                    fetchChatMembers(chatId)
+                    _settingsResult.postValue(ChatSettingsResult.NavigationBack)
                 } else {
-                    _error.postValue("Ошибка удаления: ${response.code()}")
+                    _settingsResult.postValue(ChatSettingsResult.Error("Ошибка удаления: ${response.code()}"))
                 }
             }catch (e: Exception) {
-                _error.postValue("Сетевая ошибка: ${e.message}")
-            } finally {
-                _isLoading.postValue(false)
+                _settingsResult.postValue(ChatSettingsResult.Error("Сетевая ошибка: ${e.message}"))
             }
         }
-
     }
 
-}
-
-/**
- * Класс-обертка для событий, которые должны обрабатываться только один раз,
- * например, навигация или показ Toast/Snackbar.
- */
-open class Event<out T>(private val content: T) {
-    var hasBeenHandled = false
-        private set
-
-    fun getContentIfNotHandled(): T? {
-        return if (hasBeenHandled) {
-            null
-        } else {
-            hasBeenHandled = true
-            content
+    /**
+     * Позволяет текущему пользователю выйти из чата.
+     * @param chatId ID чата.
+     * @param userId ID пользователя, который выходит.
+     */
+    fun leaveChat(chatId: String, userId: String) {
+        _settingsResult.value = ChatSettingsResult.Loading
+        viewModelScope.launch {
+            try {
+                val response = apiService.removeChatMember(chatId, userId)
+                if (response.isSuccessful) {
+                    _settingsResult.postValue(ChatSettingsResult.NavigationBack)
+                } else {
+                    _settingsResult.postValue(ChatSettingsResult.Error("Не удалось покинуть чат: ${response.code()}"))
+                }
+            } catch (e: Exception) {
+                _settingsResult.postValue(ChatSettingsResult.Error("Сетевая ошибка: ${e.message}"))
+            }
         }
     }
-
-    fun peekContent(): T = content
 }

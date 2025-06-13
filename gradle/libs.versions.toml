@@ -22,6 +22,7 @@ lifecycleLivedataKtx = "2.9.1"
 roundedimageview = "v1.0.1"
 signalr = "7.0.0"
 swiperefreshlayout = "1.1.0"
+desugarJdkLibs = "2.0.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,6 +51,7 @@ androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecy
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
 roundedimageview = { module = "com.github.mmmelik:RoundedImageView", version.ref = "roundedimageview" }
 signalr-v504 = { module = "com.microsoft.signalr:signalr", version.ref = "signalr" }
+desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
