@@ -34,7 +34,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/button_login_selector"
-        android:src="@drawable/ic_arrow_back"
+        android:src="@drawable/ic_edit"
         app:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/image_view_avatar"
         app:layout_constraintEnd_toEndOf="@id/image_view_avatar"/>

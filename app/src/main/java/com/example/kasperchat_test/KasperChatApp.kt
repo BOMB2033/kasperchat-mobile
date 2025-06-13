@@ -4,6 +4,7 @@ import com.example.kasperchat_test.signalr.SignalRManager
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.kasperchat_test.api.RetrofitClient
 @HiltAndroidApp
 class KasperChatApp : Application() {
@@ -21,6 +22,7 @@ class KasperChatApp : Application() {
             RetrofitClient.setToken(token)
             signalRManager.startConnection()
         }
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES) //TODO: Убрать после реализации светлого дизайна
     }
 
     private fun getAuthToken(): String? {

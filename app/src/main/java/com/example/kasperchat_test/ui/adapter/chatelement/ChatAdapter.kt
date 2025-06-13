@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.example.kasperchat_test.R
 import com.example.kasperchat_test.databinding.ItemChatBinding
 import com.example.kasperchat_test.model.DisplayableChatItem
 import java.text.SimpleDateFormat
@@ -62,6 +64,12 @@ class ChatAdapter(
             else
                 statusImageView.visibility = View.VISIBLE
 
+            if (chatItem.chat.avatarUrl != null) {
+                avatarImageView.load(chatItem.chat.avatarUrl) {
+                    placeholder(R.drawable.ic_avatar)
+                    error(R.drawable.ic_avatar)
+                }
+            }
 
             root.setOnClickListener { clickListener.onItemClick(chatItem) }
         }
