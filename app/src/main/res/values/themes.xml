@@ -1,7 +1,7 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.KasperChatTest" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="color_item_message_send">@color/color_item_message_send</item>
+    <style name="Base.Theme.KasperChatTest" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <item name="color_item_message_send">@color/color_item_message_send</item>
         <item name="color_item_message_shadow_send">@color/color_item_message_shadow_send</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->

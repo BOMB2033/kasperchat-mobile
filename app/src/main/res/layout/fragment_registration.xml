@@ -9,12 +9,12 @@
 
     <TextView
         android:id="@+id/textView"
-        android:textColor="@color/logo_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="-5dp"
         android:fontFamily="@font/didacthgothic"
         android:text="@string/kasper_chat"
+        android:textColor="@color/logo_text"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +27,7 @@
         style="@style/EditStyle"
         android:layout_width="293dp"
         android:layout_height="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:autofillHints="name"
         android:ems="10"
         android:focusableInTouchMode="true"
@@ -140,4 +140,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/AuthTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Регестрация"
+
+        app:layout_constraintBottom_toTopOf="@+id/editTextFullName"
+        app:layout_constraintStart_toStartOf="@+id/editTextFullName" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

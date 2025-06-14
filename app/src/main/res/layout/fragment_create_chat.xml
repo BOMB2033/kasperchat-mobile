@@ -35,23 +35,27 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextChatNameLayout"
-        style="@style/EditStyle"
-        android:layout_width="293dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="bottom"
         android:hint="@string/hint_chat_name"
+        app:hintTextAppearance="@style/HintTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextChatName"
+            style="@style/EditStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:autofillHints=""
             android:ems="10"
-            android:inputType="text"
             android:focusableInTouchMode="true"
-            android:autofillHints="" />
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -64,6 +68,7 @@
         android:paddingBottom="4dp"
         android:text="@string/button_create_chat"
         android:textColor="#CFD9EBFF"
+        android:textAllCaps="false"
         android:textSize="19sp"
         android:tint="#1222AD"
         app:layout_constraintEnd_toEndOf="parent"

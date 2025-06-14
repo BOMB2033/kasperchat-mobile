@@ -23,7 +23,7 @@ android {
     }
     buildTypes {
         getByName("release") {
-            buildConfigField("String","SERVER_IP","\"185.130.224.155\"")
+            buildConfigField("String","SERVER_IP","\"192.168.1.42\"")
             buildConfigField("String","SERVER_PORT","\"5012\"")
             isMinifyEnabled = false
             proguardFiles(
@@ -32,7 +32,7 @@ android {
             )
         }
         getByName("debug") {
-            buildConfigField("String","SERVER_IP","\"172.20.10.14\"")
+            buildConfigField("String","SERVER_IP","\"192.168.1.42\"")
             buildConfigField("String","SERVER_PORT","\"5012\"")
         }
     }
@@ -79,12 +79,14 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation("com.google.android.material:material:1.11.0") // или актуальная
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }
 kapt {
     correctErrorTypes = true

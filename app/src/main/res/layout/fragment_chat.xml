@@ -79,22 +79,22 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent">
 
-    <EditText
-        android:id="@+id/editTextMessage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingTop="8dp"
-        android:textSize="18sp"
-        android:fontFamily="@font/inter_regular"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-    android:textCursorDrawable="@drawable/custom_cursor"
-    android:background="@drawable/edit_message"
-    android:gravity="start"
-    android:hint="Введите сообщение"
-    android:inputType="textMultiLine"
-    android:minHeight="40dp" />
+        <EditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_message"
+            android:fontFamily="@font/inter_regular"
+            android:gravity="start"
+            android:hint="Введите сообщение"
+            android:inputType="textMultiLine"
+            android:minHeight="40dp"
+            android:paddingStart="15dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="15dp"
+            android:textCursorDrawable="@drawable/custom_cursor"
+            android:textSize="18sp" />
 
     <ImageButton
         android:id="@+id/buttonSendMessage"
