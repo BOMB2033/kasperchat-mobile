@@ -5,6 +5,8 @@
     <color name="status_reconnecting">#FF9800</color> <!-- Оранжевый -->
     <color name="status_disconnected">#F44336</color> <!-- Красный -->
     <!-- хз чё за цвета, херня какая то -->
+    <color name="custom_error">#fc7042</color>
+    <color name="text_color_hint">#ADC5D3</color> <!-- Бело-синий -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#627A48</color>
