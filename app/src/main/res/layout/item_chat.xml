@@ -30,9 +30,11 @@
 
             <com.appbroker.roundedimageview.RoundedImageView
                 android:id="@+id/avatarImageView"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop"
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="clip_horizontal"
                 android:layout_margin="9dp"
                 android:src="@drawable/ic_avatar"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -155,7 +155,7 @@ class PreferenceFragment : Fragment() {
                         .load(it.avatarUrl)
                         .placeholder(R.drawable.ic_avatar)
                         .error(R.drawable.ic_avatar)
-                        .circleCrop()
+                       //.circleCrop()
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(binding.imageViewAvatar)
                 }

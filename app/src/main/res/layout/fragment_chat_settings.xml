@@ -12,12 +12,11 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            android:textColor="@color/name_item_chat"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/button_login_selector"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:title="@string/chat_settings"
-            app:titleTextColor="@color/name_item_chat" /> <!-- ИЗМЕНЕНО: Более правильный способ задать цвет заголовка -->
+            app:title="@string/chat_settings" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -42,84 +41,104 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:visibility="visible"/>
 
-            <ImageView
+            <com.appbroker.roundedimageview.RoundedImageView
                 android:id="@+id/image_view_chat_avatar"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:src="@drawable/ic_avatar"
+                app:radius="40dp"
+                android:adjustViewBounds="false"
                 android:scaleType="centerCrop"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.559"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+            <ImageButton
                 android:id="@+id/fab_edit_avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_arrow_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/ic_edit"
+                android:background="@drawable/button_login_selector"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/white"
+                android:visibility="gone"
+                tools:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@id/image_view_chat_avatar"
-                app:layout_constraintEnd_toEndOf="@id/image_view_chat_avatar"
-                app:tint="@android:color/white"
-                tools:ignore="ContentDescription" /> <!-- ИЗМЕНЕНО: иконка должна соответствовать действию (например, редактирование) -->
+                app:layout_constraintEnd_toEndOf="@id/image_view_chat_avatar" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout_chat_name"
+
                 android:layout_width="0dp"
-                android:layout_height="78dp"
+
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="32dp"
-                android:gravity="bottom"
                 android:hint="@string/chat_name"
-                android:textColorHint="@color/text_color_login_hint_edit_text"
-                app:hintTextAppearance="@style/FloatingHintStyle"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="75dp"
+                app:hintTextAppearance="@style/HintTextStyle"
+                android:enabled="false"
+                android:gravity="bottom"
+                app:layout_constraintTop_toBottomOf="@id/image_view_chat_avatar"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image_view_chat_avatar">
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_text_chat_name"
                     style="@style/EditStyle"
+                    android:id="@+id/edit_text_chat_name"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Кнопка "Добавить участников". Перемещена сюда для логики -->
             <Button
-                android:id="@+id/button_save_changes"
+                android:id="@+id/button_add_members"
                 android:layout_width="0dp"
-                android:layout_height="52dp"
+                android:layout_height="60dp"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/button_login_selector"
                 android:fontFamily="@font/signikanegative_sc_regular"
                 android:paddingBottom="4dp"
-                android:text="@string/save"
+                android:text="@string/add_members_hint"
                 android:textAllCaps="false"
                 android:textColor="#CFD9EBFF"
                 android:textSize="19sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/text_input_layout_chat_name"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_input_layout_chat_name" />
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/group_add_members"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:constraint_referenced_ids="text_input_layout_search_user, recycler_view_search_results" />
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout_search_user"
                 android:layout_width="0dp"
-                android:layout_height="78dp"
-                android:layout_marginTop="16dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="8dp"
+
+                app:hintTextAppearance="@style/HintTextStyle"
+                android:enabled="false"
                 android:gravity="bottom"
                 android:hint="@string/add_members_hint"
-                android:textColorHint="@color/text_color_login_hint_edit_text"
                 app:endIconMode="clear_text"
-                app:hintTextAppearance="@style/FloatingHintStyle"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_add_members"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider">
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_text_search_user"
-
                     style="@style/EditStyle"
+                    android:id="@+id/edit_text_search_user"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:inputType="text" />
@@ -130,76 +149,99 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:maxHeight="200dp"
-                android:visibility="gone"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_input_layout_search_user"
-                tools:itemCount="1"
                 tools:listitem="@layout/item_user_search"
-                tools:visibility="visible" />
+                tools:itemCount="1"
 
+                app:layout_constraintTop_toBottomOf="@id/text_input_layout_search_user"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <!-- Список участников -->
             <TextView
                 android:id="@+id/text_view_members_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/members"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
                 android:textColor="@color/name_item_chat"
                 android:textSize="17sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recycler_view_search_results" />
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                app:layout_constraintTop_toBottomOf="@id/recycler_view_search_results"
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <!-- ИСПРАВЛЕННЫЙ БЛОК -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_members"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="0dp"
+                tools:listitem="@layout/item_member"
+                tools:itemCount="2"
                 app:layout_constraintTop_toBottomOf="@id/text_view_members_title"
-                tools:listitem="@layout/item_member" />
-            <!-- УБРАН атрибут app:layout_constraintBottom_toBottomOf="parent" -->
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <Button
-                android:id="@+id/button_delete"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:textAllCaps="false"
+            <!-- Управляющий блок кнопок -->
+            <LinearLayout
+                android:id="@+id/buttons_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/button_login_selector"
-                android:backgroundTint="#9ACE0808"
-                android:fontFamily="@font/signikanegative_sc_regular"
-                android:paddingBottom="4dp"
-                android:text="@string/delete_chat"
-                android:textColor="#CFD9EBFF"
-                android:textSize="19sp"
-                android:visibility="gone"
-                tools:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/recycler_view_members"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/> <!-- ДОБАВЛЕНО: Теперь кнопка корректно привязана к низу -->
-            <Button
-                android:id="@+id/button_leave_chat"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_login_selector"
-                android:backgroundTint="#9A084ACE"
-                android:fontFamily="@font/signikanegative_sc_regular"
-                android:paddingBottom="4dp"
-                android:text="@string/leave_chat"
-                android:textColor="#CFD9EBFF"
-                android:textSize="19sp"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <Button
+                    android:id="@+id/button_save_changes"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:background="@drawable/button_login_selector"
+                    android:fontFamily="@font/signikanegative_sc_regular"
+                    android:paddingBottom="4dp"
+                    android:text="@string/save"
+                    android:textAllCaps="false"
+                    android:textColor="#CFD9EBFF"
+                    android:textSize="19sp"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <Button
+                    android:textAllCaps="false"
+                    android:id="@+id/button_delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button_login_selector"
+                    android:backgroundTint="#9ACE0808"
+                    android:fontFamily="@font/signikanegative_sc_regular"
+                    android:paddingBottom="4dp"
+                    android:text="@string/delete_chat"
+                    android:textColor="#CFD9EBFF"
+                    android:textSize="19sp"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <Button
+                    android:textAllCaps="false"
+                    android:id="@+id/button_leave_chat"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button_login_selector"
+                    android:backgroundTint="#9A084ACE"
+                    android:fontFamily="@font/signikanegative_sc_regular"
+                    android:paddingBottom="4dp"
+                    android:text="@string/leave_chat"
+                    android:textColor="#CFD9EBFF"
+                    android:textSize="19sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

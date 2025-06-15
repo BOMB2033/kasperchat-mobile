@@ -160,7 +160,7 @@ class MessageListAdapter(
                         .load(avatarUrl) // Загружаем URL
                         .placeholder(R.drawable.ic_avatar) // Заглушка, пока изображение грузится
                         .error(R.drawable.ic_avatar) // Заглушка, если произошла ошибка
-                        .circleCrop() // Делаем изображение круглым
+                       // .circleCrop() // Делаем изображение круглым
                         .into(avatar) // Указываем, куда загружать (в наш ImageView)
                 }
 

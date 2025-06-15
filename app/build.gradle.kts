@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation("com.vanniktech:android-image-cropper:4.5.0")
     implementation("com.google.android.material:material:1.11.0") // или актуальная
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
