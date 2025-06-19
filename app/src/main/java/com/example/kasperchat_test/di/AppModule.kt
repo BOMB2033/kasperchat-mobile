@@ -1,4 +1,5 @@
 package com.example.kasperchat_test.di
+
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.kasperchat_test.api.ApiService
@@ -12,22 +13,28 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    @Provides
-    @Singleton
-    fun provideApiService(): ApiService = RetrofitClient.apiService
-
-    @Provides
-    @Singleton
-    fun provideSignalRManager(): SignalRManager = SignalRManager()
 
     @Provides
     @Singleton
     fun provideGson(): Gson = GsonBuilder()
         .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         .create()
+
+    @Provides
+    @Singleton
+    fun provideApiService(gson: Gson): ApiService {
+        // Поскольку RetrofitClient - это объект-компаньон, мы можем использовать его напрямую
+        // Но для корректной работы с Hilt, возвращаем apiService
+        return RetrofitClient.apiService
+    }
+
+    @Provides
+    @Singleton
+    fun provideSignalRManager(): SignalRManager = SignalRManager()
 
     @Provides
     @Singleton

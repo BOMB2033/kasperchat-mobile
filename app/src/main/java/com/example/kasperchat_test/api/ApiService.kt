@@ -112,5 +112,8 @@ interface ApiService {
     @POST("api/file/upload")
     suspend fun uploadFile(@Part file: MultipartBody.Part): Response<UploadResponse>
 
+    @POST("api/users/fcm-token")
+    suspend fun updateFcmToken(@Body token: String): Response<Unit>
+
 
 }

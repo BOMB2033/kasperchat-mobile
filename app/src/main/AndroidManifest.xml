@@ -24,8 +24,13 @@
         android:theme="@style/Theme.KasperChatTest"
         tools:targetApi="31"
         android:name=".KasperChatApp">
-        <service android:name=".background_services.NotificationCheckService"
-            android:foregroundServiceType="dataSync"/>
+        <service
+            android:name=".fcm.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".activity.MainActivity"
             android:exported="true">

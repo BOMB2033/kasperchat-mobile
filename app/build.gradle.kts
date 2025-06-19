@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 
@@ -23,7 +24,7 @@ android {
     }
     buildTypes {
         getByName("release") {
-            buildConfigField("String","SERVER_IP","\"192.168.1.42\"")
+            buildConfigField("String","SERVER_IP","\"185.130.224.155\"")
             buildConfigField("String","SERVER_PORT","\"5012\"")
             isMinifyEnabled = false
             proguardFiles(
@@ -62,6 +63,9 @@ dependencies {
     // For Kotlin projects, use kapt instead of annotationProcessor
 }
 dependencies {
+    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-messaging:24.0.1")
     implementation(libs.glide)
     kapt(libs.compiler)
     implementation(libs.coil)
@@ -80,7 +84,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation("com.vanniktech:android-image-cropper:4.5.0")
-    implementation("com.google.android.material:material:1.11.0") // или актуальная
+    implementation("com.google.android.material:material:1.11.0")
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment)

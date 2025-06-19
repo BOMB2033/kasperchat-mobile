@@ -147,21 +147,27 @@ class MessageListAdapter(
                     else -> TypeBorderMessage.Lonely
                 }
                 // >>>>> НАЧАЛО ИЗМЕНЕНИЙ ДЛЯ АВАТАРА <<<<<
-                avatar.visibility = if (typeBorderMessage == TypeBorderMessage.Midl || typeBorderMessage == TypeBorderMessage.Last || isMyMessage) View.GONE else View.VISIBLE
+                val showAvatarAndName = !isMyMessage && (typeBorderMessage == TypeBorderMessage.First || typeBorderMessage == TypeBorderMessage.Lonely)
+                avatar.isVisible = showAvatarAndName
+                username.isVisible = showAvatarAndName
 
-                // Если аватар видим, загружаем его
-                if (avatar.isVisible) {
-                    // Находим автора сообщения в нашей карте участников
-                    val author = chatMembers[currentMessage.authorId]
-                    val avatarUrl = author?.avatarUrl
+                if (showAvatarAndName) {
+                    // Находим профиль автора в карте по его ID
+                    val authorProfile = chatMembers[currentMessage.authorId]
 
-                    // Используем GlideApp (сгенерированный Glide)
+                    // Устанавливаем имя. Если имя (fullName) есть, используем его.
+                    // Если нет, используем логин. В крайнем случае - ID.
+                    username.text = authorProfile?.fullName?.takeIf { it.isNotBlank() }
+                        ?: authorProfile?.login
+                                ?: "Удаленный пользователь"
+
+                    // Загружаем аватар
                     GlideApp.with(root.context)
-                        .load(avatarUrl) // Загружаем URL
-                        .placeholder(R.drawable.ic_avatar) // Заглушка, пока изображение грузится
-                        .error(R.drawable.ic_avatar) // Заглушка, если произошла ошибка
-                       // .circleCrop() // Делаем изображение круглым
-                        .into(avatar) // Указываем, куда загружать (в наш ImageView)
+                        .load(authorProfile?.avatarUrl)
+                        .placeholder(R.drawable.ic_avatar)
+                        .error(R.drawable.ic_avatar)
+                        // .circleCrop() // Если нужно
+                        .into(avatar)
                 }
 
                 if (isMyMessage) {
