@@ -33,7 +33,7 @@ android {
             )
         }
         getByName("debug") {
-            buildConfigField("String","SERVER_IP","\"192.168.1.42\"")
+            buildConfigField("String","SERVER_IP","\"192.168.1.21\"")
             buildConfigField("String","SERVER_PORT","\"5012\"")
         }
     }
