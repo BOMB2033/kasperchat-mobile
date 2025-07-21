@@ -27,5 +27,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "KasperChat-Test"
+rootProject.name = "KasperChat-Mobile"
 include(":app")

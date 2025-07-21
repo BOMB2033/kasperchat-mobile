@@ -9,11 +9,11 @@ plugins {
 
 
 android {
-    namespace = "com.example.kasperchat_test"
+    namespace = "com.fvk_solutions.kasperchat"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.kasperchat_test"
+        applicationId = "com.fvk_solutions.kasperchat"
         minSdk = 29
         //noinspection OldTargetApi
         targetSdk = 34

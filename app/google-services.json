@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "855277270878",
-    "project_id": "kasperchat-7a38b",
-    "storage_bucket": "kasperchat-7a38b.firebasestorage.app"
+    "project_number": "534188568302",
+    "project_id": "kasperchat-mobile",
+    "storage_bucket": "kasperchat-mobile.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:855277270878:android:24b857811ba4bfeebb41cf",
+        "mobilesdk_app_id": "1:534188568302:android:f079d3f112fe215f850dff",
         "android_client_info": {
-          "package_name": "com.example.kasperchat_test"
+          "package_name": "com.fvk_solutions.kasperchat"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDDjGGLEIAmO52cGn7DylUM6xxbL4dIfrU"
+          "current_key": "AIzaSyBR6k2oxdxBXkbYtu_2Y-BpW-Y2Oi6R5hU"
         }
       ],
       "services": {
