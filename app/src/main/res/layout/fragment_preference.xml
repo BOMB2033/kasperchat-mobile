@@ -1,14 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.PreferenceFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/background_color_login_screen"
+        tools:context=".fragment.PreferenceFragment">
 
-</androidx.constraintlayout.widget.ConstraintLayout >
+        <!-- Тулбар для навигации назад, без заголовка, т.к. есть лого -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+        <!-- Аватар пользователя, вынесен вверх -->
+        <com.appbroker.roundedimageview.RoundedImageView
+            android:id="@+id/image_view_avatar"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/ic_avatar"
+            app:radius="30dp"
+            android:adjustViewBounds="false"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Кнопка для смены аватара -->
+        <ImageButton
+            android:id="@+id/button_change_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/button_login_selector"
+            android:src="@drawable/ic_edit"
+            app:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/image_view_avatar"
+            app:layout_constraintEnd_toEndOf="@id/image_view_avatar"/>
+
+        <!-- Поле для ввода полного имени -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_full_name"
+            android:textColorHint="@color/text_color_login_hint_edit_text"
+            app:hintTextAppearance="@style/FloatingHintStyle"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="32dp"
+            android:gravity="bottom"
+            android:hint="@string/full_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_view_avatar">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_full_name"
+                style="@style/EditStyle"
+
+                app:hintTextColor="@color/text_color_hint"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Поле для ввода биографии -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_bio"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="8dp"
+            android:gravity="bottom"
+            android:hint="@string/bio"
+            android:textColorHint="@color/text_color_login_hint_edit_text"
+            app:hintTextAppearance="@style/FloatingHintStyle"
+            app:hintTextColor="@color/text_color_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_full_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_bio"
+                style="@style/EditStyle"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:minHeight="100dp"
+                android:paddingTop="13dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Кнопка сохранения -->
+        <!-- Кнопка Выйти из аккаунта -->
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_login_selector"
+            android:fontFamily="@font/signikanegative_sc_regular"
+            android:paddingBottom="4dp"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="#CFD9EBFF"
+            android:textSize="19sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_bio" />
+
+        <Button
+            android:id="@+id/button_logout"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="96dp"
+            android:background="@drawable/button_login_selector"
+            android:backgroundTint="#C4BD1515"
+            android:fontFamily="@font/signikanegative_sc_regular"
+            android:paddingBottom="4dp"
+            android:text="@string/exit_account"
+            android:textAllCaps="false"
+            android:textColor="#CFD9EBFF"
+            android:textSize="19sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_save" />
+
+        <!-- ProgressBar для индикации загрузки -->
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

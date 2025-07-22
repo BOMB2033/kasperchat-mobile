@@ -1,50 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="status_connecting">#FFEB3B</color> <!-- Желтый -->
+    <color name="status_connected">#4CAF50</color> <!-- Зеленый -->
+    <color name="status_reconnecting">#FF9800</color> <!-- Оранжевый -->
+    <color name="status_disconnected">#F44336</color> <!-- Красный -->
     <!-- хз чё за цвета, херня какая то -->
+    <color name="custom_error">#fc7042</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#627A48</color>
     <color name="white_logo_text">#ADC5D3</color>
+    <color name="text_color_hint">#74AAD1</color> <!-- Бело-синий -->
     <color name="background_dark">#101925</color>
     <color name="text_edit">#76ADC3</color>
     <color name="unpressed_textview_color">#4C798B</color>
     <color name="pressed_textview_color">#82B4C8</color>
     <color name="transparent">#00000000</color>
-
     <!-- Светлая тема -->
-    <color name="name_item_chat_light">#000000</color>
-    <color name="chat_list_background_light">#E2E2FF</color>
-    <color name="logo_color_light">#20292F</color>
-    <color name="logo_text_light">#20292F</color>
-    <color name="text_item_chat_light">#20292F</color>
-    <color name="light_item_chat_list">#F5F5F5</color>
-    <color name="light_select_item_chat_list">#E0E0E0</color>
-    <color name="background_color_login_screen_light">#e5eff1</color>
-    <color name="text_color_login_edit_text_light">#33667B</color>
-    <color name="text_color_login_hint_edit_text_light">#33667B</color>
-    <color name="login_button_background_light">#76ADC3</color>
-    <color name="text_color_login_button_light">#FFFFFF</color>
-    <color name="unpressed_registration_text_view_light">#4C798B</color>
-    <color name="pressed_registration_text_view_light">#82B4C8</color>
-    <color name="time_chat_list_light">#1A1A1A</color>
-    <color name="link_register_light">#7B97AF</color>
-
-    <!-- Темная тема -->
-    <color name="name_item_chat_dark">#C3DDEC</color>
-    <color name="chat_list_background_dark">#0d0d0e</color>
-    <color name="logo_color_dark">#C3DDEC</color>
-    <color name="logo_text_dark">#C3DDEC</color>
-    <color name="text_item_chat_dark">#E2E2FF</color>
-    <color name="night_item_chat_list">#101925</color>
-    <color name="night_select_item_chat_list">#404040</color>
-    <color name="background_color_login_screen_dark">#101925</color>
-    <color name="text_color_login_edit_text_dark">#76ADC3</color>
-    <color name="text_color_login_hint_edit_text_dark">#76ADC3</color>
-    <color name="login_button_background_dark">#4C798B</color>
-    <color name="text_color_login_button_dark">#FFFFFF</color>
-    <color name="unpressed_registration_text_view_dark">#FFFFFF</color>
-    <color name="pressed_registration_text_view_dark">#E0E0E0</color>
-    <color name="time_chat_list_dark">#C3DDEC</color>
-    <color name="link_register_dark">#2b4b60</color>
-
+    <color name="name_item_chat">#000000</color>
+    <color name="chat_list_background">#E2E2FF</color>
+    <color name="logo_color">#20292F</color>
+    <color name="logo_text">#20292F</color>
+    <color name="text_item_chat">#20292F</color>
+    <color name="item_chat_list">#F5F5F5</color>
+    <color name="select_item_chat_list">#E0E0E0</color>
+    <color name="background_color_login_screen">#e5eff1</color>
+    <color name="text_color_login_edit_text">#33667B</color>
+    <color name="text_color_login_hint_edit_text">#33667B</color>
+    <color name="login_button_background">#76ADC3</color>
+    <color name="text_color_login_button">#FFFFFF</color>
+    <color name="unpressed_registration_text_view">#4C798B</color>
+    <color name="pressed_registration_text_view">#82B4C8</color>
+    <color name="time_chat_list">#1A1A1A</color>
+    <color name="link_register">#7B97AF</color>
+    <color name="color_chat_list_messageCount">#FFFFFF</color>
+    <color name="color_message_count">#ff8b00</color>
+    <color name="color_item_message_send">#202D3E</color>
+    <color name="color_item_message_incoming">#2e343d</color>
+    <color name="color_item_message_shadow_incoming">#2e343d</color>
+    <color name="color_item_message_shadow_send">#181616</color>
+    <color name="color_time_message">#FFFFFF</color>
+    <color name="color_timestamp_send">#FFFFFF</color>
+    <color name="color_timestamp_incoming">#96999f</color>
+    <color name="color_message_text">#FFFFFF</color>
+    <color name="background_chat">#FAFAFAFA</color>
+    <color name="color_message_indicator">#446B9E</color>
+    <color name="color_edit_message">#18d95d</color>
+    <color name="color_search_background_options">#0CE8ECF2</color>
 </resources>

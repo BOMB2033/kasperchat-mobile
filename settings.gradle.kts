@@ -1,4 +1,7 @@
 pluginManagement {
+    plugins{
+        id("androidx.navigation.safeargs") apply false
+    }
     repositories {
         google {
             content {
@@ -10,14 +13,19 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+
 }
 dependencyResolutionManagement {
+
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
+        maven {
+            setUrl("https://jitpack.io")
+        }
     }
 }
 
-rootProject.name = "KasperChat-Test"
+rootProject.name = "KasperChat-Mobile"
 include(":app")

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">KasperChat</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="kasper_chat">Kasper Chat</string>
     <string name="login">Логин</string>
@@ -8,7 +7,64 @@
     <string name="Do_you_forgot_password">Забыли пароль?</string>
     <string name="Logout">Войти</string>
     <string name="Register">Регистрация</string>
+    <string name="add_channel_description">Добавить канал, контакт</string>
+    <string name="add_search_button_description">Поиск по чатам</string>
+    <string name="add_options_button_description">Кнопка опции</string>
+    <string name="error_loading_chats">Ошибка загрузки чатов</string>
+    <string name="no_chats_found">Нет чатов</string>
+    <!-- ... другие строки ... -->
+    <string name="no_messages_in_chat">В этом чате пока нет сообщений.</string>
+    <string name="error_loading_messages">Ошибка загрузки сообщений</string>
+    <string name="chat_status_reconnecting">Переподключение...</string>
+    <string name="chat_status_connecting">Подключение...</string>
+    <string name="chat_status_disconnected">Отключено</string>
+    <string name="chat_status_connected">Подключено</string>
 
+    <string name="error_username_empty">Логин не может быть пустым</string>
+    <string name="error_username_too_short">Логин должен содержать минимум 3 символа</string>
+    <string name="error_username_too_long">Логин не должен превышать 50 символов</string>
+    <string name="error_password_empty">Пароль не может быть пустым</string>
+    <string name="error_password_too_short">Пароль должен содержать минимум 6 символов</string>
+    <string name="error_password_too_long">Пароль не должен превышать 100 символов</string>
+    <string name="error_fix_fields">Исправьте ошибки в полях</string>
+    <string name="login_success">Вход успешен!</string>
+    <string name="hint_username">Логин</string>
+    <string name="hint_password">Пароль</string>
+    <string name="button_login">Войти</string>
+    <string name="link_register">Нет аккаунта? Зарегистрироваться</string>
+    <string name="session_expired">Срок действия сеанса истек</string>
 
+    <string name="create_chat">Создать чат</string>
+    <string name="settings">Настройки</string>
 
+    <string name="loading">Загрузка...</string>
+    <string name="default_chat_name">Чат %1$s</string>
+    <string name="user_not_authenticated">Пользователь не авторизован</string>
+
+    <string name="hint_chat_name">Название чата</string>
+    <string name="button_create_chat">Создать чат</string>
+    <string name="full_name">ФИО</string>
+    <string name="bio">О себе</string>
+    <string name="save">Сохранить</string>
+    <string name="email">Почта</string>
+    <string name="exit_account">Выйти из аккаунта</string>
+
+    <string name="chat_settings">Настройки чата</string>
+    <string name="chat_name">Название чата</string>
+    <string name="save_success">Изменения сохранены</string>
+    <string name="error_saving">Ошибка при сохранении</string>
+    <string name="error_field_cant_be_empty">Поле не может быть пустым</string>
+    <string name="add_members_hint">Поиск и добавление участников</string>
+    <string name="members">Участники</string>
+    <string name="members_count">Участники (%d)</string>
+    <string name="user_added_success">Пользователь добавлен в чат</string>
+    <string name="delete">Удалить</string>
+    <string name="confirm_deletion_title">Подтверждение удаления</string>
+    <string name="confirm_remove_user_message">Вы действительно хотите удалить пользователя %s?</string>
+    <string name="confirm_leave_chat_message">Вы действительно хотите покинуть этот чат?</string>
+    <string name="cancel">Отмена</string>
+    <string name="delete_chat">Удалить чат</string>
+    <string name="leave_chat">Покинуть чат</string>
+    <string name="confirm_delete_chat_message">Вы точно хотите удалить чат?</string>
+    <string name="leave">Покинуть</string>
 </resources>

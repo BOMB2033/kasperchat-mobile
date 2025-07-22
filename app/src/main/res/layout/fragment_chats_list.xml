@@ -1,21 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/chat_list_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/chat_list_background"
     tools:context=".fragment.ChatsListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChats"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+    <!-- ProgressBar для общей загрузки/ошибок, переименован для ясности -->
+    <ProgressBar
+        android:id="@+id/progressBarChats"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_chat" />
+        android:visibility="gone"
+        android:elevation="1dp"
+        tools:visibility="visible"/>
 
+    <!-- TextView для отображения ошибок или пустого состояния -->
+    <TextView
+        android:id="@+id/textViewErrorChats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_loading_chats"
+        android:visibility="gone"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:visibility="visible"/>
+
+    <!-- SwipeRefreshLayout оборачивает RecyclerView -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayoutChats"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChats"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="0dp"
+            android:foreground="@drawable/shadow_list_chat"
+            tools:listitem="@layout/item_chat" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- Ваш LinearLayout с кнопками остается внизу -->
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/button_layout"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingStart="0dp"
+        android:elevation="2dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:layout_marginBottom="6dp"
+        android:paddingBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp">
+
+            <ImageButton
+                android:id="@+id/optionsButton"
+                style="@style/options_button"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/transparent"
+                android:contentDescription="@string/add_options_button_description"
+                android:scaleType="fitXY"
+                tools:ignore="MissingConstraints" />
+
+            <ImageButton
+                android:id="@+id/searchButton"
+                style="@style/search_button"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/transparent"
+                android:contentDescription="@string/add_search_button_description"
+                android:scaleType="fitXY"
+                tools:ignore="MissingConstraints" />
+
+            <ImageButton
+                android:id="@+id/addChannelButton"
+                style="@style/add_channel_button"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@color/transparent"
+                android:contentDescription="@string/add_channel_description"
+                android:scaleType="fitXY"
+                tools:ignore="MissingConstraints" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Старый ProgressBar, который занимал весь экран, можно удалить или закомментировать,
+         если progressBarChats его полностью заменяет.
+         Если он нужен для какого-то другого сценария (например, блокировка всего UI при какой-то операции),
+         то оставьте, но убедитесь, что его id отличается от progressBarChats.
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#AA000000"
+        android:elevation="1dp" />
+    -->
 </androidx.constraintlayout.widget.ConstraintLayout>
